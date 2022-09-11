@@ -12,9 +12,16 @@ app.get('/', (req, res) => {
   res.render('index',{titulo:"mi titulo dinámico"})
 })
 
-app.get('/servicios', (req, res) => {
-  res.send("Estas en la pagina de servicios")
 
+app.get('/servicios', (req, res) => {
+  res.render('servicios',{TituloServicios:"ServiciosTitulo"})
+})
+
+
+
+
+app.use((req,res,next) =>{
+  res.status(404).render("404");
 })
 
 app.listen(port, () => {
@@ -22,6 +29,4 @@ app.listen(port, () => {
 })
 
 
-app.use((req,res,next) =>{
-  res.status(404).sendFile(__dirname + "/public/404.html");
-})
+
