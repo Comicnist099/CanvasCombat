@@ -1,32 +1,44 @@
 const express = require('express');
 const res = require('express/lib/response');
 const app = express()
-const port = 3000
 
+const port = 3000
+// getting-started.js
+
+//Conectar a la base de datos
+const mongoose = require('mongoose');
+
+const user='CanvasCombatAdmin';
+const pass='curH5HhlFsJaLrPD';
+const dbname='CanvasCombatDB'
+
+const uri=`mongodb+srv://${user}:${pass}@cluster0.folwqmw.mongodb.net/?retryWrites=true&w=majority`;
+
+
+mongoose.connect(uri,
+  {useNewUrlParser: true, useUnifiedTopology: true}
+  )
+  .then(()=>console.log('Se conecto A la base de datos'))
+  .catch(e=>console.log(e))
+
+
+
+
+  //EJS
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
 app.use(express.static(__dirname + "/public"));
 
-app.get('/', (req, res) => {
-  res.render('index',{titulo:"mi titulo dinámico"})
-})
+//Ruta raiz
+app.use('/', require("./router/RutasWeb"));
+app.use('/Dibujos', require("./router/RutasDashboard"));
 
 
-app.get('/servicios', (req, res) => {
-  res.render('servicios',{TituloServicios:"ServiciosTitulo"})
-})
-
-
-
-
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
   res.status(404).render("404");
 })
 
 app.listen(port, () => {
   console.log(`Example app listening on port`, port)
 })
-
-
-
