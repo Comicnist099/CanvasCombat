@@ -1,4 +1,3 @@
-//Te amo mucho moniquita u3u
 const express = require('express');
 const routerApi = require('./routes/');
 const {
