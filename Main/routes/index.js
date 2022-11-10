@@ -4,18 +4,19 @@ const achievementsRouter = require('./achievements.router');
 const commentRouter = require('./comment.router');
 const teamsRouter = require('./teams.router');
 
-
-
 const express = require('express');
+const router = express.Router();
+
+
 
 function routerApi(app) {
-  const router = express.Router();
-  app.use('/CanvasCombat', router);
+
+  app.use('/', router);
   router.use('/users', userRouter);
-  router.use('/draw', drawRouter);
-  router.use('/achievements', achievementsRouter);
-  router.use('/comment', commentRouter);
-  router.use('/teams', teamsRouter);
+  //router.use('/draw', drawRouter);
+  //router.use('/achievements', achievementsRouter);
+  //router.use('/comment', commentRouter);
+  //router.use('/teams', teamsRouter);
 
 }
 

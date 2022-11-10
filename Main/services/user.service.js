@@ -1,6 +1,12 @@
-//que lindaaaaaa la moniii
 const faker = require('faker');
 const boom = require('@hapi/boom');
+
+const User = require('../models/user');
+
+
+
+
+
 const {
   validateData,
   NOTFOUND,
@@ -10,44 +16,48 @@ const {
 class UserServices {
   constructor() {
     this.users = [];
-    this.generate();
+
   }
-  generate() {
+
+
+   generate(MongoUser) {
+    this.users=null;
+    this.users =  MongoUser;
+
+
+    /*
     const limit = 10;
     for (let index = 0; index < limit; index++) {
+
       this.users.push({
 
-        isActive: faker.datatype.boolean(),
-        id: faker.datatype.uuid(),
-        nameUser: faker.name.firstName(),
-        nickname: faker.name.firstName(),
-        creationDate: faker.date.future(),
-        team: faker.animal.bear(),
-        facebook: faker.company.bsBuzz(),
-        instagram: faker.company.bsBuzz(),
-        extra: faker.company.bsBuzz(),
-        image: faker.image.imageUrl(),
-        points: faker.mersenne.rand(),
-        ban: faker.datatype.boolean(),
-        typeUser: faker.datatype.boolean(),
+        isActive: user[index].isActive,
+        id: user[index].id,
+        nameUser: user[index].nameUser,
+        nickname: user[index].nickname,
+        creationDate: user[index].creationDate,
+        team: user[index].team,
+        facebook: user[index].facebook,
+        instagram: user[index].instagram,
+        extra: user[index].extra,
+        image: user[index].image,
+        points: user[index].points,
+        ban: user[index].ban,
+        typeUser: user[index].typeUser,
 
-        achievements1: faker.datatype.boolean(),
-        achievements2: faker.datatype.boolean(),
-        achievements3: faker.datatype.boolean(),
-        achievements4: faker.datatype.boolean(),
-        achievements5: faker.datatype.boolean(),
-        achievements6: faker.datatype.boolean(),
-        achievements7: faker.datatype.boolean(),
-        achievements8: faker.datatype.boolean(),
-        achievements9: faker.datatype.boolean(),
-        achievements10: faker.datatype.boolean(),
-        achievements11: faker.datatype.boolean(),
-
-
-
-
+        achievements1: user[index].achievements1,
+        achievements2: user[index].achievements2,
+        achievements3: user[index].achievements3,
+        achievements4: user[index].achievements4,
+        achievements5: user[index].achievements5,
+        achievements6: user[index].achievements6,
+        achievements7: user[index].achievements7,
+        achievements8: user[index].achievements8,
+        achievements9: user[index].achievements9,
+        achievements10: user[index].achievements10,
+        achievements11: user[index].achievements11,
       });
-    }
+    }*/
   }
 
   async create(data) {
@@ -55,14 +65,15 @@ class UserServices {
       id: faker.datatype.uuid(),
       ...data,
     };
-    this.products.push(newUser);
+    this.users.push(newUser);
     return newUser;
   }
   //Desplegar todos los Users
-  find(limit) {
+  find() {
     return new Promise((resolve, rejected) => {
 
-      var users = this.users.slice(0, limit);
+
+      let users = this.users.slice(0, this.users.length);
       if (users.length > 0) {
         resolve(users);
       } else {
