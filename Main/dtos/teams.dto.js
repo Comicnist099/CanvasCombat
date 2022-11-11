@@ -5,8 +5,8 @@ const isActive = Joi.boolean();
 const id = Joi.string();
 const name = Joi.string().min(3).max(50);
 const descripcion = Joi.string().min(3).max(50);
-
-
+const points = Joi.string();
+const image = Joi.string();
 
 
 const createTeamsDto = Joi.object({
@@ -14,15 +14,17 @@ const createTeamsDto = Joi.object({
   isActive: isActive.required(),
   name: name.required(),
   descripcion: descripcion.required(),
+  points: points.required(),
+  image: image.required()
 
-
-
-});
+});         
 
 const updateTeamsDto = Joi.object({
   isActive: isActive,
-  name:name,
-  descripcion:descripcion,
+  name: name,
+  descripcion: descripcion,
+  points: points,
+  image: image
 
 });
 

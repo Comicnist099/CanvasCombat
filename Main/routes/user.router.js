@@ -3,8 +3,11 @@ const router = express.Router();
 const UserProduct = require('../services/user.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const service = new UserProduct();
+
 const User = require('../models/user');
 
+
+//shortcut para comentar en bloque: shift + alt + a
 
 const {
   createUserDto,
@@ -19,16 +22,9 @@ router.get('/', async (req, res) => {
   let buffer = [];
   buffer = user;
   await service.generate(buffer);
-  const {
-    size
-  } = req.query;
-  const limit = size || 10;
-  const Users = await service.generate(buffer);
   res.json(user);
 
 });
-
-
 
 
 router.get('/:id', validatorHandler(getUserId, 'params'),
@@ -80,9 +76,8 @@ router.post('/', validatorHandler(createUserDto, 'body'),
       achievements10,
       achievements11
     } = req.body;
-    const body = req.body;
     try {
-      const newUser = await service.create(body);
+
       const user = new User({
         isActive,
         nameUser,
@@ -112,7 +107,7 @@ router.post('/', validatorHandler(createUserDto, 'body'),
       res.json({
         success: true,
         message: 'User was created successfully',
-        data: newUser,
+        data: user,
       });
     } catch (error) {
       next(error);
@@ -152,12 +147,11 @@ router.patch(
         achievements10: body2.achievements10,
         achievements11: body2.achievements11
       }
-      const body = req.body;
       let user = await User.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
       let buffer = [];
       buffer = user;
       await service.generate(buffer);
-      await service.update(req.params.id, body);
+      await service.update(req.params.id, body2);
       await User.findByIdAndUpdate(req.params.id, usersM);
       res.json(
         usersM
@@ -171,10 +165,11 @@ router.patch(
 
 router.delete('/:id', validatorHandler(getUserId, 'params'),
   async (req, res) => {
+
     try {
       const {
         id
-      } = req.params;
+      } = req.params;//let es lo contrario a const
       let user = await User.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
       let buffer = [];
       buffer = user;

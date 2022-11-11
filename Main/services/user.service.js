@@ -1,12 +1,6 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 
-const User = require('../models/user');
-
-
-
-
-
 const {
   validateData,
   NOTFOUND,
@@ -18,7 +12,6 @@ class UserServices {
     this.users = [];
 
   }
-
 
    generate(MongoUser) {
     this.users=null;
@@ -60,14 +53,7 @@ class UserServices {
     }*/
   }
 
-  async create(data) {
-    const newUser = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.users.push(newUser);
-    return newUser;
-  }
+
   //Desplegar todos los Users
   find() {
     return new Promise((resolve, rejected) => {
@@ -99,9 +85,6 @@ class UserServices {
     validateData(users, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
     return users;
   }
-
-
-
 
 
   //FAKER

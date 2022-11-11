@@ -9,10 +9,13 @@ const {
 class teamsServices {
   constructor() {
     this.teams = [];
-    this.generate();
   }
-  generate() {
-    const limit = 2;
+
+  generate(MongoTeams) {
+    this.teams = null;
+    this.teams = MongoTeams;
+
+    /* const limit = 2;
     for (let index = 0; index < limit; index++) {
       this.teams.push({
 
@@ -21,17 +24,15 @@ class teamsServices {
         name: faker.animal.bear(),
         descripción: faker.company.bsBuzz(),
 
-
-
-
       });
-    }
+    } */
+
   }
   //Desplegar todos los draw
-  find(limit) {
+  find() {
     return new Promise((resolve, rejected) => {
 
-      var teams = this.teams.slice(0, limit);
+      var teams = this.teams.slice(0, this.teams.length);
       if (teams.length > 0) {
         resolve(teams);
       } else {
@@ -53,7 +54,7 @@ class teamsServices {
     //const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const teams = this.teams.find((item) => item.id === id);
     //NOT FOUND
-    validateData(teams, NOTFOUND, 'NOT FOUND Draw', (data) => !data);
+    validateData(teams, NOTFOUND, 'NOT FOUND Teams', (data) => !data);
     validateData(teams, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
     return teams;
   }

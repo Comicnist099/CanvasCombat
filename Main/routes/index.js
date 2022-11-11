@@ -13,10 +13,10 @@ function routerApi(app) {
 
   app.use('/', router);
   router.use('/users', userRouter);
-  //router.use('/draw', drawRouter);
-  //router.use('/achievements', achievementsRouter);
-  //router.use('/comment', commentRouter);
-  //router.use('/teams', teamsRouter);
+  router.use('/draw', drawRouter);
+  router.use('/achievements', achievementsRouter);
+  router.use('/comment', commentRouter);
+  router.use('/teams', teamsRouter);
 
 }
 
