@@ -6,13 +6,16 @@ const id = Joi.string();
 
 const nameUser = Joi.string().min(3).max(50);
 const nickname = Joi.string().min(3).max(50);
+const email=Joi.string();
+const pass= Joi.string();
+
 const creationDate = Joi.string();
 const team = Joi.string();
 const facebook = Joi.string();
 const instagram = Joi.string();
 const extra = Joi.string();
 const image = Joi.string();
-const points = Joi.number().integer().min(10);
+const points = Joi.number();
 const ban = Joi.boolean();
 const typeUser = Joi.boolean();
 
@@ -36,6 +39,9 @@ const createUserDto = Joi.object({
   isActive: isActive.required(),
   nameUser: nameUser.required(),
   nickname: nickname.required(),
+  email:email.required(),
+  pass:pass.required(),
+
   creationDate: creationDate.required(),
   team: team.required(),
   facebook: facebook.required(),
@@ -66,6 +72,8 @@ const updateUserDto = Joi.object({
   isActive: isActive,
   nameUser:nameUser,
   nickname: nickname,
+  email:email,
+  pass:pass,
   creationDate:creationDate,
   team: team,
   facebook: facebook,
