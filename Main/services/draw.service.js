@@ -9,10 +9,13 @@ const {
 class drawServices {
   constructor() {
     this.draws = [];
-    this.generate();
   }
-  generate() {
-    const limit = 10;
+  generate(MongoDraw) {
+
+    this.draws = null;
+    this.draws = MongoDraw;
+
+    /* const limit = 10;
     for (let index = 0; index < limit; index++) {
       this.draws.push({
 
@@ -31,7 +34,7 @@ class drawServices {
 
 
       });
-    }
+    } */
   }
   //Desplegar todos los draw
   find(limit) {
