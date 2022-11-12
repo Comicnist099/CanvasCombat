@@ -15,26 +15,6 @@ class drawServices {
     this.draws = null;
     this.draws = MongoDraw;
 
-    /* const limit = 10;
-    for (let index = 0; index < limit; index++) {
-      this.draws.push({
-
-        isActive: faker.datatype.boolean(),
-        id: faker.datatype.uuid(),
-        character: faker.name.firstName(),
-        owner: faker.name.firstName(),
-        cartoonist: faker.name.firstName(),
-        creationDate: faker.date.future(),
-        team: faker.animal.bear(),
-        background: 2,
-        detail: 2,
-        body: 2,
-        image: faker.image.imageUrl(),
-        points: faker.mersenne.rand(),
-
-
-      });
-    } */
   }
   //Desplegar todos los draw
   find(limit) {

@@ -9,23 +9,12 @@ const {
 class achievementsServices {
   constructor() {
     this.achievements = [];
-    this.generate();
   }
-  generate() {
-    const limit = 11;
-    for (let index = 0; index < limit; index++) {
-      this.achievements.push({
-
-        isActive: faker.datatype.boolean(),
-        id: faker.datatype.uuid(),
-        name: faker.animal.bear(),
-        descripción: faker.company.bsBuzz(),
-
-
-
-
-      });
-    }
+  
+  generate(MongoAchievements) {
+    this.achievements = null;
+    this.achievements = MongoAchievements;
+    
   }
   //Desplegar todos los draw
   find(limit) {

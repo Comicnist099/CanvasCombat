@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const drawSchema = new Schema({
 
+    isActive: { type: Boolean, required: true },
     character: { type: String, required: true },
     owner: { type: String, required: true },
     cartoonist: { type: String, required: true },

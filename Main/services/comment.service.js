@@ -9,10 +9,13 @@ const {
 class commentServices {
   constructor() {
     this.comments = [];
-    this.generate();
   }
-  generate() {
-    const limit = 2;
+
+  generate(MongoComments) {
+    this.comments = null;
+    this.comments = MongoComments;
+
+    /* const limit = 2;
     for (let index = 0; index < limit; index++) {
       this.comments.push({
 
@@ -22,11 +25,8 @@ class commentServices {
         name: faker.animal.bear(),
         descripción: faker.company.bsBuzz(),
 
-
-
-
       });
-    }
+    } */
   }
   //Desplegar todos los draw
   find(limit) {
@@ -67,9 +67,6 @@ class commentServices {
     validateData(comments, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
     return comments;
   }
-
-
-
 
   //FAKER
   create(data) {

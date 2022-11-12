@@ -15,19 +15,8 @@ class teamsServices {
     this.teams = null;
     this.teams = MongoTeams;
 
-    /* const limit = 2;
-    for (let index = 0; index < limit; index++) {
-      this.teams.push({
-
-        isActive: faker.datatype.boolean(),
-        id: faker.datatype.uuid(),
-        name: faker.animal.bear(),
-        descripción: faker.company.bsBuzz(),
-
-      });
-    } */
-
   }
+
   //Desplegar todos los draw
   find() {
     return new Promise((resolve, rejected) => {
@@ -58,8 +47,6 @@ class teamsServices {
     validateData(teams, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
     return teams;
   }
-
-
 
   //FAKER
   create(data) {
@@ -92,11 +79,9 @@ class teamsServices {
     }
     const deleteTeams = this.teams[index];
 
-
     this.teams.splice(index, 1);
     return deleteTeams;
   }
-
 
 }
 

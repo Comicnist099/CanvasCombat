@@ -6,7 +6,6 @@ const validatorHandler = require('./../middlewares/validator.handler');
 const teamService = new TeamsProduct();
 const teamsModel = require('../models/teams');
 
-
 const {
   createTeamsDto,
   updateTeamsDto,
@@ -20,13 +19,6 @@ router.get('/', async (req, res) => {
   buffer = teams;
   await teamService.generate(buffer);
   res.json(teams);
-
-  /* const {
-    size
-  } = req.query;
-  const limit = size || 10;
-  const teams = await service.find(limit);
-  res.json(teams); */
 
 });
 
@@ -49,21 +41,6 @@ router.get('/:id', validatorHandler(getTeamsId, 'params'),
     } catch (error) {
       next(error);
     }
-
-    /* try {
-      const {
-        id
-      } = req.params;
-      const teams = await service.findOne(id);
-      res.json({
-        success: true,
-        message: 'Found User',
-        data: teams,
-      })
-    } catch (error) {
-      next(error);
-
-    } */
 
   });
 
@@ -99,13 +76,6 @@ async (req, res, next) => {
     next(error);
   }
 
- /*  const body = req.body;
-  const newCreateTeams = service.create(body);
-  res.send({
-    message: 'created',
-    data: body,
-  }); */
-
 });
 
 
@@ -140,22 +110,6 @@ router.patch(
       })
     }
 
-    /* try {
-      const {
-        id
-      } = req.params;
-      const body = req.body;
-      const teams = await service.update(id, body);
-      res.json({
-        message: 'update',
-        data: teams,
-        id,
-      });
-    } catch (error) {
-      res.status(404).json({
-        message: error.message,
-      });
-    } */
   }
 );
 
@@ -167,7 +121,6 @@ router.delete('/:id', validatorHandler(getTeamsId, 'params'),
       const {
         id
       } = req.params;
-      //const deleteTeams = await service.delete(id);
 
       let teams = await teamsModel.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
       let buffer = [];

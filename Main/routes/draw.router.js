@@ -41,15 +41,11 @@ router.get('/comments', async (req, res) => {
   await commentService.generate(buffer);
   res.json(comments);
 
- /*  const {
-    size
-  } = req.query;
-  const limit = size || 10;
-  const comments = await service.find(limit);
-  res.json(comments); */
+
 });
 
-//////
+////////////////////////////////
+//////////Comentario///////////
 router.get('/comments/:idDibujo', validatorHandler(getCommentsId, 'params'),
 async (req, res, next) => {
 
@@ -70,19 +66,6 @@ async (req, res, next) => {
     next(error);
   }
 
- /*  try {
-  const{ idDibujo }=req.params;
-  const comments = await commentService.findCommentsDraw(idDibujo);
-
-  res.json({
-    success: true,
-    message: 'Found Comments',
-    data: comments,
-  })
-} catch (error) {
-  next(error);
-
-} */
 });
 
 
@@ -115,12 +98,7 @@ async (req, res, next) => {
     next(error);
   }
 
-  /* const body = req.body;
-  const newCreateComments = commentService.create(body);
-  res.send({
-    message: 'created',
-    data: body,
-  }); */
+ 
 });
 
 router.patch(
@@ -133,10 +111,9 @@ router.patch(
       const body2 = req.body;
       const commentsM = { // <-- Here
         isActive: body2.isActive,
+        idDraw: body2.idDraw,
         name: body2.name,
-        descripcion: body2.descripcion,
-        points: body2.points,
-        image: body2.image
+        descripcion: body2.descripcion
 
       }
       let comments = await commentsModel.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
@@ -154,24 +131,6 @@ router.patch(
       })
     }
 
-
-   /*  try {
-      const {
-        id
-      } = req.params;
-      const body = req.body;
-      const comments = await commentService.update(id, body);
-      res.json({
-        message: 'update',
-        data: comments,
-        id,
-      });
-    } catch (error) {
-      res.status(404).json({
-        message: error.message,
-      });
-    } */
-
   }
 );
 
@@ -183,13 +142,22 @@ router.delete('/comments/:id', validatorHandler(getCommentsId, 'params'),
       const {
         id
       } = req.params;
+      //const deleteComments = await commentService.delete(id);
+
+
+      let comments = await commentsModel.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
+      let buffer = [];
+      buffer = comments;
+      await commentService.generate(buffer);
       const deleteComments = await commentService.delete(id);
+      await commentsModel.findByIdAndRemove(id);
 
       res.json({
         message: 'delete',
         product: deleteComments,
         id,
       });
+
     } catch (error) {
       res.status(404).json({
         message: error.message,
@@ -205,49 +173,113 @@ router.get('/:id', validatorHandler(getDrawId, 'params'),
   async (req, res, next) => {
 
     try {
-      const {  id  } = req.params;
-      const draw = await service2.findOne(id);
-      res.json({
-        success: true,
-        message: 'Found User',
-        data: draw,
-      })
+      const {
+        id
+      } = req.params; //aquí agarra el id de la url
+      let draws = await drawsModel.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
+      let buffer = [];
+      buffer = draws;
+      await drawService.generate(buffer);
+      const drawsId = await drawService.findOne(id);
+
+      res.json(
+        drawsId
+      )
     } catch (error) {
       next(error);
-
     }
+
+    
   });
 
 
-router.post('/', async (req, res) => {
-  const body = req.body;
-  const newCreateDraw = service2.create(body);
-  res.send({
-    message: 'created',
-    data: body,
-  });
+router.post('/', validatorHandler(createDrawDto, 'body'),
+async (req, res, next) => {
+
+  const {
+
+    isActive,
+    character,
+    owner,
+    cartoonist,
+    creationDate,
+    team,
+    background,
+    detail,
+    body,
+    image,
+    points
+
+  } = req.body;
+  try {
+
+    const drawsConst = new drawsModel({
+
+      isActive,
+      character,
+      owner,
+      cartoonist,
+      creationDate,
+      team,
+      background,
+      detail,
+      body,
+      image,
+      points
+
+    });
+    await drawsConst.save();
+    res.json({
+      success: true,
+      message: 'Draws was created successfully',
+      data: drawsConst,
+    });
+  } catch (error) {
+    next(error);
+  }
+
+  
 });
+
+
 router.patch(
   '/:id',
   validatorHandler(getDrawId, 'params'),
   validatorHandler(updateDrawDto, 'body'),
   async (req, res) => {
+
     try {
-      const {
-        id
-      } = req.params;
-      const body = req.body;
-      const draw = await service2.update(id, body);
-      res.json({
-        message: 'update',
-        data: draw,
-        id,
-      });
+      const body2 = req.body;
+      const drawsM = { // <-- Here
+        
+        isActive: body2.isActive,
+        character: body2.character,
+        owner: body2.owner,
+        cartoonist: body2.cartoonist,
+        creationDate: body2.creationDate,
+        team: body2.team,
+        background: body2.background,
+        detail: body2.detail,
+        body: body2.body,
+        image: body2.image,
+        points: body2.points
+
+      }
+      let draws = await drawsModel.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
+      let buffer = [];
+      buffer = draws;
+      await drawService.generate(buffer);
+      await drawService.update(req.params.id, body2);
+      await drawsModel.findByIdAndUpdate(req.params.id, drawsM);
+      res.json(
+        drawsM
+      );
     } catch (error) {
       res.status(404).json({
         message: error.message,
-      });
+      })
     }
+
   }
 );
 
@@ -256,15 +288,21 @@ router.delete('/:id', validatorHandler(getDrawId, 'params'),
   async (req, res) => {
     try {
 
-
       const {
         id
       } = req.params;
-      const deletedraw = await service2.delete(id);
+      //const deletedraw = await service2.delete(id);
+
+      let draws = await drawsModel.find();//await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
+      let buffer = [];
+      buffer = draws;
+      await drawService.generate(buffer);
+      const deleteDraws = await drawService.delete(id);
+      await drawsModel.findByIdAndRemove(id);
 
       res.json({
         message: 'delete',
-        product: deletedraw,
+        product: deleteDraws,
         id,
       });
     } catch (error) {
