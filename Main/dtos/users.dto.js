@@ -7,14 +7,18 @@ const id = Joi.string();
 const nameUser = Joi.string().min(3).max(50);
 const nickname = Joi.string().min(3).max(50);
 const email=Joi.string();
-const pass= Joi.string();
+const password= Joi.string();
 
 const creationDate = Joi.string();
 const team = Joi.string();
 const facebook = Joi.string();
 const instagram = Joi.string();
 const extra = Joi.string();
-const image = Joi.string();
+const image = Joi.object().keys({
+  name: Joi.string(),
+  path: Joi.string(),
+  extention: Joi.string().max(13)
+});
 const points = Joi.number();
 const ban = Joi.boolean();
 const typeUser = Joi.boolean();
@@ -40,7 +44,7 @@ const createUserDto = Joi.object({
   nameUser: nameUser.required(),
   nickname: nickname.required(),
   email:email.required(),
-  pass:pass.required(),
+  password:password.required(),
 
   creationDate: creationDate.required(),
   team: team.required(),
@@ -73,7 +77,7 @@ const updateUserDto = Joi.object({
   nameUser:nameUser,
   nickname: nickname,
   email:email,
-  pass:pass,
+  password:password,
   creationDate:creationDate,
   team: team,
   facebook: facebook,

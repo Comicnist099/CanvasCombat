@@ -26,6 +26,39 @@ router.get('/', async (req, res) => {
 
 });
 
+router.get('/Login', async (req, res, next) => {
+
+  try {
+;
+    const { size, e, p } = req.query;
+    const filter = {};
+
+    if (e) {
+      Object.assign(filter, {
+        email: e
+      })
+    }
+
+    if (p) {
+      Object.assign(filter, {
+        password: p
+      })
+    }
+   
+    let userSearch = await User.find(filter);
+    const users = await service.find2(size || 10, userSearch)
+    res.json({
+      'success': true,
+      'message': 'Estos son los usuarios encontrados',
+      'Data': users
+    });
+
+  } catch (error) {
+    next(error);
+  }
+
+});
+
 
 router.get('/:id', validatorHandler(getUserId, 'params'),
   async (req, res, next) => {
@@ -56,7 +89,7 @@ router.post('/', validatorHandler(createUserDto, 'body'),
       nameUser,
       nickname,
       email,
-      pass,
+      password,
       creationDate,
       team,
       facebook,
@@ -85,7 +118,7 @@ router.post('/', validatorHandler(createUserDto, 'body'),
         nameUser,
         nickname,
         email,
-        pass,
+        password,
         creationDate,
         team,
         facebook,
@@ -131,7 +164,7 @@ router.patch(
         nameUser: body2.nameUser,
         nickname: body2.nickname,
         email:body2.email,
-        pass: body.pass,
+        password: body2.password,
         creationDate: body2.creationDate,
         team: body2.team,
         facebook: body2.facebook,

@@ -2,10 +2,18 @@ const express = require('express');
 const routerApi = require('./routes');
 const morgan = require('morgan');
 const path=require('path');
+const cors = require('cors');
 const app = express();
 const port = 5000;
 const { mongoose } = require('./Data/database');
+const bodyParser = require('body-parser');
 
+
+
+app.use(bodyParser.json({limit: '999mb'})); //UTILIZAMOS JSON COMO FORMATO DE DATOS 
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(cors());
 //ejecuta comandos de la consola para ver las llamada de datos
 app.use(morgan('dev'));
 const {

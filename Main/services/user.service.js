@@ -1,22 +1,16 @@
-const faker = require('faker');
-const boom = require('@hapi/boom');
+const faker = require("faker");
+const boom = require("@hapi/boom");
 
-const {
-  validateData,
-  NOTFOUND,
-  CONFLICT
-} = require('./../utils');
+const { validateData, NOTFOUND, CONFLICT } = require("./../utils");
 
 class UserServices {
   constructor() {
     this.users = [];
-
   }
 
-   generate(MongoUser) {
-    this.users=null;
-    this.users =  MongoUser;
-
+  generate(MongoUser) {
+    this.users = null;
+    this.users = MongoUser;
 
     /*
     const limit = 10;
@@ -53,26 +47,34 @@ class UserServices {
     }*/
   }
 
-
   //Desplegar todos los Users
   find() {
     return new Promise((resolve, rejected) => {
-
-
       let users = this.users.slice(0, this.users.length);
       if (users.length > 0) {
         resolve(users);
       } else {
-        rejected('');
+        rejected("");
       }
     });
+  }
+
+  async find2(limit, UsersSearch) {
+
+    let usersBuff = UsersSearch;
+
+    validateData(usersBuff, NOTFOUND, "NOT FOUND user", (data) => !data);
+    validateData(usersBuff,CONFLICT,"CONFLICTO, el producto esta bloqueado.",(data) => data.isActive == false);
+
+    let usersFinish = usersBuff.filter((item, index) => item && index < limit);
+
+    return usersFinish;
   }
 
   //Encontrar Users Activos
 
   findActiveProducts() {
     return new Promise((resolve) => {
-
       const activeUsers = this.users.filter((x) => x.isActive === true);
       resolve(activeUsers);
     });
@@ -81,11 +83,15 @@ class UserServices {
     //const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const users = this.users.find((item) => item.id === id);
     //NOT FOUND
-    validateData(users, NOTFOUND, 'NOT FOUND user', (data) => !data);
-    validateData(users, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
+    validateData(users, NOTFOUND, "NOT FOUND user", (data) => !data);
+    validateData(
+      users,
+      CONFLICT,
+      "CONFLICTO, el producto esta bloqueado.",
+      (data) => data.isActive == false
+    );
     return users;
   }
-
 
   //FAKER
   create(data) {
@@ -97,11 +103,10 @@ class UserServices {
     return newUser;
   }
 
-
   async update(id, changes) {
     const index = this.users.findIndex((item) => item.id === id);
 
-    if (index === -1) throw boom.notFound('Error 404 not Found User');
+    if (index === -1) throw boom.notFound("Error 404 not Found User");
     //throw new Error('Product not found'); Forma tradicional
 
     var currentProduct = this.users[index];
@@ -115,16 +120,13 @@ class UserServices {
   async delete(id) {
     const index = this.users.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw boom.notFound('Error 404 not Found User');
+      throw boom.notFound("Error 404 not Found User");
     }
     const deleteUser = this.users[index];
-
 
     this.users.splice(index, 1);
     return deleteUser;
   }
-
-
 }
 
 module.exports = UserServices;
