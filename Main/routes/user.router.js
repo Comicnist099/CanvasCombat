@@ -9,8 +9,14 @@ const azureStorage= require("azure-storage");
 const blobService=azureStorage.createBlobService();
 
 
-container=container.split("/")[0];
+container=container.split("/")[0]; 
+/*
+ split sirve para separar datos hola.como.estas
+ const hola="hola.como.estas"
 
+ cont dato= hola.split(".")[1];
+ console.log(dato) //como
+*/
 //shortcut para comentar en bloque: shift + alt + a
 
 const {
@@ -32,8 +38,7 @@ router.get('/', async (req, res) => {
 
 router.get('/Login', async (req, res, next) => {
 
-  try {
-;
+  try {;
     const { size, e, p } = req.query;
     const filter = {};
 
@@ -185,8 +190,6 @@ router.post('/', validatorHandler(createUserDto, 'body'),
         'Data': user
       });
     } 
-
-    
   });
 
 router.patch(
