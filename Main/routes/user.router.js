@@ -3,9 +3,13 @@ const router = express.Router();
 const UserProduct = require('../services/user.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const service = new UserProduct();
-
+let  {container,URL} = require('../../const.json');
 const User = require('../models/user');
+const azureStorage= require("azure-storage");
+const blobService=azureStorage.createBlobService();
 
+
+container=container.split("/")[0];
 
 //shortcut para comentar en bloque: shift + alt + a
 
@@ -111,44 +115,78 @@ router.post('/', validatorHandler(createUserDto, 'body'),
       achievements10,
       achievements11
     } = req.body;
-    try {
+    const user = new User({
+      isActive,
+      nameUser,
+      nickname,
+      email,
+      password,
+      creationDate,
+      team,
+      facebook,
+      instagram,
+      extra,
+      image,
+      points,
+      ban,
+      typeUser,
+      achievements1,
+      achievements2,
+      achievements3,
+      achievements4,
+      achievements5,
+      achievements6,
+      achievements7,
+      achievements8,
+      achievements9,
+      achievements10,
+      achievements11
+    });
 
-      const user = new User({
-        isActive,
-        nameUser,
-        nickname,
-        email,
-        password,
-        creationDate,
-        team,
-        facebook,
-        instagram,
-        extra,
-        image,
-        points,
-        ban,
-        typeUser,
-        achievements1,
-        achievements2,
-        achievements3,
-        achievements4,
-        achievements5,
-        achievements6,
-        achievements7,
-        achievements8,
-        achievements9,
-        achievements10,
-        achievements11
-      });
+
+     if (image) {
+
+      ({ name, path, extention } = image);
+
+      name = name + "." + extention;
+
+      let buffer = new Buffer(path, 'base64')
+      await blobService.createBlockBlobFromText(container, name, buffer, {
+        contentType: extention
+      }, async function (err) {
+        if (err) {
+
+          res.json({
+            'success': false,
+            'message': err
+          });
+
+        } else {
+
+          const fileURL = `${URL}${container}/${name}`;
+
+          user["image"]["path"] = fileURL;
+          await user.save();
+          res.json({
+            'success': true,
+            'message': "El usuario se ha creado con exito",
+            'Data': user
+          });
+
+        }
+
+      })
+    } else {
       await user.save();
+
       res.json({
-        success: true,
-        message: 'User was created successfully',
-        data: user,
+        'success': true,
+        'message': "El usuario se ha creado con exito",
+        'Data': user
       });
-    } catch (error) {
-      next(error);
-    }
+    } 
+
+    
   });
 
 router.patch(
