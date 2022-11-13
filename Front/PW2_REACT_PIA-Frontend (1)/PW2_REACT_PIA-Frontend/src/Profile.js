@@ -5,7 +5,7 @@ import $ from "jquery";
 export function Profile(props)
 {
 ///////////hook///////////
-let [renderedResponsea, setRenderedResponsea] = useState({});
+let [renderedResponsea, setRenderedResponseae] = useState({});
 
 const cookiesNew = new Cookies();
 const idUser = cookiesNew.get("idUser");
