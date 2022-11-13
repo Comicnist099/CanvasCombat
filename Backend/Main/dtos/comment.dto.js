@@ -8,16 +8,12 @@ const name = Joi.string().min(3).max(50);
 const descripcion = Joi.string().min(3).max(50);
 
 
-
-
 const createCommentsDto = Joi.object({
 
   isActive: isActive.required(),
   idDraw:idDraw.required(),
   name: name.required(),
   descripcion: descripcion.required(),
-
-
 
 });
 

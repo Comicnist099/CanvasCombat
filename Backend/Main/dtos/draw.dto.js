@@ -12,10 +12,13 @@ const team= Joi.string();
 const background=Joi.number().integer().min(0);
 const detail= Joi.number().integer().min(0);
 const body= Joi.number().integer().min(0);
-const image= Joi.string();
-const points= Joi.number().integer().min(10);
-
-
+const image= Joi.object().keys({
+  name: Joi.string(),
+  path: Joi.string(),
+  extention: Joi.string().max(13)
+});
+const points= Joi.number().integer().min(0);
+const descripcion= Joi.string().max(50);
 
 const createDrawDto = Joi.object({
 
@@ -29,8 +32,8 @@ const createDrawDto = Joi.object({
   detail:detail.required(),
   body:body.required(),
   image:image.required(),
-  points:points.required()
-
+  points:points.required(),
+  descripcion: descripcion.required()
 
 });
 
@@ -46,7 +49,7 @@ const updateDrawDto = Joi.object({
   body:body,
   image:image,
   points:points,
-
+  descripcion: descripcion
 
 });
 
