@@ -1,8 +1,36 @@
 import React, { useEffect, useState } from "react";
+import Combobox from "react-widgets/Combobox";
 import $ from "jquery";
 
 export function SubirAtaque() {
   let attackPicData = null;
+
+  let body = [
+    { id: 0, name: "Icon" },
+    { id: 1, name: "Headshot" },
+    { id: 2, name: "Midbody" },
+    { id: 3, name: "Fullbody" },
+  ];
+
+  let lineart = [
+    { id: 0, name: "Sketch" },
+    { id: 1, name: "Clean Lineart" },
+    { id: 2, name: "Lineless" },
+  ];
+
+  let detail = [
+    { id: 0, name: "No color" },
+    { id: 1, name: "Base Color" },
+    { id: 2, name: "Simple Shading" },
+    { id: 3, name: "Full Render" },
+  ];
+
+  let background = [
+    { id: 0, name: "No background" },
+    { id: 1, name: "Base Color" },
+    { id: 2, name: "Simple Background" },
+    { id: 3, name: "Full Render Background" },
+  ];
 
   //////////////////////////////////////////////////
   const [{ alt, src }, setImg] = useState({
@@ -135,8 +163,14 @@ export function SubirAtaque() {
                     Rating
                   </label>
 
-                  <div className="row" style={{ margin: "30px" }}></div>
+                  <Combobox
+                    data={body}
+                    dataKey="id"
+                    textField="name"
+                    defaultValue={0}
+                  />
 
+                  <div className="row" style={{ margin: "30px" }}></div>
                   <button
                     id="logInButton"
                     className="btn btn-info mt-2"
