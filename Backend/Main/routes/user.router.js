@@ -56,10 +56,10 @@ router.get('/Login', async (req, res, next) => {
    
     let userSearch = await User.find(filter);
     const users = await service.find2(size || 10, userSearch)
+    
     res.json({
-      'success': true,
-      'message': 'Estos son los usuarios encontrados',
-      'Data': users
+      'error': " ",
+      users
     });
 
   } catch (error) {

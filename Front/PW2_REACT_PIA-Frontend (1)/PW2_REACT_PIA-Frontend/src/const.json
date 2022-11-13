@@ -1,0 +1,5 @@
+{
+    "CookieUserID": "userID",
+    "CookieIsLogedIn": "isLogedIn",
+    "CookieAccessToken": "token"
+  }

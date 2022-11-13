@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Cookies from "universal-cookie";
+import { Link, useNavigate } from 'react-router-dom';
 
 export function LoginRegister(props) {
-
-
-  let profilePicData =null;
-
-
+  let profilePicData = null;
+  const navigate = useNavigate();
   //////////////////////////////////////////////////
-  const [{alt, src}, setImg] = useState({
-    src: "https://imgs.search.brave.com/z0kVWQmD2JkuDVU4PAjx7wlxbASFLQX0M3rOKk01PpI/rs:fit:235:196:1/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vMjM2/eC8xNi8zNy9kMS8x/NjM3ZDE3N2ZjMzgz/OWJjNmJhMjM1NzRk/YWU1ODI2NS5qcGc_/bmlpPXQ",
-    alt: 'Upload an Image'
-});
+  const [{ alt, src }, setImg] = useState({
+    src: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg",
+    alt: "Upload an Image",
+  });
   const handleImg = (e) => {
     if (e.target.files[0]) {
       setImg({
@@ -21,36 +19,16 @@ export function LoginRegister(props) {
       });
     }
   };
-///////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
 
   const [renderedResponse, setRenderedResponse] = useState({});
   const [profilePic, setProfilePic] = useState(null);
   const [image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
-////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
 
-
-/*    let renderMultimedia = () => {
-    if (profilePicData) {
-      return (
-        <div>
-          <img src={profilePicData} alt="profilePic" id="profile-pic" />
-        </div>
-      )
-    } else{
-      return(   
-         <div>
-        <img src={"https://imgs.search.brave.com/z0kVWQmD2JkuDVU4PAjx7wlxbASFLQX0M3rOKk01PpI/rs:fit:235:196:1/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vMjM2/eC8xNi8zNy9kMS8x/NjM3ZDE3N2ZjMzgz/OWJjNmJhMjM1NzRk/YWU1ODI2NS5qcGc_/bmlpPXQ"} alt="profilePic" id="profile-pic" />
-       </div>)
-    }
-  }  */
-
-  const refresh = async (e) => {
-    e.preventDefault();
-    console.log(profilePicData);
-  };
-
+  /////////////////CREAR USUARIO/////////////////////////
   const createAccountHandler = async (e) => {
     //Evento que sucede cuando presionas el boton de registrar
     e.preventDefault();
@@ -77,12 +55,11 @@ export function LoginRegister(props) {
           extention: mime,
           path: profilePicData,
         };
-        console.log(profilePic);
 
         let d = Date(Date.now());
         let a = d.toString();
         const creationDate = a.substr(4, 20);
-        console.log(creationDate);
+
         const body = {
           //Agrega todos los datos en conjunto para así poder subirlo a mongo
           isActive: true,
@@ -111,6 +88,7 @@ export function LoginRegister(props) {
           achievements10: false,
           achievements11: false,
         };
+
         /*
       const validName = /^[a-zA-Z ]{1,}$/;
       const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -141,27 +119,60 @@ export function LoginRegister(props) {
     console.log(file);
   };
 
-  /*
-    const getResponse = async () => {
-        const response = await fetch("/users/63683020d83fd036d7091641");
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-    
-        return body;
-      };
-    
-   
+  const loginAccountHandler = async (e) => {
+    e.preventDefault();
+    const email = $("#EmailLogin").val();
+    const pass = $("#PasswordLogin").val();
+
+    const response = await fetch(
+      `http://localhost:5000/users/Login?size=10&e=${email}&p=${pass}`
+    );
+    const respJson = await response.json();
+
+    //Se encontro o no se encontro//
+    if (respJson.error==" ") {
+      const cookiesNew = new Cookies();
+      cookiesNew.set("idUser", respJson.users[0]._id, { path: "/" });
+      const hola = cookiesNew.get("idUser");
+      console.log(hola);
+      navigate('/Profile');
+    }else{
+      console.log("a");
+    }
+  };
+
+  /* 
+  const getResponse = async () => {
+    const response = await fetch("/users/63700441b84f6d34b8fbc5c5");
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+  };
 
   useEffect(() => {
     getResponse().then((res) => {
       const someData = res;
       setRenderedResponse(someData);
     });
-  }, []);
-  
-*/
+  }, []); */
+
+  /*    let renderMultimedia = () => {
+    if (profilePicData) {
+      return (
+        <div>
+          <img src={profilePicData} alt="profilePic" id="profile-pic" />
+        </div>
+      )
+    } else{
+      return(   
+         <div>
+        <img src={"https://imgs.search.brave.com/z0kVWQmD2JkuDVU4PAjx7wlxbASFLQX0M3rOKk01PpI/rs:fit:235:196:1/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vMjM2/eC8xNi8zNy9kMS8x/NjM3ZDE3N2ZjMzgz/OWJjNmJhMjM1NzRk/YWU1ODI2NS5qcGc_/bmlpPXQ"} alt="profilePic" id="profile-pic" />
+       </div>)
+    }
+  }  */
+
   return (
     <>
+  
       <div className="App">
         <div className="container-fluid">
           <div className="row mh-100vh">
@@ -191,7 +202,7 @@ export function LoginRegister(props) {
                   </a>
                 </div>
 
-                <form>
+                <form form className="user" onSubmit={loginAccountHandler}>
                   <div className="form-group mb-3">
                     <label
                       className="form-label text-secondary"
@@ -201,7 +212,7 @@ export function LoginRegister(props) {
                     </label>
                     <input
                       //onInput="this.value = this.value.toUpperCase()"
-                      id="phpEmailLogin"
+                      id="EmailLogin"
                       name="phpEmailLogin"
                       className="form-control"
                       type="text"
@@ -218,7 +229,7 @@ export function LoginRegister(props) {
                       Contraseña
                     </label>
                     <input
-                      id="phpPasswordLogin"
+                      id="PasswordLogin"
                       name="phpPasswordLogin"
                       className="form-control"
                       type="password"
@@ -226,12 +237,10 @@ export function LoginRegister(props) {
                       placeholder="Contraseña"
                     ></input>
                   </div>
-
                   <button
-                    id="logInButton"
                     className="btn btn-info mt-2"
-                    type="button"
-                    onClick="loginFunction($('#phpEmailLogin').val(), $('#phpPasswordLogin').val());"
+                    id="logInButton"
+                    type="submit"
                   >
                     Ingresar
                   </button>
@@ -265,7 +274,7 @@ export function LoginRegister(props) {
                   </a>
                 </div>
                 <div className="text-center"></div>
-    
+
                 <form className="user" onSubmit={createAccountHandler}>
                   <label
                     className="form-label text-secondary"
@@ -372,7 +381,13 @@ export function LoginRegister(props) {
                       Paragraph
                     </p>
                   </div>
-                  <img height="200" width="200" src={src} alt={alt} className="form-img__img-preview"/>
+                  <img
+                    height="200"
+                    width="200"
+                    src={src}
+                    alt={alt}
+                    className="form-img__img-preview"
+                  />
                   <input
                     id="profilePic"
                     name="profilePic "

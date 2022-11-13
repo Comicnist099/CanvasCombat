@@ -1,6 +1,7 @@
 const faker = require("faker");
 const boom = require("@hapi/boom");
-
+const errNotFound = "No se logró encontrar lo buscado";
+const errEmpty = "Aún no hay cuentas creadas";
 const { validateData, NOTFOUND, CONFLICT } = require("./../utils");
 
 class UserServices {
@@ -60,12 +61,11 @@ class UserServices {
   }
 
   async find2(limit, UsersSearch) {
-
     let usersBuff = UsersSearch;
 
-    validateData(usersBuff, NOTFOUND, "NOT FOUND user", (data) => !data);
-    validateData(usersBuff,CONFLICT,"CONFLICTO, el producto esta bloqueado.",(data) => data.isActive == false);
-
+    if (usersBuff == undefined)
+      throw boom.notFound(errNotFound);
+    if (usersBuff.length <= 0) throw boom.notFound(errEmpty);
     let usersFinish = usersBuff.filter((item, index) => item && index < limit);
 
     return usersFinish;

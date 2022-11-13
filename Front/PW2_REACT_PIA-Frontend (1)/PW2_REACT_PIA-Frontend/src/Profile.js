@@ -1,9 +1,37 @@
+import React, { useEffect, useState } from "react";
+import Cookies from "universal-cookie";
+import $ from "jquery";
 
-
-export function Profile()
+export function Profile(props)
 {
+///////////hook///////////
+let [renderedResponsea, setRenderedResponsea] = useState({});
+
+const cookiesNew = new Cookies();
+const idUser = cookiesNew.get("idUser");
+//////////////////////////////////
+  const getResponse = async () => {
+    const response = await fetch(`/users/${idUser}`);
+    const body = await response.json();
+
+    setRenderedResponsea(body);
+    
+    if (response.status !== 200) throw Error(body.message);
+  };
+
+  useEffect(() => {
+    getResponse();
+  }, []); 
+
+ 
+
+
+
+
+
 return ( 
 <>
+
 
 <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3" style={{background: "#696969 !important"}}>
     <div className="container"><button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-6"><span className="visually-hidden">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
@@ -48,15 +76,15 @@ return (
 
                         <div className="col-sm-12 col-md-6">
                             <div className="form-group mb-3">
-                                <label className="form-label">Firstname </label>
-                                <input className="form-control" type="text" name="firstname" value="NOMBRE COMPLETO" disabled></input>
+                                <label className="form-label">Nombre </label>
+                                <input className="form-control" type="text" name="firstname" value={renderedResponsea.nameUser} disabled></input>
                             </div>
                         </div>
 
                         <div className="col-sm-12 col-md-6">
                             <div className="form-group mb-3">
-                                <label className="form-label">Lastname </label>
-                                <input className="form-control" type="text" name="lastname" value="APELLIDOS" disabled></input>
+                                <label className="form-label">Nickname </label>
+                                <input className="form-control" type="text" name="lastname" value={renderedResponsea.nickname} disabled></input>
                             </div>
                         </div>
 
@@ -94,4 +122,4 @@ return (
 )
 
 
-}
+}export default Profile;
