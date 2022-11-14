@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Cookies from "universal-cookie";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 export function LoginRegister(props) {
   let profilePicData = null;
@@ -130,13 +130,13 @@ export function LoginRegister(props) {
     const respJson = await response.json();
 
     //Se encontro o no se encontro//
-    if (respJson.error==" ") {
+    if (respJson.error == " ") {
       const cookiesNew = new Cookies();
       cookiesNew.set("idUser", respJson.users[0]._id, { path: "/" });
       const hola = cookiesNew.get("idUser");
       console.log(hola);
-      navigate('/Profile');
-    }else{
+      navigate("/Profile");
+    } else {
       console.log("a");
     }
   };
@@ -172,7 +172,6 @@ export function LoginRegister(props) {
 
   return (
     <>
-  
       <div className="App">
         <div className="container-fluid">
           <div className="row mh-100vh">

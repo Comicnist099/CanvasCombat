@@ -27,7 +27,7 @@ export function SubirPersonaje() {
     //Evento que sucede cuando presionas el boton de registrar
     e.preventDefault();
     console.log("hola");
-    const name = $("#nameCharacter").val();
+    const title = $("#nameCharacter").val();
     const descripcion = $("#descripcionCharacter").val();
 
     const file = $("#characterPic")[0].files[0];
@@ -57,7 +57,9 @@ export function SubirPersonaje() {
           //Agrega todos los datos en conjunto para así poder subirlo a mongo
 
           isActive: true,
-          character: name,
+          character: " ",
+          title: title,
+          descripcion: descripcion,
           owner: "owner",
           cartoonist: "owner",
           creationDate: creationDate,
@@ -67,8 +69,7 @@ export function SubirPersonaje() {
           detail: 0,
           background: 0,
           image: characterPic,
-          points: 0,
-          descripcion: descripcion,
+          points: 0
         };
 
         const response = await fetch(`http://localhost:5000/draw`, {
@@ -130,16 +131,13 @@ export function SubirPersonaje() {
             >
               <div className="col center">
                 <div className="row" style={{ margin: "15px" }}></div>
-
-                <div className="avatar-bg center">
-                  <img
-                    height="200"
-                    width="200"
-                    src={src}
-                    alt={alt}
-                    className="form-img__img-preview"
-                  />
-                </div>
+                <img
+                  height="200"
+                  width="200"
+                  src={src}
+                  alt={alt}
+                  className="form-img__img-preview"
+                />
                 <br></br>
                 <input
                   id="characterPic"
