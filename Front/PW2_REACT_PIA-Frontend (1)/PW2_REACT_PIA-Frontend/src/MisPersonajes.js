@@ -1,4 +1,11 @@
+import React, { useEffect, useState } from "react";
+import Cookies from "universal-cookie";
+import $ from "jquery";
+
 export function MisPersonajes() {
+  const cookiesNew = new Cookies();
+  const idUser = cookiesNew.get("idUser");
+
   return (
     <>
       <div
@@ -48,7 +55,7 @@ export function MisPersonajes() {
                 </div>
               </div>
 
-              <div className="row">
+              {/*  <div className="row">
                 <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
                     <label className="form-label">Peleas Ganadas </label>
@@ -78,7 +85,7 @@ export function MisPersonajes() {
                     ></input>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <hr></hr>
             </form>
@@ -96,63 +103,8 @@ export function MisPersonajes() {
               ></img>
             </div>
           </div>
-
-          <div className="col-md-8 center">
-            <h1> NOMBRE DE PERSONAJE </h1>
-            <hr></hr>
-
-            <form>
-              <div className="row">
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <label className="form-label">Descripcion </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="firstname"
-                      value="LA DESCRIPCION"
-                      disabled
-                    ></input>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <label className="form-label">Peleas Ganadas </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="password"
-                      autocomplete="off"
-                      required=""
-                      value="Varias"
-                      disabled
-                    ></input>
-                  </div>
-                </div>
-
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <label className="form-label">Peleas Perdidas </label>
-                    <input
-                      className="form-control"
-                      type="email"
-                      autocomplete="off"
-                      required=""
-                      name="email"
-                      disabled
-                      value="0"
-                    ></input>
-                  </div>
-                </div>
-              </div>
-
-              <hr></hr>
-            </form>
-          </div>
         </div>
+
       </div>
     </>
   );
