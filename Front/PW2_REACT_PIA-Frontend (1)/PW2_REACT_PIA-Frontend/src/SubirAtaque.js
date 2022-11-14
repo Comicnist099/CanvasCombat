@@ -6,7 +6,7 @@ export function SubirAtaque() {
   const [valLineart, setValLineart] = useState("");
   const [valDetail, setValDetail] = useState("");
   const [valBackground, setValBackground] = useState("");
-  let puntuacion;
+  let puntuacion = 0;
 
   //cada cb suma el total de 100, por lo que body vale 25, lineart 25 y asi
 
@@ -49,14 +49,16 @@ export function SubirAtaque() {
   };
 
   const points = (nombre) => {
-    if (nombre == (body[0] || lineart[0] || detail[0] || background[0]))
+
+    if (nombre === body[0] || nombre === lineart[0] || nombre === detail[0] || nombre === background[0])
       puntuacion = puntuacion + 3;
-    else if (nombre == (body[1] || lineart[1] || detail[1] || background[1]))
+    else if (nombre === body[1] || nombre === lineart[1] || nombre === detail[1] || nombre === background[1])
       puntuacion = puntuacion + 8;
-    else if (nombre == (body[2] || lineart[2] || detail[2] || background[2]))
+    else if (nombre === body[2] || nombre === lineart[2] || nombre === detail[2] || nombre === background[2])
       puntuacion = puntuacion + 15;
-    else if (nombre == (body[3] || lineart[3] || detail[3] || background[3]))
+    else if (nombre === body[3] || nombre === lineart[3] || nombre === detail[3] || nombre === background[3])
       puntuacion = puntuacion + 25;
+
   };
 
   const attackCharacterHandler = async (e) => {
@@ -67,15 +69,15 @@ export function SubirAtaque() {
     const descripcion = $("#descripcionCharacter").val();
     const file = $("#characterPic")[0].files[0];
     const reader = new FileReader();
-    const vBody = valBody;
-    const vLineart = valLineart;
-    const vDetail = valDetail;
-    const vBackground = valBackground;
+    const vBody = $("#cbBody").val();
+    const vLineart = $("#cbLineart").val();
+    const vDetail = $("#cbDetail").val();
+    const vBackground = $("#cbBackground").val();
 
-    points(valBody);
-    points(valLineart);
-    points(valDetail);
-    points(valBackground);
+    points(vBody);
+    points(vLineart);
+    points(vDetail);
+    points(vBackground);
 
     if (file) {
       reader.addEventListener("load", async function readFile(event) {
