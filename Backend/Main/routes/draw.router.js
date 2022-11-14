@@ -172,6 +172,8 @@ router.post(
     const {
       isActive,
       character,
+      title,
+      descripcion,
       owner,
       cartoonist,
       creationDate,
@@ -182,12 +184,13 @@ router.post(
       background,
       image,
       points,
-      descripcion,
     } = req.body;
 
     const drawsConst = new drawsModel({
       isActive,
       character,
+      title,
+      descripcion,
       owner,
       cartoonist,
       creationDate,
@@ -198,7 +201,6 @@ router.post(
       background,
       image,
       points,
-      descripcion,
     });
 
     if (image) {
@@ -256,6 +258,8 @@ router.patch(
 
         isActive: body2.isActive,
         character: body2.character,
+        title: body2.title,
+        descripcion: body2.descripcion,
         owner: body2.owner,
         cartoonist: body2.cartoonist,
         creationDate: body2.creationDate,
@@ -265,8 +269,8 @@ router.patch(
         detail: body2.detail,
         background: body2.background,
         image: body2.image,
-        points: body2.points,
-        descripcion: body2.descripcion,
+        points: body2.points
+        
       };
       let draws = await drawsModel.find(); //await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
       let buffer = [];
