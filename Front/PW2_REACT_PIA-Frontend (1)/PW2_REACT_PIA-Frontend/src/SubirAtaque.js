@@ -1,36 +1,33 @@
 import React, { useEffect, useState } from "react";
-import Combobox from "react-widgets/Combobox";
-import $ from "jquery";
+import $, { data } from "jquery";
 
 export function SubirAtaque() {
+  const [valBody, setValBody] = useState("");
+  const [valLineart, setValLineart] = useState("");
+  const [valDetail, setValDetail] = useState("");
+  const [valBackground, setValBackground] = useState("");
+  let puntuacion;
+
+  //cada cb suma el total de 100, por lo que body vale 25, lineart 25 y asi
+
+  const body = ["Icon", "Headshot", "Midbody", "Fullbody"];
+  //icon: 3, Headshot: 8, Midbody: 15, Fullbody: 25
+
+  const lineart = ["Sketch", "Clean Lineart", "Color Lineart", "Lineless"];
+  //Sketch: 3, Clean Lineart: 8, Color Lineart: 15, Lineless: 25
+
+  const detail = ["No color", "Base Color", "Simple Shading", "Full Render"];
+  //No color: 3, Base Color: 8, Simple Shading: 15, Full Render: 25
+
+  const background = [
+    "No background",
+    "Base Color",
+    "Simple Background",
+    "Full Render Background",
+  ];
+  //No background: 3, Base Color: 8, Simple Background: 15, Full Render Background: 25
+
   let attackPicData = null;
-
-  let body = [
-    { id: 0, name: "Icon" },
-    { id: 1, name: "Headshot" },
-    { id: 2, name: "Midbody" },
-    { id: 3, name: "Fullbody" },
-  ];
-
-  let lineart = [
-    { id: 0, name: "Sketch" },
-    { id: 1, name: "Clean Lineart" },
-    { id: 2, name: "Lineless" },
-  ];
-
-  let detail = [
-    { id: 0, name: "No color" },
-    { id: 1, name: "Base Color" },
-    { id: 2, name: "Simple Shading" },
-    { id: 3, name: "Full Render" },
-  ];
-
-  let background = [
-    { id: 0, name: "No background" },
-    { id: 1, name: "Base Color" },
-    { id: 2, name: "Simple Background" },
-    { id: 3, name: "Full Render Background" },
-  ];
 
   //////////////////////////////////////////////////
   const [{ alt, src }, setImg] = useState({
@@ -49,6 +46,90 @@ export function SubirAtaque() {
   const refresh = async (e) => {
     e.preventDefault();
     console.log(attackPicData);
+  };
+
+  const points = (nombre) => {
+    if (nombre == (body[0] || lineart[0] || detail[0] || background[0]))
+      puntuacion = puntuacion + 3;
+    else if (nombre == (body[1] || lineart[1] || detail[1] || background[1]))
+      puntuacion = puntuacion + 8;
+    else if (nombre == (body[2] || lineart[2] || detail[2] || background[2]))
+      puntuacion = puntuacion + 15;
+    else if (nombre == (body[3] || lineart[3] || detail[3] || background[3]))
+      puntuacion = puntuacion + 25;
+  };
+
+  const attackCharacterHandler = async (e) => {
+    //Evento que sucede cuando presionas el boton de registrar
+    e.preventDefault();
+    console.log("hola");
+    const title = $("#nameCharacter").val();
+    const descripcion = $("#descripcionCharacter").val();
+    const file = $("#characterPic")[0].files[0];
+    const reader = new FileReader();
+    const vBody = valBody;
+    const vLineart = valLineart;
+    const vDetail = valDetail;
+    const vBackground = valBackground;
+
+    points(valBody);
+    points(valLineart);
+    points(valDetail);
+    points(valBackground);
+
+    if (file) {
+      reader.addEventListener("load", async function readFile(event) {
+        const nameparts = file.name.split(".");
+        const filename = nameparts[0];
+        const mime = nameparts[1];
+        attackPicData = event.target.result;
+
+        attackPicData = attackPicData.split("base64")[1];
+        const characterPic = {
+          name: filename,
+          extention: mime,
+          path: attackPicData,
+        };
+
+        let d = Date(Date.now());
+        let a = d.toString();
+        const creationDate = a.substr(4, 20);
+
+        const body = {
+          //Agrega todos los datos en conjunto para así poder subirlo a mongo
+
+          isActive: true,
+          character: " ",
+          title: title,
+          descripcion: descripcion,
+          owner: "owner",
+          cartoonist: "cartoonist",
+          creationDate: creationDate,
+          team: " ",
+          body: vBody,
+          lineart: vLineart,
+          detail: vDetail,
+          background: vBackground,
+          image: characterPic,
+          points: puntuacion,
+        };
+
+        const response = await fetch(`http://localhost:5000/draw`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        const respJson = await response.json();
+        console.log(respJson);
+        if (respJson.error == "Bad Request") {
+          return console.log("NO JALO");
+        }
+      });
+      reader.readAsDataURL(file);
+    }
+    console.log(file);
   };
 
   return (
@@ -79,6 +160,7 @@ export function SubirAtaque() {
         >
           <form
             className="character"
+            onSubmit={attackCharacterHandler}
             style={{ marginBottom: "50px", marginTop: "50px" }}
           >
             <div
@@ -92,15 +174,13 @@ export function SubirAtaque() {
               <div className="col center">
                 <div className="row" style={{ margin: "15px" }}></div>
 
-                <div className="avatar-bg center">
-                  <img
-                    height="200"
-                    width="200"
-                    src={src}
-                    alt={alt}
-                    className="form-img__img-preview"
-                  />
-                </div>
+                <img
+                  height="200"
+                  width="200"
+                  src={src}
+                  alt={alt}
+                  className="form-img__img-preview"
+                />
                 <br></br>
                 <input
                   id="characterPic"
@@ -162,13 +242,65 @@ export function SubirAtaque() {
                   >
                     Rating
                   </label>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <p>Detalles del cuerpo</p>
+                  <select
+                    value={valBody}
+                    id="cbBody"
+                    name="cbBody"
+                    onChange={(e) => setValBody(e.target.value)}
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    {body.map((opt) => (
+                      <option value={opt}>{opt}</option>
+                    ))}
+                  </select>
 
-                  <Combobox
-                    data={body}
-                    dataKey="id"
-                    textField="name"
-                    defaultValue={0}
-                  />
+                  <p>Detalles del lineart</p>
+                  <select
+                    value={valLineart}
+                    id="cbLineart"
+                    name="cbLineart"
+                    onChange={(e) => setValLineart(e.target.value)}
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    {lineart.map((opt) => (
+                      <option value={opt}>{opt}</option>
+                    ))}
+                  </select>
+
+                  <p>Detalles del Render</p>
+                  <select
+                    value={valDetail}
+                    id="cbDetail"
+                    name="cbDetail"
+                    onChange={(e) => setValDetail(e.target.value)}
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    {detail.map((opt) => (
+                      <option value={opt}>{opt}</option>
+                    ))}
+                  </select>
+
+                  <p>Detalles del background</p>
+
+                  <select
+                    value={valBackground}
+                    id="cbBackground"
+                    name="cbBackground"
+                    onChange={(e) => setValBackground(e.target.value)}
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    {background.map((opt) => (
+                      <option value={opt}>{opt}</option>
+                    ))}
+                  </select>
 
                   <div className="row" style={{ margin: "30px" }}></div>
                   <button
