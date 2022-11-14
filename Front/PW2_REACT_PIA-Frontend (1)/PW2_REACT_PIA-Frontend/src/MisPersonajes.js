@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import $ from "jquery";
+import $, { get } from "jquery";
 
 export function MisPersonajes() {
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
 
+  let [renderedResponsea, setRenderedResponsea] = useState({});
+
+  const getResponse = async () => {
+    const response = await fetch(`/draw`);
+    const body = await response.json();
+
+    setRenderedResponsea(body);
+    console.log(body);
+
+    if (response.status !== 200) throw Error(body.message);
+  };
+
+  useEffect(() => {
+    getResponse();
+  }, []);
+
+  for (let i = 0; i > renderedResponsea.length; i++) {
+
+
+  }
+
+  
   return (
     <>
       <div
@@ -55,56 +77,12 @@ export function MisPersonajes() {
                 </div>
               </div>
 
-              {/*  <div className="row">
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <label className="form-label">Peleas Ganadas </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="password"
-                      autocomplete="off"
-                      required=""
-                      value="Varias"
-                      disabled
-                    ></input>
-                  </div>
-                </div>
-
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <label className="form-label">Peleas Perdidas </label>
-                    <input
-                      className="form-control"
-                      type="email"
-                      autocomplete="off"
-                      required=""
-                      name="email"
-                      disabled
-                      value="0"
-                    ></input>
-                  </div>
-                </div>
-              </div> */}
-
               <hr></hr>
             </form>
           </div>
         </div>
 
         <div className="row" style={{ margin: "10px" }}></div>
-
-        <div className="row" style={{ background: "rgba(255,255,255,0.37)" }}>
-          <div className="col-md-4 center">
-            <div className="p-5">
-              <img
-                className="img-fluid"
-                src="https://images.saatchiart.com/saatchi/897093/art/7711818/6779964-ZHQUIXKD-7.jpg"
-              ></img>
-            </div>
-          </div>
-        </div>
-
       </div>
     </>
   );
