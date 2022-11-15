@@ -7,13 +7,15 @@ export function MisPersonajes() {
   const idUser = cookiesNew.get("idUser");
 
   let [renderedResponsea, setRenderedResponsea] = useState({});
+  const [friends, setFriends] = useState([]);
 
   const getResponse = async () => {
     const response = await fetch(`/draw`);
     const body = await response.json();
 
     setRenderedResponsea(body);
-    console.log(body);
+    setFriends(body);
+    //console.log(body);
 
     if (response.status !== 200) throw Error(body.message);
   };
@@ -22,12 +24,6 @@ export function MisPersonajes() {
     getResponse();
   }, []);
 
-  for (let i = 0; i > renderedResponsea.length; i++) {
-
-
-  }
-
-  
   return (
     <>
       <div
@@ -41,49 +37,59 @@ export function MisPersonajes() {
         </div>
       </div>
 
-      <div
-        className="container profile profile-view"
-        data-aos="fade-up"
-        id="profile"
-        style={{ marginTop: "50px", background: "rgb(129, 129, 129)" }}
-      >
-        <div className="row" style={{ background: "rgba(255,255,255,0.37)" }}>
-          <div className="col-md-4 center">
-            <div className="p-5">
-              <img
-                className="img-fluid"
-                src="https://www.spellbrand.com/wp-content/uploads/2018/08/character-design-1-49.jpg"
-              ></img>
+      {/* tarjeta de personajes  */}
+
+      {friends.map((character) => (
+
+        if(character.owner === character.cartoonist){
+          <div
+          className="container profile profile-view"
+          data-aos="fade-up"
+          id="profile"
+          style={{ marginTop: "50px", background: "rgb(129, 129, 129)" }}
+        >
+          <div className="row" style={{ background: "rgba(255,255,255,0.37)" }}>
+            <div className="col-md-4 center">
+              <div className="p-5">
+                <img
+                  className="img-fluid"
+                  src={character.image.path}
+                ></img>
+              </div>
+            </div>
+
+            <div className="col-md-8 center">
+              <h1> {character.character} </h1>
+              <hr></hr>
+
+              <form>
+                <div className="row">
+                  <div className="col-sm-12 col-md-6">
+                    <div className="form-group mb-3">
+                      <label className="form-label"> {character.title}</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="firstname"
+                        value={character.descripcion}
+                        disabled
+                      ></input>
+                    </div>
+                  </div>
+                </div>
+
+                <hr></hr>
+              </form>
             </div>
           </div>
 
-          <div className="col-md-8 center">
-            <h1> NOMBRE DE PERSONAJE </h1>
-            <hr></hr>
-
-            <form>
-              <div className="row">
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <label className="form-label">Descripcion </label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="firstname"
-                      value="LA DESCRIPCION"
-                      disabled
-                    ></input>
-                  </div>
-                </div>
-              </div>
-
-              <hr></hr>
-            </form>
-          </div>
+          <div className="row" style={{ margin: "10px" }}></div>
         </div>
+        };
+        
+      ))}
 
-        <div className="row" style={{ margin: "10px" }}></div>
-      </div>
+      {/* tarjeta de personajes  */}
     </>
   );
 }
