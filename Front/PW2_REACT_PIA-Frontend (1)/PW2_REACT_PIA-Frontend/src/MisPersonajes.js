@@ -39,55 +39,58 @@ export function MisPersonajes() {
 
       {/* tarjeta de personajes  */}
 
-      {friends.map((character) => (
-
-        if(character.owner === character.cartoonist){
-          <div
-          className="container profile profile-view"
-          data-aos="fade-up"
-          id="profile"
-          style={{ marginTop: "50px", background: "rgb(129, 129, 129)" }}
-        >
-          <div className="row" style={{ background: "rgba(255,255,255,0.37)" }}>
-            <div className="col-md-4 center">
-              <div className="p-5">
-                <img
-                  className="img-fluid"
-                  src={character.image.path}
-                ></img>
-              </div>
-            </div>
-
-            <div className="col-md-8 center">
-              <h1> {character.character} </h1>
-              <hr></hr>
-
-              <form>
-                <div className="row">
-                  <div className="col-sm-12 col-md-6">
-                    <div className="form-group mb-3">
-                      <label className="form-label"> {character.title}</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="firstname"
-                        value={character.descripcion}
-                        disabled
-                      ></input>
-                    </div>
+      {friends.map((character) => {
+        if ((character.owner === character.cartoonist && character.owner === idUser)) {
+          return (
+            <div
+              className="container profile profile-view"
+              data-aos="fade-up"
+              id="profile"
+              style={{ marginTop: "50px", background: "rgb(129, 129, 129)" }}
+            >
+              <div
+                className="row"
+                style={{ background: "rgba(255,255,255,0.37)" }}
+              >
+                <div className="col-md-4 center">
+                  <div className="p-5">
+                    <img className="img-fluid" src={character.image.path}></img>
                   </div>
                 </div>
 
-                <hr></hr>
-              </form>
-            </div>
-          </div>
+                <div className="col-md-8 center">
+                  <h1> {character.character} </h1>
+                  <hr></hr>
 
-          <div className="row" style={{ margin: "10px" }}></div>
-        </div>
-        };
-        
-      ))}
+                  <form>
+                    <div className="row">
+                      <div className="col-sm-12 col-md-6">
+                        <div className="form-group mb-3">
+                          <label className="form-label">
+                            {" "}
+                            {character.title}
+                          </label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="firstname"
+                            value={character.descripcion}
+                            disabled
+                          ></input>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr></hr>
+                  </form>
+                </div>
+              </div>
+
+              <div className="row" style={{ margin: "10px" }}></div>
+            </div>
+          );
+        }
+      })}
 
       {/* tarjeta de personajes  */}
     </>
