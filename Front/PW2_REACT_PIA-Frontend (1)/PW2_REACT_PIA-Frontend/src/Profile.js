@@ -182,17 +182,13 @@ export function Profile(props) {
 
     };
     const Redesh = (sourceF, sourceI, sourceT) => {
-        {
-            if (sourceF != "" && sourceI != "" && sourceT != "") 
-                return (
-                    <h3>REDES SOCIALES</h3>
-                )
 
-
-            
-
-
+        if (sourceF != " " || sourceI != " " || sourceT != " ") {
+            return (
+                <h3>REDES SOCIALES</h3>
+            )
         }
+
 
     }
 
@@ -206,6 +202,92 @@ export function Profile(props) {
                     <img src="https://imgs.search.brave.com/ZySSH5qtW5EHOLa4lmjyf1dDLJSa877kRsg_GZwS3OQ/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMS53/cC5jb20vd3d3LmRw/YWJvZ2Fkb3MuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE2/LzA5L2ZhY2Vib29r/LWxvZ28tcG5nLXRy/YW5zcGFyZW50LWJh/Y2tncm91bmQucG5n/P2ZpdD0xNjAwJTJD/MTYwMCZzc2w9MQ" alt="" height="50" width="50"/>
                 </a>
             )
+        }
+
+    }
+
+    const emptySpace = (source) => {
+        if (source == " ") {
+            return (
+                <div>
+                    <img src="https://imgs.search.brave.com/ZySSH5qtW5EHOLa4lmjyf1dDLJSa877kRsg_GZwS3OQ/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMS53/cC5jb20vd3d3LmRw/YWJvZ2Fkb3MuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE2/LzA5L2ZhY2Vib29r/LWxvZ28tcG5nLXRy/YW5zcGFyZW50LWJh/Y2tncm91bmQucG5n/P2ZpdD0xNjAwJTJD/MTYwMCZzc2w9MQ" alt="" height="50" width="50"/>
+                    <input //onInput="this.value = this.value.toUpperCase()"
+                        id="PerfilFacebook"
+                        name="PerfilFacebook"
+                        type="text"
+                        placeholder="/"
+
+                        //inputMode="email"
+                    ></input>
+
+                    <br></br>
+                    <img src="https://imgs.search.brave.com/RfLppzW2OMwAkqj4cAxfoy0VBWuodWzGVzoAUEX_ILU/rs:fit:1024:1024:1/g:ce/aHR0cHM6Ly93d3cu/eWFjaHRzYWxlc2lu/dGVybmF0aW9uYWwu/Y29tL3dwL3dwLWNv/bnRlbnQvdXBsb2Fk/cy95YWNodHNhbGVz/aW50ZXJuYXRpb25h/bC5jb20vMjAxOS8w/OS9pbnN0YWdyYW0t/cG5nLWluc3RhZ3Jh/bS1wbmctbG9nby0x/NDU1LTEwMjR4MTAy/NC5wbmc" alt="" height="50" width="50"/>
+
+                    <input //onInput="this.value = this.value.toUpperCase()"
+                        id="PerfilInstagram"
+                        name="PerfilInstagram"
+                        type="text"
+                        //inputMode="email"
+                        placeholder="/"
+                    ></input>
+
+                    <br></br>
+                    <img src="https://imgs.search.brave.com/Dkgov-vCLYh5038LVyQlKsa9vRlx9oSDjXBlPxvmnso/rs:fit:1140:1145:1/g:ce/aHR0cHM6Ly9hbHVt/bmkudml1LmNhL3Np/dGVzL2RlZmF1bHQv/ZmlsZXMvc3R5bGVz/L21heF9zaXplX2Ny/b3BwZWQvcHVibGlj/L3R3aXR0ZXItc3F1/YXJlZC5wbmc_aXRv/az16UGFNbUFjZCZj/PWY5MzQxNWRiMjkx/NmUwMTBjZDJjZDA4/ZDBkMzRiNjI2" alt="" height="50" width="50"/>
+
+                    <input //onInput="this.value = this.value.toUpperCase()"
+                        id="PerfilTwitter"
+                        name="PerfilTwitter"
+                        type="text"
+                        placeholder="/"
+                        //inputMode="email"
+                    ></input>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <img src="https://imgs.search.brave.com/ZySSH5qtW5EHOLa4lmjyf1dDLJSa877kRsg_GZwS3OQ/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMS53/cC5jb20vd3d3LmRw/YWJvZ2Fkb3MuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE2/LzA5L2ZhY2Vib29r/LWxvZ28tcG5nLXRy/YW5zcGFyZW50LWJh/Y2tncm91bmQucG5n/P2ZpdD0xNjAwJTJD/MTYwMCZzc2w9MQ" alt="" height="50" width="50"/>
+                    <input //onInput="this.value = this.value.toUpperCase()"
+                        id="PerfilFacebook"
+                        name="PerfilFacebook"
+                        type="text"
+                        placeholder="/"
+
+                        //inputMode="email"
+                        defaultValue={
+                            facebook.substr(25)
+                    }></input>
+
+                    <br></br>
+                    <img src="https://imgs.search.brave.com/RfLppzW2OMwAkqj4cAxfoy0VBWuodWzGVzoAUEX_ILU/rs:fit:1024:1024:1/g:ce/aHR0cHM6Ly93d3cu/eWFjaHRzYWxlc2lu/dGVybmF0aW9uYWwu/Y29tL3dwL3dwLWNv/bnRlbnQvdXBsb2Fk/cy95YWNodHNhbGVz/aW50ZXJuYXRpb25h/bC5jb20vMjAxOS8w/OS9pbnN0YWdyYW0t/cG5nLWluc3RhZ3Jh/bS1wbmctbG9nby0x/NDU1LTEwMjR4MTAy/NC5wbmc" alt="" height="50" width="50"/>
+
+                    <input //onInput="this.value = this.value.toUpperCase()"
+                        id="PerfilInstagram"
+                        name="PerfilInstagram"
+                        type="text"
+                        //inputMode="email"
+                        placeholder="/"
+                        defaultValue={
+                            instagram.substr(26)
+                    }></input>
+
+                    <br></br>
+                    <img src="https://imgs.search.brave.com/Dkgov-vCLYh5038LVyQlKsa9vRlx9oSDjXBlPxvmnso/rs:fit:1140:1145:1/g:ce/aHR0cHM6Ly9hbHVt/bmkudml1LmNhL3Np/dGVzL2RlZmF1bHQv/ZmlsZXMvc3R5bGVz/L21heF9zaXplX2Ny/b3BwZWQvcHVibGlj/L3R3aXR0ZXItc3F1/YXJlZC5wbmc_aXRv/az16UGFNbUFjZCZj/PWY5MzQxNWRiMjkx/NmUwMTBjZDJjZDA4/ZDBkMzRiNjI2" alt="" height="50" width="50"/>
+
+                    <input //onInput="this.value = this.value.toUpperCase()"
+                        id="PerfilTwitter"
+                        name="PerfilTwitter"
+                        type="text"
+                        placeholder="/"
+                        //inputMode="email"
+                        defaultValue
+                        ={
+                        twitter.substr(24)
+                }
+                    ></input>
+                </div>
+            );
+
         }
 
     }
@@ -355,50 +437,25 @@ export function Profile(props) {
                                     </div>
                                 </div>
                             </div>
-
+                            <div className="row">
+                                <div className="col-sm-12 col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Puntos Totales
+                                        </label>
+                                        <input disabled className="form-control" required=""
+                                            value={
+                                                renderedResponsea.points
+                                        }></input>
+                                    </div>
+                                </div>
+                            </div>
                             <hr></hr>
                             <h3>REDES SOCIALES</h3>
 
 
-                            <img src="https://imgs.search.brave.com/ZySSH5qtW5EHOLa4lmjyf1dDLJSa877kRsg_GZwS3OQ/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMS53/cC5jb20vd3d3LmRw/YWJvZ2Fkb3MuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE2/LzA5L2ZhY2Vib29r/LWxvZ28tcG5nLXRy/YW5zcGFyZW50LWJh/Y2tncm91bmQucG5n/P2ZpdD0xNjAwJTJD/MTYwMCZzc2w9MQ" alt="" height="50" width="50"/>
-
-                            <input //onInput="this.value = this.value.toUpperCase()"
-                                id="PerfilFacebook"
-                                name="PerfilFacebook"
-                                type="text"
-                                //inputMode="email"
-                                defaultValue={
-                                    facebook.substr(25)
-                            }></input>
-
-                            <br></br>
-                            <img src="https://imgs.search.brave.com/RfLppzW2OMwAkqj4cAxfoy0VBWuodWzGVzoAUEX_ILU/rs:fit:1024:1024:1/g:ce/aHR0cHM6Ly93d3cu/eWFjaHRzYWxlc2lu/dGVybmF0aW9uYWwu/Y29tL3dwL3dwLWNv/bnRlbnQvdXBsb2Fk/cy95YWNodHNhbGVz/aW50ZXJuYXRpb25h/bC5jb20vMjAxOS8w/OS9pbnN0YWdyYW0t/cG5nLWluc3RhZ3Jh/bS1wbmctbG9nby0x/NDU1LTEwMjR4MTAy/NC5wbmc" alt="" height="50" width="50"/>
-
-                            <input //onInput="this.value = this.value.toUpperCase()"
-                                id="PerfilInstagram"
-                                name="PerfilInstagram"
-                                type="text"
-                                //inputMode="email"
-                                defaultValue={
-                                    instagram.substr(26)
-                            }></input>
-
-                            <br></br>
-                            <img src="https://imgs.search.brave.com/Dkgov-vCLYh5038LVyQlKsa9vRlx9oSDjXBlPxvmnso/rs:fit:1140:1145:1/g:ce/aHR0cHM6Ly9hbHVt/bmkudml1LmNhL3Np/dGVzL2RlZmF1bHQv/ZmlsZXMvc3R5bGVz/L21heF9zaXplX2Ny/b3BwZWQvcHVibGlj/L3R3aXR0ZXItc3F1/YXJlZC5wbmc_aXRv/az16UGFNbUFjZCZj/PWY5MzQxNWRiMjkx/NmUwMTBjZDJjZDA4/ZDBkMzRiNjI2" alt="" height="50" width="50"/>
-
-                            <input //onInput="this.value = this.value.toUpperCase()"
-                                id="PerfilTwitter"
-                                name="PerfilTwitter"
-                                type="text"
-
-                                //inputMode="email"
-                                defaultValue
-                                ={
-                                        twitter.substr(24)
-                                }
-                            ></input>
-
-                        </div>
+                            {
+                            emptySpace(facebook.substr(25), instagram.substr(26), twitter.substr(24))
+                        } </div>
                         <div className="row">
                             <div className="col-md-12 content-right"
                                 style={
@@ -486,7 +543,7 @@ export function Profile(props) {
                                 </label>
                                 <input className="form-control" type="email" autocomplete="off" required="" name="email" disabled
                                     value={
-                                        renderedResponsea.password
+                                        renderedResponsea.email
                                 }></input>
                             </div>
 
@@ -505,6 +562,18 @@ export function Profile(props) {
                                         <label className="form-label">Password
                                         </label>
                                         <input className="form-control" type="password" name="password" autocomplete="off" required="" value="CONTRA" disabled></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-sm-12 col-md-6">
+                                    <div className="form-group mb-3">
+                                        <label className="form-label">Puntos Totales
+                                        </label>
+                                        <input disabled className="form-control" required=""
+                                            value={
+                                                renderedResponsea.points
+                                        }></input>
                                     </div>
                                 </div>
                             </div>

@@ -300,7 +300,7 @@ export function LoginRegister(props) {
                                         Correo
                                     </label>
                                     <div className="mb-3">
-                                        <input className="form-control form-control-user" type="text" id="EmailRegister"
+                                        <input className="form-control form-control-user" type="email" id="EmailRegister"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             placeholder="Correo"
                                             required
@@ -317,7 +317,7 @@ export function LoginRegister(props) {
                                             Repetir Contraseña
                                         </label>
                                         <div className="col-sm-6 mb-3 mb-sm-0">
-                                            <input className="form-control form-control-user" type="password" id="passwordRegister" placeholder="Contraseña" required name="phpPasswordRegister"></input>
+                                            <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" className="form-control form-control-user" type="password" id="passwordRegister" placeholder="Contraseña" required name="phpPasswordRegister"></input>
                                         </div>
                                         <div className="col-sm-6">
                                             <input className="form-control form-control-user" type="password" id="passwordRegisterV" placeholder="Repetir Contraseña" required name="phpPasswordRegisterRepeat"></input>
