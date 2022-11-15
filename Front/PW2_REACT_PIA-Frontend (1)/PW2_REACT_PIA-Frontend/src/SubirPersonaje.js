@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
+import Cookies from "universal-cookie";
 import $ from "jquery";
+import { Link, useNavigate } from "react-router-dom";
 
 export function SubirPersonaje() {
+
+  const cookiesNew = new Cookies();
+  const idUser = cookiesNew.get("idUser");
+  const navigate = useNavigate();
+  
+  //////////////////////////////////////////////////
   let characterPicData = null;
 
-  //////////////////////////////////////////////////
   const [{ alt, src }, setImg] = useState({
     src: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg",
     alt: "Upload an Image",
@@ -57,19 +64,19 @@ export function SubirPersonaje() {
           //Agrega todos los datos en conjunto para así poder subirlo a mongo
 
           isActive: true,
-          character: " ",
+          character: title,
           title: title,
           descripcion: descripcion,
-          owner: "owner",
-          cartoonist: "owner",
+          owner: idUser,
+          cartoonist: idUser,
           creationDate: creationDate,
           team: " ",
-          body: 0,
-          lineart: 0,
-          detail: 0,
-          background: 0,
+          body: " ",
+          lineart: " ",
+          detail: " ",
+          background: " ",
           image: characterPic,
-          points: 0
+          points: 0,
         };
 
         const response = await fetch(`http://localhost:5000/draw`, {
@@ -83,6 +90,8 @@ export function SubirPersonaje() {
         console.log(respJson);
         if (respJson.error == "Bad Request") {
           return console.log("NO JALO");
+        }else{
+          navigate("/MisPersonajes");
         }
       });
       reader.readAsDataURL(file);

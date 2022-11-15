@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Cookies from "universal-cookie";
 import $, { data } from "jquery";
 
 export function SubirAtaque() {
+
+  const cookiesNew = new Cookies();
+  const idUser = cookiesNew.get("idUser");
+
   const [valBody, setValBody] = useState("");
   const [valLineart, setValLineart] = useState("");
   const [valDetail, setValDetail] = useState("");
@@ -105,7 +110,7 @@ export function SubirAtaque() {
           title: title,
           descripcion: descripcion,
           owner: "owner",
-          cartoonist: "cartoonist",
+          cartoonist: idUser,
           creationDate: creationDate,
           team: " ",
           body: vBody,
