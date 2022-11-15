@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
 import { useSearchParams } from "react-router-dom";
 import $, { get } from "jquery";
 
@@ -23,20 +22,24 @@ export function ProfileCharacter() {
   ///////////hook///////////
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [friends, setFriends] = useState([]);
+  const [friendsUser, setfriendsUser] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [image, setImage] = useState();
 
   const idCharacter = searchParams.get("idCharacter");
+  const idUser = searchParams.get("idUser");
 
   const getResponse = async () => {
     const response = await fetch(`/draw/${idCharacter}`);
     const body = await response.json();
 
-    //console.log(idCharacter);
+    const responseUser = await fetch(`/users/${idUser}`);
+    const bodyUser = await responseUser.json();
 
     if (body.isActive) {
       setRenderedResponsea(body);
       setFriends(body);
+      setfriendsUser(bodyUser);
       setImage(body.image.path);
     }
 
@@ -50,6 +53,17 @@ export function ProfileCharacter() {
 
   return (
     <>
+      <div
+        className="col-11 center"
+        style={{ marginTop: "30px", marginLeft: "50px" }}
+      >
+        <div className="row">
+          <div className="one">
+            <h1 style={{ color: "white" }}>Perfil de Personaje</h1>
+          </div>
+        </div>
+      </div>
+
       <div
         className="container profile profile-view"
         data-aos="fade-up"
@@ -76,7 +90,7 @@ export function ProfileCharacter() {
             <div className="row">
               <div className="col-sm-12 col-md-6">
                 <div className="form-group mb-3">
-                  <label className="form-label">Nombre </label>
+                  <p className="form-label">Nombre </p>
                   <input
                     value={friends.character}
                     className="form-control"
@@ -88,15 +102,71 @@ export function ProfileCharacter() {
 
               <div className="col-sm-12 col-md-6">
                 <div className="form-group mb-3">
-                  <label className="form-label">Nickname </label>
-                  <input
-                    placeholder=" "
+                  <p className="form-label">Descripcion </p>
+                  <textarea
+                    value={friends.descripcion}
+                    class="form-group"
+                    rows="7"
                     className="form-control"
-                    type="text"
+                    disabled
+                    style={{ resize: "none" }}
                     name="lastname"
-                  ></input>
+                  ></textarea>
                 </div>
               </div>
+
+              <br></br>
+
+              <div className="col-sm-12 col-md-6">
+                <div className="form-group mb-3">
+                  <p className="form-label">Fecha de creacion </p>
+                  <input
+                    value={friends.creationDate}
+                    className="form-control"
+                    disabled
+                    name="firstname"
+                  ></input>
+                  <br></br>
+                  <p className="form-label">Character info: </p>
+
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td class="w-25 text-right bg-light">
+                          <b>Owner</b>
+                        </td>
+                        <td>
+                          <strong>
+                            <a href={"/Profile?idUser=" + idUser}>
+                              {friendsUser.nickname}
+                            </a>
+                          </strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="w-25 text-right bg-light">
+                          <b>Designer</b>
+                        </td>
+                        <td>
+                          <strong>
+                            <a href={"/Profile?idUser=" + idUser}>
+                              {friendsUser.nickname}
+                            </a>
+                          </strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br></br>
+                </div>
+              </div>
+
+              <a
+                href={"/ProfileCharacter?idCharacter="}
+                class="btn btn-primary"
+              >
+                Ataques recibidos
+              </a>
             </div>
           </div>
         </div>

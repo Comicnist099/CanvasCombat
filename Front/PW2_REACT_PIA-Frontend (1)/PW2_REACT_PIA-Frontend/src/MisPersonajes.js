@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import $, { get } from "jquery";
-import { Link, useNavigate } from "react-router-dom";
 
 export function MisPersonajes() {
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
-  const navigate = useNavigate();
 
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [friends, setFriends] = useState([]);
@@ -102,7 +100,7 @@ export function MisPersonajes() {
                     ></input>
 
                     <hr></hr>
-                    <a href={'/ProfileCharacter?idCharacter=' + character._id} class="btn btn-primary btn-lg">Ir a</a>
+                    <a href={'/ProfileCharacter?idCharacter=' + character._id + '&idUser=' + idUser} class="btn btn-primary btn-lg">Ir a</a>
                     
                   </div>
                 </div>
