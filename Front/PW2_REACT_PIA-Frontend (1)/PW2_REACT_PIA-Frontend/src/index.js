@@ -11,6 +11,7 @@ import {AboutUs} from "./AboutUs";
 import {LoginRegister} from "./LoginRegister";
 import {Profile} from "./Profile";
 import {MisPersonajes} from "./MisPersonajes";
+import {ProfileCharacter} from "./ProfileCharacter";
 import {Logros} from "./Logros";
 import {SubirPersonaje} from "./SubirPersonaje";
 import {SubirAtaque} from "./SubirAtaque";
@@ -41,13 +42,9 @@ import {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
 function Metadata()
 { 
  
-
-
-  
 }
 
 root.render(
@@ -61,6 +58,7 @@ root.render(
       <Route path="Logros" element={<Logros />} />
       <Route path="SubirPersonaje" element={<SubirPersonaje />} />
       <Route path="SubirAtaque" element={<SubirAtaque />} />
+      <Route path="ProfileCharacter" element={<ProfileCharacter />} />
     </Routes>
     <Footer/>
   </BrowserRouter>,

@@ -66,10 +66,7 @@ export function MisPersonajes() {
                     <div className="row">
                       <div className="col-sm-12 col-md-6">
                         <div className="form-group mb-3">
-                          <label className="form-label">
-                            {" "}
-                            {character.title}
-                          </label>
+                          <p>Descripcion: </p>
                           <input
                             className="form-control"
                             type="text"
@@ -83,9 +80,9 @@ export function MisPersonajes() {
 
                     <hr></hr>
                   </form>
+                  <a class="btn btn-primary" href="/profileCharacter" role="button">Ir a</a>
                 </div>
               </div>
-
               <div className="row" style={{ margin: "10px" }}></div>
             </div>
           );
