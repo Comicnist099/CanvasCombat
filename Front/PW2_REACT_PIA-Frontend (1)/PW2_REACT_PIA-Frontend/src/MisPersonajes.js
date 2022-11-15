@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import $, { get } from "jquery";
+import { Link, useNavigate } from "react-router-dom";
 
 export function MisPersonajes() {
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
+  const navigate = useNavigate();
 
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [friends, setFriends] = useState([]);
@@ -40,29 +42,43 @@ export function MisPersonajes() {
       {/* tarjeta de personajes  */}
 
       {friends.map((character) => {
-        if ((character.owner === character.cartoonist && character.owner === idUser)) {
+        if (
+          character.owner === character.cartoonist &&
+          character.owner === idUser
+        ) {
           return (
-            <div
-              className="container profile profile-view"
-              data-aos="fade-up"
-              id="profile"
-              style={{ marginTop: "50px", background: "rgb(129, 129, 129)" }}
-            >
               <div
-                className="row"
-                style={{ background: "rgba(255,255,255,0.37)" }}
+                className="container profile profile-view"
+                data-aos="fade-up"
+                id="profile"
+                style={{ marginTop: "50px", background: "rgb(129, 129, 129)" }}
               >
-                <div className="col-md-4 center">
-                  <div className="p-5">
-                    <img className="img-fluid" src={character.image.path}></img>
+                <div
+                  className="row"
+                  style={{ background: "rgba(255,255,255,0.37)" }}
+                >
+                  <div className="col-md-4 center">
+                    <div className="p-5">
+                      <img
+                        className="img-fluid"
+                        alt=" "
+                        src={character.image.path}
+                      ></img>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-md-8 center">
-                  <h1> {character.character} </h1>
-                  <hr></hr>
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
 
-                  <form>
+                  <div className="col-md-8 center">
+                    <h1> {character.character} </h1>
+                    <hr></hr>
+
                     <div className="row">
                       <div className="col-sm-12 col-md-6">
                         <div className="form-group mb-3">
@@ -77,14 +93,21 @@ export function MisPersonajes() {
                         </div>
                       </div>
                     </div>
+                    <input
+                      className="form-control"
+                      type="hidden"
+                      name="idCharacter"
+                      id="idCharacter"
+                      value={character._id}
+                    ></input>
 
                     <hr></hr>
-                  </form>
-                  <a class="btn btn-primary" href="/profileCharacter" role="button">Ir a</a>
+                    <a href={'/ProfileCharacter?idCharacter=' + character._id} class="btn btn-primary btn-lg">Ir a</a>
+                    
+                  </div>
                 </div>
+                <div className="row" style={{ margin: "10px" }}></div>
               </div>
-              <div className="row" style={{ margin: "10px" }}></div>
-            </div>
           );
         }
       })}

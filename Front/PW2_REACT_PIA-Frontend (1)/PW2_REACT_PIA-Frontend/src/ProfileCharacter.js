@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
+import { useSearchParams } from "react-router-dom";
 import $, { get } from "jquery";
 
 export function ProfileCharacter() {
@@ -21,19 +22,22 @@ export function ProfileCharacter() {
 
   ///////////hook///////////
   let [renderedResponsea, setRenderedResponsea] = useState({});
+  const [friends, setFriends] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [image, setImage] = useState();
 
-  ////////////////////////
-  const cookiesNew = new Cookies();
-  const idUser = cookiesNew.get("idUser");
-  //////////////////////////////////
+  const idCharacter = searchParams.get("idCharacter");
 
   const getResponse = async () => {
-    const response = await fetch(`/draws/${idUser}`);
+    const response = await fetch(`/draw/${idCharacter}`);
     const body = await response.json();
+
+    //console.log(idCharacter);
 
     if (body.isActive) {
       setRenderedResponsea(body);
-      console.log(renderedResponsea);
+      setFriends(body);
+      setImage(body.image.path);
     }
 
     if (response.status !== 200) throw Error(body.message);
@@ -58,7 +62,7 @@ export function ProfileCharacter() {
               <img
                 height="200"
                 width="200"
-                src=" "
+                src={image}
                 alt=" "
                 className="form-img__img-preview"
               />
@@ -66,7 +70,7 @@ export function ProfileCharacter() {
           </div>
 
           <div className="col-md-8 ">
-            <h1> USUARIO </h1>
+            <h1> {friends.character} </h1>
             <hr></hr>
 
             <div className="row">
@@ -74,9 +78,9 @@ export function ProfileCharacter() {
                 <div className="form-group mb-3">
                   <label className="form-label">Nombre </label>
                   <input
-                    placeholder=" "
+                    value={friends.character}
                     className="form-control"
-                    type="text"
+                    disabled
                     name="firstname"
                   ></input>
                 </div>
@@ -94,37 +98,9 @@ export function ProfileCharacter() {
                 </div>
               </div>
             </div>
-
-            <div className="form-group mb-3">
-              <label className="form-label">Email </label>
-              <input
-                className="form-control"
-                type="email"
-                autocomplete="off"
-                required=""
-                placeholder=" "
-                name="email"
-              ></input>
-            </div>
-
-            <div className="form-group mb-3">
-              <label className="form-label">Creación de cuenta </label>
-              <input
-                className="form-control"
-                type="email"
-                autocomplete="off"
-                required=""
-                name="dateCreation"
-                value=" "
-                disabled
-              ></input>
-            </div>
-
-
           </div>
         </div>
       </div>
-
     </>
   );
 }
