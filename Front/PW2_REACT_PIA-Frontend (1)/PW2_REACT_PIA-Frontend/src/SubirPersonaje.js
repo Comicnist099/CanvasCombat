@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import $ from "jquery";
+import { Link, useNavigate } from "react-router-dom";
 
 export function SubirPersonaje() {
 
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
+  const navigate = useNavigate();
   
   //////////////////////////////////////////////////
   let characterPicData = null;
@@ -62,7 +64,7 @@ export function SubirPersonaje() {
           //Agrega todos los datos en conjunto para así poder subirlo a mongo
 
           isActive: true,
-          character: " ",
+          character: title,
           title: title,
           descripcion: descripcion,
           owner: idUser,
@@ -88,6 +90,8 @@ export function SubirPersonaje() {
         console.log(respJson);
         if (respJson.error == "Bad Request") {
           return console.log("NO JALO");
+        }else{
+          navigate("/MisPersonajes");
         }
       });
       reader.readAsDataURL(file);
