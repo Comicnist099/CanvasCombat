@@ -249,3 +249,12 @@ section#section-timeline h3.section-subheading {
   border: none;
 }
 
+.navbar.center .navbar-inner {
+  text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+  display:inline-block;
+  float: none;
+}
+
