@@ -52,6 +52,8 @@ export function SubirAtaque() {
   };
   const idCharacter = searchParams.get("idCharacter");
 
+  
+
   const refresh = async (e) => {
     e.preventDefault();
     console.log(attackPicData);

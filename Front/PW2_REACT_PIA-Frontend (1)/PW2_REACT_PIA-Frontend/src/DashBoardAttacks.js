@@ -40,7 +40,7 @@ export function DashBoardAttacks() {
       <div class="container text-center">
         <div class="row">
           {friends.map((character) => {
-            if (character.owner !== character.cartoonist) {
+            if (character.title !== " ") {
               return (
                 <div class="col-6 col-md-3 col-lg-2">
                   <div class="card p-1 mb-3 text-center mw-100 mh-100 clearfix">

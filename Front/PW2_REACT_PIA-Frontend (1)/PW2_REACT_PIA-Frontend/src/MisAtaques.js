@@ -131,7 +131,7 @@ export function MisAtaques() {
             </div>
           );
         }
-        if (character.title !== " " ) {
+        if (character.title !== " " && character.cartoonist === idUser) {
             return (
               <div
                 className="container profile profile-view"
