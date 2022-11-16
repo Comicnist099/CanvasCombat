@@ -36,12 +36,14 @@ export function SplashPage() {
         </div>
       </div>
 
-      <hr
-        style={{
-          borderColor: "white",
-        }}
-        class="container text-center"
-      ></hr>
+      <div hrSplash>
+        <hr
+          style={{
+            borderColor: "white",
+          }}
+          class="container text-center"
+        ></hr>
+      </div>
 
       <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
         <a
@@ -92,12 +94,14 @@ export function SplashPage() {
         data-aos-delay="350"
         style={{ marginbottom: "53px", color: "rgb(255,255,255)" }}
       >
-        <hr
-          style={{
-            borderColor: "white",
-          }}
-          class="container text-center"
-        ></hr>
+        <div hrSplash>
+          <hr
+            style={{
+              borderColor: "white",
+            }}
+            class="container text-center"
+          ></hr>
+        </div>
         <br></br>
         <br></br>
         ¿ESTAS LISTO PARA PELEAR?
