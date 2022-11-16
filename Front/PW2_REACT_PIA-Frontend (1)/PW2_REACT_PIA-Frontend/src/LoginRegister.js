@@ -134,7 +134,9 @@ export function LoginRegister(props) {
             cookiesNew.set("idUser", respJson.users[0]._id, {path: "/"});
             const hola = cookiesNew.get("idUser");
             console.log(hola);
-            navigate('/Profile');
+
+
+            navigate('/Profile?idUser=' + respJson.users[0]._id);
         } else {
             console.log("a");
         }

@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from "react";
 import $ from "jquery";
 import Cookies from "universal-cookie";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
+
 
 export function Profile(props) {
     let profilePicData = null;
     const navigate = useNavigate();
     // /////////hook///////////
     let [renderedResponsea, setRenderedResponsea] = useState({});
+    const [searchParams, setSearchParams] = useSearchParams();
+
     let [edit, setedit] = useState(false);
     let [facebook, setFacebook] = useState("https://www.facebook.com");
     let [twitter, setTwitter] = useState("https://www.twitter.com");
@@ -16,10 +19,10 @@ export function Profile(props) {
 
 
     // //////////////////////
-
+    const idUser = searchParams.get("idUser");
 
     const cookiesNew = new Cookies();
-    const idUser = cookiesNew.get("idUser");
+    const idUserCookies = cookiesNew.get("idUser");
     // ///////////IMAGEN////////////////
     const [
         {
@@ -311,15 +314,11 @@ export function Profile(props) {
     const TwitterValidate = (source) => {
         if (source != " ") {
             return (
-
-
                 <a title={twitter}
                     href={twitter}
                     target="_blank">
                     <img src="https://imgs.search.brave.com/Dkgov-vCLYh5038LVyQlKsa9vRlx9oSDjXBlPxvmnso/rs:fit:1140:1145:1/g:ce/aHR0cHM6Ly9hbHVt/bmkudml1LmNhL3Np/dGVzL2RlZmF1bHQv/ZmlsZXMvc3R5bGVz/L21heF9zaXplX2Ny/b3BwZWQvcHVibGlj/L3R3aXR0ZXItc3F1/YXJlZC5wbmc_aXRv/az16UGFNbUFjZCZj/PWY5MzQxNWRiMjkx/NmUwMTBjZDJjZDA4/ZDBkMzRiNjI2" alt="" height="50" width="50"/>
                 </a>
-
-
             )
         }
 
@@ -328,6 +327,94 @@ export function Profile(props) {
     useEffect(() => {
         getResponse();
     }, []);
+
+
+    const NavBarMultimedia = (source) => {
+
+        if (idUser === idUserCookies) {
+            return (
+                <div className="container">
+                    <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-6">
+                        <span className="visually-hidden">Toggle navigation</span>
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="navcol-6" className="collapse navbar-collapse flex-grow-0 order-md-first">
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <a className="nav-link active" id="lists" href="Logros"
+                                    style={
+                                        {textSlign: "center"}
+                                }>
+                                    LOGROS
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link active" id="orders" href="SubirPersonaje"
+                                    style={
+                                        {textAlign: "center"}
+                                }>
+                                    SUBIR PERSONAJE
+                                </a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a className="nav-link active" id="myProducts" href="SubirAtaque"
+                                    style={
+                                        {textAlign: "center"}
+                                }>
+                                    SUBIR ATAQUE
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link active" id="myProducts"
+                                    href={
+                                        'MisPersonajes?idUser=' + idUser
+                                    }
+                                    style={
+                                        {textAlign: "center"}
+                                }>
+                                    MIS PERSONAJES
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="container">
+                    <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-6">
+                        <span className="visually-hidden">Toggle navigation</span>
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="navcol-6" className="collapse navbar-collapse flex-grow-0 order-md-first">
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <a className="nav-link active" id="lists" href="Logros"
+                                    style={
+                                        {textSlign: "center"}
+                                }>
+                                    LOGROS
+                                </a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a className="nav-link active" id="myProducts"
+                                    href={
+                                        'MisPersonajes?idUser=' + idUser
+                                    }
+                                    style={
+                                        {textAlign: "center"}
+                                }>
+                                    SUS PERSONAJES
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+    }
 
     const renderMultimedia = (source) => {
         if (source) {
@@ -598,7 +685,7 @@ export function Profile(props) {
                                     style={
                                         {marginBottom: "19px"}
                                 }>
-                                    <input className="btn btn-danger" id="editButton" name="editButton " type="button" value="Editar Información"
+                                    <input class="btn btn-info" id="editButton" name="editButton " type="button" value="Editar Información"
                                         onClick={editMode}/>
                                     <button className="btn btn-danger" type="button" onclick="logOut()">
                                         LOG OUT{" "} </button>
@@ -617,50 +704,9 @@ export function Profile(props) {
                 style={
                     {background: "#696969 !important"}
             }>
-                <div className="container">
-                    <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-6">
-                        <span className="visually-hidden">Toggle navigation</span>
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div id="navcol-6" className="collapse navbar-collapse flex-grow-0 order-md-first">
-                        <ul className="navbar-nav me-auto">
-                            <li className="nav-item">
-                                <a className="nav-link active" id="lists" href="Logros"
-                                    style={
-                                        {textSlign: "center"}
-                                }>
-                                    LOGROS
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link active" id="orders" href="SubirPersonaje"
-                                    style={
-                                        {textAlign: "center"}
-                                }>
-                                    SUBIR PERSONAJE
-                                </a>
-                            </li>
-
-                            <li className="nav-item">
-                                <a className="nav-link active" id="myProducts" href="SubirAtaque"
-                                    style={
-                                        {textAlign: "center"}
-                                }>
-                                    SUBIR ATAQUE
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link active" id="myProducts" href="MisPersonajes"
-                                    style={
-                                        {textAlign: "center"}
-                                }>
-                                    MIS PERSONAJES
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                {
+                NavBarMultimedia()
+            } </nav>
             <form onSubmit={UpdateProfile}>
                 {
                 renderMultimedia(edit)
