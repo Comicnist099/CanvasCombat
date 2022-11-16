@@ -11,6 +11,7 @@ export function MisPersonajes() {
 
 
     let [renderedResponsea, setRenderedResponsea] = useState({});
+    let [boolError, setBoolError] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const [friends, setFriends] = useState([]);
 
@@ -30,7 +31,37 @@ export function MisPersonajes() {
 
 
     };
+    const ErrorNotFound = (source) => {
+        if (!source) 
+            return (
+                <div class="container text-center">
+                    <h1 style={
+                        {color: "white"}
+                    }>NO HA SUBIDO PERSONAJES</h1>
+                    <img style={
+                            {
+                                width: 300,
+                                maxHeight: 600
+                            }
+                        }
+                        src="https://cdn.discordapp.com/attachments/921926176484773909/1042250822240714823/Sad-Drawing-PNG-HD-Isolated.png"></img>
 
+                    <a class="btn btn-danger" id="myProducts"
+                        href={
+                            'profile?idUser=' + idUser
+                        }
+                        style={
+                            {textAlign: "center"}
+                    }>
+                        Regresar al perfil
+                    </a>
+
+                </div>
+            );
+        
+
+
+    }
     useEffect(() => {
         getResponse();
     }, []);
@@ -59,6 +90,10 @@ export function MisPersonajes() {
             {
             friends.map((character) => {
                 if (character.owner === character.cartoonist && character.owner === idUser) {
+                    if (!boolError) {
+                        setBoolError(true)
+                    }
+
                     return (
                         <div className="container profile profile-view" data-aos="fade-up" id="profile"
                             style={
@@ -123,36 +158,15 @@ export function MisPersonajes() {
                             }></div>
                         </div>
                     );
-                } else {
-                    return (
-                        <div class="container text-center">
-                            <h1 style={
-                                {color: "white"}
-                            }>NO HA SUBIDO PERSONAJES</h1>
-                            <img style={
-                                    {
-                                        width: 300,
-                                        maxHeight: 600
-                                    }
-                                }
-                                src="https://cdn.discordapp.com/attachments/921926176484773909/1042250822240714823/Sad-Drawing-PNG-HD-Isolated.png"></img>
-
-                            <a class="btn btn-danger" id="myProducts"
-                                href={
-                                    'profile?idUser=' + idUser
-                                }
-                                style={
-                                    {textAlign: "center"}
-                            }>
-                                Regresar al perfil
-                            </a>
-
-                        </div>
-                    );
                 }
             })
+        }
+            {
+            ErrorNotFound(boolError)
         }
 
             {/* tarjeta de personajes  */} </>
     );
+
+
 }
