@@ -46,6 +46,7 @@ function Metadata() {}
 
 root.render(
   <BrowserRouter>
+    <Navbar />
     <Routes>
       <Route path="/" element={<SplashPage />} />
       <Route path="aboutUs" element={<AboutUs />} />
