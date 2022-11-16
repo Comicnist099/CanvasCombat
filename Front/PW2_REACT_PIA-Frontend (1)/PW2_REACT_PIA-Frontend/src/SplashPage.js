@@ -46,7 +46,7 @@ export function SplashPage() {
       <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
         <a
           class="btn btn-light"
-          href="SubirPersonaje"
+          href="DashBoardCharacter"
           id="orders"
           style={{
             textAlign: "center",
@@ -66,7 +66,7 @@ export function SplashPage() {
         </a>
         <a
           class="btn btn-light"
-          href="SubirAtaque"
+          href="DashBoardAttacks"
           id="myProducts"
           style={{
             textAlign: "center",
