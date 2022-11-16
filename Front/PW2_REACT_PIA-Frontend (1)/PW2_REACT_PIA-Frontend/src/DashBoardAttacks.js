@@ -58,7 +58,7 @@ export function DashBoardAttacks() {
                       </a>
                     </div>
                     <div class="h4 text-truncate">
-                      <i style={{ color: "#553e8c" }}>{character.character}</i>
+                      <i style={{ color: "#553e8c" }}>{character.title}</i>
                     </div>
                   </div>
                 </div>

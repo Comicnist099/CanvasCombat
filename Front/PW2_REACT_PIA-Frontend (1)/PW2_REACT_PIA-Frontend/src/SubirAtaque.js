@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
+import {Link, Navigate, useNavigate, useSearchParams} from "react-router-dom";
 import $, { data } from "jquery";
 
 export function SubirAtaque() {
 
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
+  const navigate = useNavigate();
 
   const [valBody, setValBody] = useState("");
   const [valLineart, setValLineart] = useState("");
   const [valDetail, setValDetail] = useState("");
   const [valBackground, setValBackground] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   let puntuacion = 0;
 
   //cada cb suma el total de 100, por lo que body vale 25, lineart 25 y asi
@@ -47,6 +50,7 @@ export function SubirAtaque() {
       });
     }
   };
+  const idCharacter = searchParams.get("idCharacter");
 
   const refresh = async (e) => {
     e.preventDefault();
@@ -106,7 +110,7 @@ export function SubirAtaque() {
           //Agrega todos los datos en conjunto para así poder subirlo a mongo
 
           isActive: true,
-          character: " ",
+          character: idCharacter,
           title: title,
           descripcion: descripcion,
           owner: "owner",
@@ -132,7 +136,10 @@ export function SubirAtaque() {
         console.log(respJson);
         if (respJson.error == "Bad Request") {
           return console.log("NO JALO");
+        }else{
+          navigate("/MisAtaques");
         }
+        
       });
       reader.readAsDataURL(file);
     }

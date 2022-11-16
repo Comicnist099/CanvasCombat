@@ -65,7 +65,7 @@ export function SubirPersonaje() {
 
           isActive: true,
           character: title,
-          title: title,
+          title: " ",
           descripcion: descripcion,
           owner: idUser,
           cartoonist: idUser,
