@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import $ from "jquery";
 import Cookies from "universal-cookie";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {render} from "@testing-library/react";
 
 
 export function Profile(props) {
@@ -16,7 +17,7 @@ export function Profile(props) {
     let [twitter, setTwitter] = useState("https://www.twitter.com");
     let [instagram, setInstagram] = useState("https://www.instagram.com");
     let [imageHook, setImageHook] = useState();
-
+    let [error, setError] = useState(" ");
 
     // //////////////////////
     const idUser = searchParams.get("idUser");
@@ -153,6 +154,8 @@ export function Profile(props) {
     const getResponse = async () => {
         const response = await fetch(`/users/${idUser}`);
         const body = await response.json();
+        setError(body.error);
+
 
         if (body.isActive) {
             let bufferImage = body.image.path;
@@ -330,7 +333,6 @@ export function Profile(props) {
 
 
     const NavBarMultimedia = (source) => {
-
         if (idUser === idUserCookies) {
             return (
                 <div className="container">
@@ -416,7 +418,38 @@ export function Profile(props) {
         }
     }
 
+    const NotFoundProfile = (source) => {
+        if (error != "Not Found") {
+            return(renderMultimedia(source))
+
+        } else {
+            return (
+                <div class="container text-center">
+                    <h1 style={
+                        {color: "white"}
+                    }>ERROR 404</h1>
+
+                    <h2 style={
+                        {color: "grey"}
+                    }>No se encontro el perfil</h2>
+                    <img class="container text-center"
+                        style={
+                            {
+                                width: 1200,
+                                maxHeight: 2400
+                            }
+                        }
+                        src="https://images.twinkl.co.uk/tr/image/upload/t_illustration/illustation/Feelings-Monster-Sad-Character-EYFS-Emotions-Creature-Open-Eyes.png"></img>
+
+
+                </div>
+
+            )
+        }
+    };
+
     const renderMultimedia = (source) => {
+
         if (source) {
             return (
                 <div className="container profile profile-view" data-aos="fade-up" id="profile"
@@ -679,39 +712,59 @@ export function Profile(props) {
                             {
                             TwitterValidate(renderedResponsea.extra)
                         }
-
-                            <div className="row">
-                                <div className="col-md-12 content-right"
-                                    style={
-                                        {marginBottom: "19px"}
-                                }>
-                                    <input class="btn btn-info" id="editButton" name="editButton " type="button" value="Editar Información"
-                                        onClick={editMode}/>
-                                    <button className="btn btn-danger" type="button" onclick="logOut()">
-                                        LOG OUT{" "} </button>
-                                </div>
-                            </div>
-                        </div>
+                            <br></br>
+                            <br></br>
+                            {
+                            buttons()
+                        } </div>
                     </div>
                 </div>
             );
         }
+
     };
+    const buttons = () => {
+        if (idUser === idUserCookies) {
+            return (
+                <div className="row">
+                    <div className="col-md-12 content-right"
+                        style={
+                            {marginBottom: "19px"}
+                    }>
+                        <input class="btn btn-info" id="editButton" name="editButton " type="button" value="Editar Información"
+                            onClick={editMode}/>
+                        <button className="btn btn-danger" type="button" onclick="logOut()">
+                            LOG OUT{" "} </button>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    const NotFoundProfileBar = () => {
+        if (error != "Not Found") {
+            return (
+                <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3"
+                    style={
+                        {background: "#696969 !important"}
+                }>
+                    {
+                    NavBarMultimedia()
+                } </nav>
+            );
+        }
+    }
 
     return (
-        <>
-            <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3"
-                style={
-                    {background: "#696969 !important"}
-            }>
-                {
-                NavBarMultimedia()
-            } </nav>
+        <> {
+            NotFoundProfileBar()
+        }
             <form onSubmit={UpdateProfile}>
                 {
-                renderMultimedia(edit)
+                NotFoundProfile(edit)
             }</form>
         </>
     );
+
 }
 export default Profile;

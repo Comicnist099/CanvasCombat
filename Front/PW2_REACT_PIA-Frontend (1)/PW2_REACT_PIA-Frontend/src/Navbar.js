@@ -30,7 +30,10 @@ export function Navbar() {
         if (source) {
             return (
                 <li className="nav-item" id="profile">
-                    <a className="nav-link active" data-bss-hover-animate="pulse" href="profile.php"
+                    <a className="nav-link active" data-bss-hover-animate="pulse"
+                        href={
+                            "profile?idUser=" + idUserCookies
+                        }
                         style={
                             {
                                 color: "rgb(255,255,255)",
@@ -85,7 +88,16 @@ export function Navbar() {
 
 
                 <div className="container">
-                    <a className="navbar-brand" href="index.php"
+                    <img style={
+                            {
+                                width: "80px",
+                                height: "80px",
+                                marginRight: "20px"
+
+                            }
+                        }
+                        src="https://cdn.discordapp.com/attachments/921926176484773909/1042324661100367882/canvascombat.png"></img>
+                    <a className="navbar-brand" href="/"
                         style={
                             {
                                 color: "rgb(255,255,255)",
@@ -110,14 +122,24 @@ export function Navbar() {
                         }>
 
                             <li className="nav-item">
-                                <a className="nav-link active" data-bss-hover-animate="pulse" href="index.php"
+                                <a className="nav-link active" data-bss-hover-animate="pulse" href="/DashBoardCharacter"
                                     style={
                                         {
-                                            color: "rgb(255,255,255)",
+                                            color: "rgb(82, 194, 222)",
                                             marginRight: "0"
                                         }
                                 }>
-                                    <i className="fas fa-home"></i>&nbsp;INICIO</a>
+                                    <i className="fas fa-users "></i>&nbsp;Characters</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link active" data-bss-hover-animate="pulse" href="/DashBoardAttacks"
+                                    style={
+                                        {
+                                            color: "rgb(255,0,0)",
+                                            marginRight: "0"
+                                        }
+                                }>
+                                    <i className="fa fa-pencil"></i>&nbsp;Ataques</a>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"
@@ -143,14 +165,14 @@ export function Navbar() {
 
 
                             <li className="nav-item">
-                                <a className="nav-link active" data-bss-hover-animate="pulse" href="aboutUs.php"
+                                <a className="nav-link active" data-bss-hover-animate="pulse" href="AboutUs"
                                     style={
                                         {
-                                            color: "rgb(255,255,255)",
+                                            color: "rgb(241, 210, 92)",
                                             marginRight: "0px"
                                         }
                                 }>
-                                    <i className="fas fa-users"></i>&nbsp;NOSOTROS</a>
+                                    <i className="fa fa-id-card"></i>&nbsp;NOSOTROS</a>
                             </li>
                             {
                             ProfileID(idUserCookies)
