@@ -17,6 +17,7 @@ import { SubirPersonaje } from "./SubirPersonaje";
 import { SubirAtaque } from "./SubirAtaque";
 import { DashBoardCharacter } from "./DashBoardCharacter";
 import { DashBoardAttacks } from "./DashBoardAttacks";
+import { MisAtaques } from "./MisAtaques";
 
 import "./App.css";
 import "./fonts/fontawesome-all.min.css";
@@ -59,6 +60,7 @@ root.render(
       <Route path="ProfileCharacter" element={<ProfileCharacter />} />
       <Route path="DashBoardCharacter" element={<DashBoardCharacter />} />
       <Route path="DashBoardAttacks" element={<DashBoardAttacks />} />
+      <Route path="MisAtaques" element={<MisAtaques />} />
     </Routes>
     <Footer />
   </BrowserRouter>

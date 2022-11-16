@@ -81,7 +81,7 @@ export function ProfileCharacter() {
 
               <div>
                 <img
-                  style={myImageStyle} 
+                  style={myImageStyle}
                   src={image}
                   alt=" "
                   className="form-img__img-preview"
@@ -163,7 +163,14 @@ export function ProfileCharacter() {
                 </div>
 
                 <a
-                  href={"/ProfileCharacter?idCharacter="}
+                  href={'/SubirAtaque?idCharacter=' + friends._id}
+                  class="btn btn-danger btn-lg"
+                >
+                  <h3 style={{ color: "white" }}>ATACAR</h3>
+                </a>
+                
+                <a style={{marginTop: "20px"}}
+                  href={'/MisAtaques?idCharacter=' + friends._id}
                   class="btn btn-primary"
                 >
                   Ataques recibidos
