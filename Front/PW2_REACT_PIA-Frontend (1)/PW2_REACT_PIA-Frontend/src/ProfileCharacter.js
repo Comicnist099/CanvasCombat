@@ -22,13 +22,13 @@ export function ProfileCharacter() {
   ///////////hook///////////
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [friends, setFriends] = useState([]);
-  const [friendsUser, setfriendsUser] = useState([]);
+  const [friendsUser, setfriendsUser] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [image, setImage] = useState();
   const [idUser, setIdUser] = useState();
 
   const idCharacter = searchParams.get("idCharacter");
-  const myImageStyle = { width: "500px", height: "500px" };
+  const myImageStyle = { width: "1090px", maxHeight: "2400" };
 
   const getResponse = async () => {
     const response = await fetch(`/draw/${idCharacter}`);
@@ -37,12 +37,12 @@ export function ProfileCharacter() {
     if (body.isActive) {
       setRenderedResponsea(body);
       setFriends(body);
-      setIdUser(body.owner);
 
-      const responseUser = await fetch(`/users/${idUser}`);
+      const responseUser = await fetch(`/users/${body.owner}`);
       const bodyUser = await responseUser.json();
 
-      setfriendsUser(bodyUser);
+      setIdUser(body.owner);
+      setfriendsUser(bodyUser.nickname);
       setImage(body.image.path);
     }
 
@@ -79,13 +79,10 @@ export function ProfileCharacter() {
               <h1> {friends.character} </h1>
               <hr></hr>
 
-              <div
-                className="avatar"
-                style={{ marginTop: "10px", marginLeft: "20px" }}
-              >
+              <div>
                 <img
-                  style={myImageStyle}
-                  src="https://i.pinimg.com/originals/f1/6d/2c/f16d2cf55a7f2f2fe71b4d68589f8938.png"
+                  style={myImageStyle} 
+                  src={image}
                   alt=" "
                   className="form-img__img-preview"
                 ></img>
@@ -141,10 +138,8 @@ export function ProfileCharacter() {
                           </td>
                           <td>
                             <strong>
-                              <a
-                                href={"/Profile?idUser=" + idUser}
-                              >
-                                {friendsUser.nickname}
+                              <a href={"/Profile?idUser=" + idUser}>
+                                {friendsUser}
                               </a>
                             </strong>
                           </td>
@@ -155,10 +150,8 @@ export function ProfileCharacter() {
                           </td>
                           <td>
                             <strong>
-                              <a
-                                href={"/Profile?idUser=" + idUser}
-                              >
-                                {friendsUser.nickname}
+                              <a href={"/Profile?idUser=" + idUser}>
+                                {friendsUser}
                               </a>
                             </strong>
                           </td>
