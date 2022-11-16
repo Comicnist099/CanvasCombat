@@ -21,7 +21,30 @@ import './css/Timeline.css';
 */
 import AOS from 'aos';
 import Cookies from "universal-cookie";
+import React, {useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
+
+
 export function Navbar() {
+    let [renderedResponsea, setRenderedResponsea] = useState();
+    const getResponse = async () => {
+        const response = await fetch(`/teams/`);
+        const body = await response.json();
+
+        setRenderedResponsea(body[0].points);
+        console.log(body);
+
+        if (response.status !== 200) 
+            throw Error(body.message);
+        
+
+
+    };
+
+    useEffect(() => {
+        getResponse();
+    }, []);
+
 
     const cookiesNew = new Cookies();
     const idUserCookies = cookiesNew.get("idUser");
@@ -180,6 +203,48 @@ export function Navbar() {
                     </div>
                 </div>
             </nav>
+
+            <nav className="navbar navbar-light navbar-expand-md sticky-top"
+                style={
+                    {
+                        background: "rgba(0,0,0,0.69)",
+                        position: "relative",
+                        display: "-ms-flexbox",
+                        display: "flex",
+                        paddingTop: "1.5rem",
+                        paddingBottom: "1.5rem",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexWrap: "wrap"
+                    }
+            }>
+
+                <div class="container text-center">
+                    <img class="rounded-circle mt-2"
+                        style={
+                            {width: "100px"}
+                        }
+                        src="https://imgs.search.brave.com/ENUo9l3BOvV5yLCCUowVZN0Dq0bb5gZJ_ll_dkodoJU/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vei9jYXJ0/b29uLWhhcHB5LXNw/aWN5LXJlZC1jaGls/bHktaG90LXBlcHBl/ci12ZWN0b3ItaWxs/dXN0cmF0aW9uLWNo/LWV4dHJlbWVseS1z/dXBlci1jaGlsbGkt/cGFwcmlrYS1zbWls/aW5nLWFudGhyb3Bv/bW9ycGhpYy1jaGFy/YWN0ZXItNzgwMjI2/MzEuanBn"></img>
+
+                    <h1>{renderedResponsea}</h1>
+                    <img style={
+                            {width: "130px"}
+                        }
+                        src="https://imgs.search.brave.com/I2dUrj3S0tsfefPU8uRnydukNfHiNoRSAv7RRy81Nik/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzA2LzFk/L2RlLzA2MWRkZTFj/MTY5NzdmN2QyYWUz/YTJjNjk3NmU2YTk5/LnBuZw"></img>
+                    <h1>PUNTOS</h1>
+                    <img class="rounded-circle mt-2"
+                        style={
+                            {width: "100px"}
+                        }
+                        src="https://imgs.search.brave.com/ENUo9l3BOvV5yLCCUowVZN0Dq0bb5gZJ_ll_dkodoJU/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vei9jYXJ0/b29uLWhhcHB5LXNw/aWN5LXJlZC1jaGls/bHktaG90LXBlcHBl/ci12ZWN0b3ItaWxs/dXN0cmF0aW9uLWNo/LWV4dHJlbWVseS1z/dXBlci1jaGlsbGkt/cGFwcmlrYS1zbWls/aW5nLWFudGhyb3Bv/bW9ycGhpYy1jaGFy/YWN0ZXItNzgwMjI2/MzEuanBn"></img>
+
+
+                </div>
+
+
+            </nav>
+
+
         </>
     )
 
