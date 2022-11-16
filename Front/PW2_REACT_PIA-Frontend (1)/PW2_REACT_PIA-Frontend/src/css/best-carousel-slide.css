@@ -67,3 +67,10 @@ span {
   font-weight: inherit;
 }
 
+hr {
+  background-color: rgb(221, 221, 221);
+  color: rgb(221, 221, 221);
+  border: solid 3px rgb(221, 221, 221);
+  height: 10px;
+  width: 2000px;
+}
