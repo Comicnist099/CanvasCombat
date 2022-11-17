@@ -27,11 +27,14 @@ import {useSearchParams} from "react-router-dom";
 
 export function Navbar() {
     let [renderedResponsea, setRenderedResponsea] = useState();
+    let [renderedResponsea2, setRenderedResponsea2] = useState();
+
     const getResponse = async () => {
         const response = await fetch(`/teams/`);
         const body = await response.json();
 
         setRenderedResponsea(body[0].points);
+        setRenderedResponsea2(body[1].points);
         console.log(body);
 
         if (response.status !== 200) 
@@ -222,22 +225,33 @@ export function Navbar() {
                 <div class="container text-center">
                     <img class="rounded-circle mt-2"
                         style={
-                            {width: "100px"}
+                            {width: "160px"}
                         }
-                        src="https://imgs.search.brave.com/ENUo9l3BOvV5yLCCUowVZN0Dq0bb5gZJ_ll_dkodoJU/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vei9jYXJ0/b29uLWhhcHB5LXNw/aWN5LXJlZC1jaGls/bHktaG90LXBlcHBl/ci12ZWN0b3ItaWxs/dXN0cmF0aW9uLWNo/LWV4dHJlbWVseS1z/dXBlci1jaGlsbGkt/cGFwcmlrYS1zbWls/aW5nLWFudGhyb3Bv/bW9ycGhpYy1jaGFy/YWN0ZXItNzgwMjI2/MzEuanBn"></img>
+                        src="https://cdn.discordapp.com/attachments/921926176484773909/1042613734205562961/SweetFont.png"></img>
 
-                    <h1>{renderedResponsea}</h1>
-                    <img style={
-                            {width: "130px"}
-                        }
-                        src="https://imgs.search.brave.com/I2dUrj3S0tsfefPU8uRnydukNfHiNoRSAv7RRy81Nik/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzA2LzFk/L2RlLzA2MWRkZTFj/MTY5NzdmN2QyYWUz/YTJjNjk3NmU2YTk5/LnBuZw"></img>
-                    <h1>PUNTOS</h1>
                     <img class="rounded-circle mt-2"
                         style={
                             {width: "100px"}
                         }
-                        src="https://imgs.search.brave.com/ENUo9l3BOvV5yLCCUowVZN0Dq0bb5gZJ_ll_dkodoJU/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vei9jYXJ0/b29uLWhhcHB5LXNw/aWN5LXJlZC1jaGls/bHktaG90LXBlcHBl/ci12ZWN0b3ItaWxs/dXN0cmF0aW9uLWNo/LWV4dHJlbWVseS1z/dXBlci1jaGlsbGkt/cGFwcmlrYS1zbWls/aW5nLWFudGhyb3Bv/bW9ycGhpYy1jaGFy/YWN0ZXItNzgwMjI2/MzEuanBn"></img>
+                        src="https://cdn.discordapp.com/attachments/921926176484773909/1042600953070755841/SweetTeam.png"></img>
 
+                    <h1>{renderedResponsea}</h1>
+                    <img style={
+                            {width: "50px"}
+                        }
+                        src="https://i.pinimg.com/originals/03/ca/85/03ca852c2d14b703a883ba22209f0b71.png"></img>
+                    <h1>{renderedResponsea2}</h1>
+                    <img class="rounded-circle mt-2"
+                        style={
+                            {width: "100px"}
+                        }
+                        src="https://cdn.discordapp.com/attachments/921926176484773909/1042600953574084648/SpicyTeam.png"></img>
+
+                    <img class="rounded-circle mt-2"
+                        style={
+                            {width: "160px"}
+                        }
+                        src="https://cdn.discordapp.com/attachments/921926176484773909/1042613733844865146/SpicyFont.png"></img>
 
                 </div>
 

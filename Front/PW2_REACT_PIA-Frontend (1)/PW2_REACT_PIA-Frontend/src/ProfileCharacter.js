@@ -18,16 +18,23 @@ export function ProfileCharacter() { // /COOCKIES/////////
     const [image, setImage] = useState();
     const [idUser, setIdUser] = useState();
     const [idOwner, setIdOwner] = useState();
+    const [idUserCommit, setidUserCommit] = useState([]);
     let [error, setError] = useState(" ");
+    let [i, setI] = useState(-1);
     const idCharacter = searchParams.get("idCharacter");
     // /////////////////////////////////////////
+
+    /*     if (idUserCommit == Commit._id) {
+      let nicknameCommit = idUserCommit; */
+
 
     const getResponseComments = async () => {
         const response = await fetch(`/draw/comments/`);
         const body = await response.json();
         setError(body.error);
         setCommentarios(body);
-        console.log(body);
+
+
         if (response.status !== 200) 
             throw Error(body.message);
         
@@ -36,9 +43,22 @@ export function ProfileCharacter() { // /COOCKIES/////////
     };
 
 
+    let getResponseIdActive = async () => {
+        const response = await fetch(`/users/`);
+        const body = await response.json();
+        setidUserCommit(body);
+
+        if (response.status !== 200) 
+            throw Error(body.message);
+        
+
+
+    };
+
     useEffect(() => {
         getResponse();
         getResponseComments();
+        getResponseIdActive();
     }, []);
 
 
@@ -59,7 +79,10 @@ export function ProfileCharacter() { // /COOCKIES/////////
                     </div>
                     {
                     Commentarios.map((Commit) => {
+
                         if (Commit.idDraw === idCharacter) {
+
+
                             return (
                                 <div class="panel-body">
                                     <ul class="list-group">
@@ -73,11 +96,11 @@ export function ProfileCharacter() { // /COOCKIES/////////
                                                         alt=""/></div>
                                                 <div class="col-xs-10 col-md-11">
                                                     <div>
-                                                        <a href="http://www.jquery2dotnet.com/2013/10/google-style-login-page-desing-usign.html">
-                                                            Google Style Login Page Design Using Bootstrap</a>
+
                                                         <div class="mic-info">
                                                             By:
-                                                            <a href="#">Bhaumik Patel</a>
+                                                            <a href="#">
+                                                                {}</a>
                                                             on 2 Aug 2013
                                                         </div>
                                                     </div>
@@ -105,6 +128,8 @@ export function ProfileCharacter() { // /COOCKIES/////////
                                     <br></br>
                                 </div>
                             )
+
+
                         }
                     })
                 } </div>
@@ -123,7 +148,7 @@ export function ProfileCharacter() { // /COOCKIES/////////
             name: idUserCookies,
             descripcion: contentCommit
         };
-
+        document.getElementById("CharacterCommit").value = "";
         const response = await fetch(`http://localhost:5000/draw/comments/`, {
             method: "POST",
             headers: {
@@ -136,7 +161,7 @@ export function ProfileCharacter() { // /COOCKIES/////////
         if (respJson.error == "Bad Request") {
             return console.log("NO JALO");
         }
-
+        getResponseComments();
     }
 
     const answers = () => {
