@@ -19,7 +19,8 @@ export function Profile(props) {
     let [error, setError] = useState(" ");
     let [styleTeam, setStyleTeam] = useState(" ");
     let [styleTeamBack, setStyleTeamBack] = useState(" ");
-
+    let [teamImage, setTeamImage] = useState(" ");
+    let [colorMark, setColorMark] = useState(" ");
     // //////////////////////
     const idUser = searchParams.get("idUser");
 
@@ -164,11 +165,16 @@ export function Profile(props) {
             if (body.team == 0) {
                 setStyleTeam("Sweet");
                 setStyleTeamBack("rgb(215, 71, 155)");
+                setTeamImage("https://cdn.discordapp.com/attachments/921926176484773909/1042613734205562961/SweetFont.png");
+                setColorMark("pink");
 
 
             } else {
                 setStyleTeam("Spicy");
                 setStyleTeamBack("rgb( 179, 31, 15)");
+                setTeamImage("https://cdn.discordapp.com/attachments/921926176484773909/1042613733844865146/SpicyFont.png");
+                setColorMark("orange");
+
             }
 
             let facebookBuffer = face + "/" + body.facebook;
@@ -399,6 +405,17 @@ export function Profile(props) {
                                     SUS PERSONAJES
                                 </a>
                             </li>
+                            <li className="nav-item">
+                                <a className="nav-link active" id="myProducts"
+                                    href={
+                                        "MisAtaques?idUser=" + idUser
+                                    }
+                                    style={
+                                        {textAlign: "center"}
+                                }>
+                                    SUS ATAQUES
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -445,7 +462,7 @@ export function Profile(props) {
                 }>
                     <div className="row"
                         style={
-                            {background: "rgba(255,255,255,0.37)"}
+                            {background: "rgba(255,255,255,0.15)"}
                     }>
                         <div className="col-md-4 content-right">
                             <div className="avatar"
@@ -454,6 +471,8 @@ export function Profile(props) {
                             }>
                                 <img style={
                                         {
+                                            border: " 15px solid",
+                                            color: colorMark,
                                             width: 300,
                                             maxHeight: 600
                                         }
@@ -471,10 +490,27 @@ export function Profile(props) {
                         </div>
 
                         <div className="col-md-8 ">
-                            <h1 className={styleTeam}>
+                            <div>
+                                <img style={
+                                        {
+                                            float: "right",
+                                            width: 200,
+                                            maxHeight: 200
+                                        }
+                                    }
+                                    src={teamImage}/>
+                            </div>
+                            <h1 style={
+                                    {
+                                        fontFamily: "Marker Felt",
+                                        fontVariant: "small-caps"
+                                    }
+                                }
+                                className={styleTeam}>
                                 {
                                 renderedResponsea.nickname
                             }</h1>
+
                             <hr></hr>
                             <div className="row">
                                 <div className="col-sm-12 col-md-6">
@@ -577,7 +613,7 @@ export function Profile(props) {
                 }>
                     <div className="row"
                         style={
-                            {background: "rgba(255,255,255,0.37)"}
+                            {background: "rgba(255,255,255,0.15)"}
                     }>
                         <div className="col-md-4 content-right">
                             <div className="avatar"
@@ -590,6 +626,8 @@ export function Profile(props) {
                             }>
                                 <img style={
                                         {
+                                            border: " 15px solid",
+                                            color: colorMark,
                                             width: 300,
                                             maxHeight: 600
                                         }
@@ -601,7 +639,25 @@ export function Profile(props) {
                         </div>
 
                         <div className="col-md-8 ">
-                            <h1 className={styleTeam}>
+
+                            <div>
+                                <img style={
+                                        {
+                                            float: "right",
+                                            width: 200,
+                                            maxHeight: 200
+                                        }
+                                    }
+                                    src={teamImage}/>
+                            </div>
+
+                            <h1 className={styleTeam}
+                                style={
+                                    {
+                                        fontFamily: "Marker Felt",
+                                        fontVariant: "small-caps"
+                                    }
+                            }>
                                 {
                                 renderedResponsea.nickname
                             }</h1>
@@ -707,10 +763,7 @@ export function Profile(props) {
     const NotFoundProfileBar = () => {
         if (error != "Not Found") {
             return (
-                <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3"
-                    style={
-                        {background: "#696969 !important"}
-                }>
+                <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3">
                     {
                     NavBarMultimedia()
                 }
