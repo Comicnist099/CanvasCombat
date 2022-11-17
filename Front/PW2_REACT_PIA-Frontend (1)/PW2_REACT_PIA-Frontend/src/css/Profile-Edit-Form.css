@@ -28,6 +28,14 @@ div.alert {
   width: 40%;
 }
 
+.Spicy{
+  color:rgb(72, 26, 26)
+}
+
+.Sweet{
+  color:rgb(94, 30, 83)
+}
+
 .alert-col > .alert {
   padding: 10px;
   border-radius: 0;

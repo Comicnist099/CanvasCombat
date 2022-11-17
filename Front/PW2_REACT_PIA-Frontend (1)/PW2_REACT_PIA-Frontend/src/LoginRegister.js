@@ -6,6 +6,14 @@ import {Link, useNavigate} from 'react-router-dom';
 export function LoginRegister(props) {
     let profilePicData = null;
     const navigate = useNavigate();
+
+
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
     // ////////////////////////////////////////////////
     const [
         {
@@ -42,6 +50,8 @@ export function LoginRegister(props) {
 
         const file = $("#profilePic")[0].files[0];
         const reader = new FileReader();
+        let TeamChoose = getRandomIntInclusive(0, 1);
+        let TeamChooseString = TeamChoose.toString();
 
         if (file) {
             reader.addEventListener("load", async function readFile(event) {
@@ -69,12 +79,12 @@ export function LoginRegister(props) {
                     email: email,
                     password: pass,
                     creationDate: creationDate,
-                    team: " ",
+                    team: TeamChooseString,
                     facebook: " ",
                     instagram: " ",
                     extra: " ",
                     image: profilePic,
-                    points: 100,
+                    points: 0,
                     typeUser: true,
                     ban: false,
                     achievements1: false,
