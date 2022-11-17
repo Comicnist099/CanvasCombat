@@ -29,7 +29,7 @@ export function LoginRegister(props) {
             });
         }
     };
-    // /////////////////////////////////////////////////////
+    // ///////////////////HOOK//////////////////////////////////
 
     const [renderedResponse, setRenderedResponse] = useState({});
     const [profilePic, setProfilePic] = useState(null);
@@ -48,86 +48,97 @@ export function LoginRegister(props) {
         const pass = $("#passwordRegister").val();
         const passV = $("#passwordRegisterV").val();
 
-        const file = $("#profilePic")[0].files[0];
-        const reader = new FileReader();
-        let TeamChoose = getRandomIntInclusive(0, 1);
-        let TeamChooseString = TeamChoose.toString();
 
-        if (file) {
-            reader.addEventListener("load", async function readFile(event) {
-                const nameparts = file.name.split(".");
-                const filename = nameparts[0];
-                const mime = nameparts[1];
-                profilePicData = event.target.result;
+        const validName = /^[a-zA-Z ]{1,}$/;
+        const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-                profilePicData = profilePicData.split("base64")[1];
-                const profilePic = {
-                    name: filename,
-                    extention: mime,
-                    path: profilePicData
-                };
+        if (name === '' || nickName === '' || email === '' || pass === '' || passV === '') {
+            setError('Llene los campos vacios.');
+        } else if (pass !== passV) {
+            setError('Las contraseñas deben coincidir');
+        } else if (pass.length > 7) {
+            setError('La contraseña debe tener menos de 7 caracteres');
+        } else if (! validEmail.test(email)) {
+            setError('Introduzca un email valido.');
+        } else if (! validPassword.test(contra)) {
+            setError('La contraseña debe tener mínimo letra mayuscula, una letra minuscula, un digito, un caracter especial y debe de contar con 8 o más caracteres');
+        } else if (! validName.test(name)) {
+            setError('El nombre no puede tener numeros ni caracteres especiales');
+        } else {
+            const file = $("#profilePic")[0].files[0];
+            const reader = new FileReader();
+            let TeamChoose = getRandomIntInclusive(0, 1);
+            let TeamChooseString = TeamChoose.toString();
 
-                let d = Date(Date.now());
-                let a = d.toString();
-                const creationDate = a.substr(4, 20);
+            if (file) {
+                reader.addEventListener("load", async function readFile(event) {
+                    const nameparts = file.name.split(".");
+                    const filename = nameparts[0];
+                    const mime = nameparts[1];
+                    profilePicData = event.target.result;
 
-                const body = {
-                    // Agrega todos los datos en conjunto para así poder subirlo a mongo
-                    isActive: true,
-                    nameUser: name,
-                    nickname: nickName,
-                    email: email,
-                    password: pass,
-                    creationDate: creationDate,
-                    team: TeamChooseString,
-                    facebook: " ",
-                    instagram: " ",
-                    extra: " ",
-                    image: profilePic,
-                    points: 0,
-                    typeUser: true,
-                    ban: false,
-                    achievements1: false,
-                    achievements2: false,
-                    achievements3: false,
-                    achievements4: false,
-                    achievements5: false,
-                    achievements6: false,
-                    achievements7: false,
-                    achievements8: false,
-                    achievements9: false,
-                    achievements10: false,
-                    achievements11: false
-                };
+                    profilePicData = profilePicData.split("base64")[1];
+                    const profilePic = {
+                        name: filename,
+                        extention: mime,
+                        path: profilePicData
+                    };
 
-                /*
-      const validName = /^[a-zA-Z ]{1,}$/;
-      const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      const validPassword =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      if (name === "" || email === "" || pass === "" || passV === "") {
-        setError("Llene los campos vacios.");
-      } else {
-        setError("");
-      }
+                    let d = Date(Date.now());
+                    let a = d.toString();
+                    const creationDate = a.substr(4, 20);
+
+                    const body = {
+                        // Agrega todos los datos en conjunto para así poder subirlo a mongo
+                        isActive: true,
+                        nameUser: name,
+                        nickname: nickName,
+                        email: email,
+                        password: pass,
+                        creationDate: creationDate,
+                        team: TeamChooseString,
+                        facebook: " ",
+                        instagram: " ",
+                        extra: " ",
+                        image: profilePic,
+                        points: 0,
+                        typeUser: true,
+                        ban: false,
+                        achievements1: false,
+                        achievements2: false,
+                        achievements3: false,
+                        achievements4: false,
+                        achievements5: false,
+                        achievements6: false,
+                        achievements7: false,
+                        achievements8: false,
+                        achievements9: false,
+                        achievements10: false,
+                        achievements11: false
+                    };
+
+                    /*
+   
   */
 
-                const response = await fetch(`http://localhost:5000/users`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
+                    const response = await fetch(`http://localhost:5000/users`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(body)
+                    });
+                    const respJson = await response.json();
+                    console.log(respJson);
+                    if (respJson.error == "Bad Request") {
+                        return console.log("NO JALO");
+                    }
                 });
-                const respJson = await response.json();
-                console.log(respJson);
-                if (respJson.error == "Bad Request") {
-                    return console.log("NO JALO");
-                }
-            });
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            }
+            console.log(file);
         }
-        console.log(file);
     };
 
     const loginAccountHandler = async (e) => {
@@ -225,7 +236,7 @@ export function LoginRegister(props) {
                                             name="phpEmailLogin"
                                             className="form-control"
                                             type="text"
-                                            required
+                                            
                                             //inputMode="email"
                                             placeholder="Correo"
                                         ></input>
@@ -237,8 +248,9 @@ export function LoginRegister(props) {
                                         }>
                                             Contraseña
                                         </label>
-                                        <input id="PasswordLogin" name="phpPasswordLogin" className="form-control" type="password" required placeholder="Contraseña"></input>
+                                        <input id="PasswordLogin" name="phpPasswordLogin" className="form-control" type="password"  placeholder="Contraseña"></input>
                                     </div>
+                                    
                                     <button className="btn btn-info mt-2" id="logInButton" type="submit">
                                         Ingresar
                                     </button>
@@ -287,7 +299,7 @@ export function LoginRegister(props) {
                                         <input className="form-control form-control-user" type="text" placeholder="Nombre"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             name="UsernameRegister"
-                                            required
+                                
                                             id="UsernameRegister"
                                         ></input>
                                     </div>
@@ -301,7 +313,7 @@ export function LoginRegister(props) {
                                         <input className="form-control form-control-user" type="text" placeholder="NickName"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             name="NicknameRegister"
-                                            required
+                                            
                                             id="NicknameRegister"
                                         ></input>
                                     </div>
@@ -315,7 +327,7 @@ export function LoginRegister(props) {
                                         <input className="form-control form-control-user" type="email" id="EmailRegister"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             placeholder="Correo"
-                                            required
+                                            
                                             name="phpEmailRegister"
                                             //inputMode="email"
                                         ></input>
@@ -329,10 +341,10 @@ export function LoginRegister(props) {
                                             Repetir Contraseña
                                         </label>
                                         <div className="col-sm-6 mb-3 mb-sm-0">
-                                            <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" className="form-control form-control-user" type="password" id="passwordRegister" placeholder="Contraseña" required name="phpPasswordRegister"></input>
+                                            <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" className="form-control form-control-user" type="password" id="passwordRegister" placeholder="Contraseña"  name="phpPasswordRegister"></input>
                                         </div>
                                         <div className="col-sm-6">
-                                            <input className="form-control form-control-user" type="password" id="passwordRegisterV" placeholder="Repetir Contraseña" required name="phpPasswordRegisterRepeat"></input>
+                                            <input className="form-control form-control-user" type="password" id="passwordRegisterV" placeholder="Repetir Contraseña"  name="phpPasswordRegisterRepeat"></input>
                                         </div>
                                     </div>
 
@@ -363,7 +375,7 @@ export function LoginRegister(props) {
                                         className="form-img__img-preview"/>
                                     <input id="profilePic" name="profilePic " type="file" accept=".jpeg, .jpg, .png, .bmp"
                                         onChange={handleImg}/>
-
+<h1 style={{color:"red"}}>{Error}</h1>
                                     <button className="btn btn-info mt-2 d-block btn-user w-100" id="submitBtn" type="submit"
                                         //onClick="emailDuplicateValidation($('#phpEmailRegister').val());"
                                     >
