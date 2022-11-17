@@ -22,20 +22,18 @@ export function MisPersonajes() {
 
     setRenderedResponsea(body);
     setFriends(body);
-    // console.log(body);
 
-    if (response.status !== 200) throw Error(body.message);
-
-    // ///////////////////////VALIDAR ESTILOS
-    if (body.team == 0) {
+      // ///////////////////////VALIDAR ESTILOS
+      if (body.team === 0) {
         setStyleTeam("Sweet");
         setStyleTeamBack("rgb(215, 71, 155)");
-
-
-    } else {
+      } else {
         setStyleTeam("Spicy");
         setStyleTeamBack("rgb( 179, 31, 15)");
-    }
+      }
+      console.log(body.team);
+
+    if (response.status !== 200) throw Error(body.message);
   };
   const ErrorNotFound = (source) => {
     if (!source)
@@ -87,6 +85,7 @@ export function MisPersonajes() {
           character.owner === character.cartoonist &&
           character.owner === idUser
         ) {
+
           if (!boolError) {
             setBoolError(true);
           }
@@ -98,12 +97,12 @@ export function MisPersonajes() {
               id="profile"
               style={{
                 marginTop: "50px",
-                background: styleTeamBack
+                background: styleTeamBack,
               }}
             >
               <div
                 className="row"
-                style={{ background: "rgba(255,255,255,0.37)" }}
+                style={{ background: "rgba(255,255,255,0.15)" }}
               >
                 <div className="col-md-4 center">
                   <div className="p-5">

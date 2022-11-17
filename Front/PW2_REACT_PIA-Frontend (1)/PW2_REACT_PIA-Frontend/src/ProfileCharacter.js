@@ -22,7 +22,7 @@ export function ProfileCharacter() {
   let [styleTeam, setStyleTeam] = useState(" ");
   let [styleTeamBack, setStyleTeamBack] = useState(" ");
   let [error, setError] = useState(" ");
-  let [i, setI] = useState(-1);
+  //let [i, setI] = useState(-1);
   const idCharacter = searchParams.get("idCharacter");
   // /////////////////////////////////////////
 
@@ -306,7 +306,7 @@ export function ProfileCharacter() {
             background: styleTeamBack,
           }}
         >
-          <div className="row" style={{ background: "rgba(255,255,255,0.37)" }}>
+          <div className="row" style={{ background: "rgba(255,255,255,0.15)" }}>
             <div className="col-md-12 ">
               <h1 className={styleTeam}> {friends.title} </h1>
               <hr></hr>
