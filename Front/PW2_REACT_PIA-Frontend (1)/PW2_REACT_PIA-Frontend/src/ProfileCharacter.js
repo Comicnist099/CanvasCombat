@@ -204,15 +204,27 @@ export function ProfileCharacter() {
       setRenderedResponsea(body);
       setFriends(body);
 
+      if (body.title !== body.character) {
+        const response2 = await fetch(`/draw/${body.character}`);
+        const body2 = await response2.json();
+        const responseUser2 = await fetch(`/users/${body2.owner}`);
+        const bodyUser2 = await responseUser2.json();
+
+        setIdOwner(body2.owner);
+        setfriendsUser2(bodyUser2.nickname);
+      } else {
+        const responseUser2 = await fetch(`/users/${body.owner}`);
+        const bodyUser2 = await responseUser2.json();
+        setIdOwner(body.owner);
+        setfriendsUser2(bodyUser2.nickname);
+      }
+
       const responseUser = await fetch(`/users/${body.cartoonist}`);
       const bodyUser = await responseUser.json();
-      const responseUser2 = await fetch(`/users/${body.owner}`);
-      const bodyUser2 = await responseUser2.json();
 
       setIdUser(body.cartoonist);
-      setIdOwner(body.owner);
+
       setfriendsUser(bodyUser.nickname);
-      setfriendsUser2(bodyUser2.nickname);
       setImage(body.image.path);
 
       // ///////////////////////VALIDAR ESTILOS
@@ -251,7 +263,6 @@ export function ProfileCharacter() {
       } else {
         return (
           <>
-            
             <a
               style={{ marginTop: "20px" }}
               href={"/MisAtaques?idCharacter=" + friends._id}
