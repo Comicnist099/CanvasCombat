@@ -58,7 +58,7 @@ export function LoginRegister(props) {
         } else if (pass !== passV) {
             setErrora('Las contraseñas deben coincidir');
         } else if (pass.length < 7) {
-            setErrora('La contraseña debe tener menos de 6 caracteres');
+            setErrora('La contraseña debe tener más de 6 caracteres');
         } else if (! validEmail.test(email)) {
             setErrora('Introduzca un email valido.');
         } else if (! validPassword.test(pass)) {

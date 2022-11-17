@@ -193,7 +193,8 @@ export function MisAtaques() {
                             }>
                                 <div className="col-md-4 center">
                                     <div className="p-5">
-                                        <img className="img-fluid" alt=" "
+                                        <img alt="" className="img-fluid"
+
                                             src={
                                                 character.image.path
                                         }></img>

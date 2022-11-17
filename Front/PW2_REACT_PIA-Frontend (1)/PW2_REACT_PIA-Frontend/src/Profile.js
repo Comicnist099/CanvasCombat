@@ -470,7 +470,7 @@ export function Profile(props) {
                                         {
                                             border: " 15px solid",
                                             color: colorMark,
-                                            width: 300,
+                                            wdth: 300,
                                             maxHeight: 600
                                         }
                                     }
