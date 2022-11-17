@@ -100,7 +100,7 @@ export function SubirPersonaje() {
         if (respJson.error == "Bad Request") {
           return console.log("NO JALO");
         } else {
-          navigate('/MisPersonaje?idUser=' + idUser);
+          navigate('/MisPersonajes?idUser=' + idUser);
         }
       });
       reader.readAsDataURL(file);

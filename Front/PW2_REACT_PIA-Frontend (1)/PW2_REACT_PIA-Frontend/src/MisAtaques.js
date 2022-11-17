@@ -165,7 +165,7 @@ export function MisAtaques() {
                         </div>
                     );
                 }
-                if (character.title !== " " && character.cartoonist === idUser) {
+                if (character.title !== character.character && character.cartoonist === idUser) {
                     return (
                         <div className="container profile profile-view" data-aos="fade-up" id="profile"
                             style={
