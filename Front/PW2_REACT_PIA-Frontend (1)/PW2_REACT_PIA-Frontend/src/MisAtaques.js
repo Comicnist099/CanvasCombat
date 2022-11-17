@@ -95,8 +95,7 @@ export function MisAtaques() {
             </div>
             {/* tarjeta de personajes  */}
             {
-            friends.map((character) => {
-                if (character.character === idCharacter) {
+            friends.map((character) => { /*    if (character.character === idCharacter) {
                     if (!boolError) {
                         setBoolError(true);
                     }
@@ -164,19 +163,33 @@ export function MisAtaques() {
                             }></div>
                         </div>
                     );
-                }
+                } */
+                let estilo;
                 if (character.title !== character.character && character.cartoonist === idUser) {
+                    if (!boolError) {
+                        setBoolError(true);
+                    }
+                    if (character.team == 0) {
+
+                        estilo = "rgb(215, 71, 155)";
+
+                    }
+                    if (character.team == 1) {
+
+                        estilo = "rgb( 179, 31, 15)";
+                    }
+
                     return (
                         <div className="container profile profile-view" data-aos="fade-up" id="profile"
                             style={
                                 {
                                     marginTop: "50px",
-                                    background: "rgb(129, 129, 129)"
+                                    background: estilo
                                 }
                         }>
                             <div className="row"
                                 style={
-                                    {background: "rgba(255,255,255,0.37)"}
+                                    {background: "rgba(255,255,255,0.15)"}
                             }>
                                 <div className="col-md-4 center">
                                     <div className="p-5">

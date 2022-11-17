@@ -34,7 +34,7 @@ export function LoginRegister(props) {
     const [renderedResponse, setRenderedResponse] = useState({});
     const [profilePic, setProfilePic] = useState(null);
     const [image, setImage] = useState(null);
-    const [error, setError] = useState("");
+    const [errorA, setErrora] = useState("");
     const [result, setResult] = useState(null);
     // //////////////////////////////////////////////////////
 
@@ -50,28 +50,31 @@ export function LoginRegister(props) {
 
 
         const validName = /^[a-zA-Z ]{1,}$/;
-        const validEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        const validEmail = /^[^\s@]+@[^\s@]+$/;
         const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
         if (name === '' || nickName === '' || email === '' || pass === '' || passV === '') {
-            setError('Llene los campos vacios.');
+            setErrora('Llene los campos vacios.');
         } else if (pass !== passV) {
-            setError('Las contraseñas deben coincidir');
-        } else if (pass.length > 7) {
-            setError('La contraseña debe tener menos de 7 caracteres');
+            setErrora('Las contraseñas deben coincidir');
+        } else if (pass.length < 7) {
+            setErrora('La contraseña debe tener menos de 6 caracteres');
         } else if (! validEmail.test(email)) {
-            setError('Introduzca un email valido.');
-        } else if (! validPassword.test(contra)) {
-            setError('La contraseña debe tener mínimo letra mayuscula, una letra minuscula, un digito, un caracter especial y debe de contar con 8 o más caracteres');
+            setErrora('Introduzca un email valido.');
+        } else if (! validPassword.test(pass)) {
+            setErrora('La contraseña debe tener mínimo letra mayuscula, una letra minuscula, un digito, un caracter especial y debe de contar con 8 o más caracteres');
         } else if (! validName.test(name)) {
-            setError('El nombre no puede tener numeros ni caracteres especiales');
+            setErrora('El nombre no puede tener numeros ni caracteres especiales');
         } else {
+
             const file = $("#profilePic")[0].files[0];
+            console.log(file);
             const reader = new FileReader();
             let TeamChoose = getRandomIntInclusive(0, 1);
             let TeamChooseString = TeamChoose.toString();
 
             if (file) {
+                setErrora("");
                 reader.addEventListener("load", async function readFile(event) {
                     const nameparts = file.name.split(".");
                     const filename = nameparts[0];
@@ -136,6 +139,8 @@ export function LoginRegister(props) {
                     }
                 });
                 reader.readAsDataURL(file);
+            } else {
+                setErrora('Coloque Una imagen');
             }
             console.log(file);
         }
@@ -156,8 +161,8 @@ export function LoginRegister(props) {
             const hola = cookiesNew.get("idUser");
             console.log(hola);
 
+            window.location.assign('/Profile?idUser=' + respJson.users[0]._id);
 
-            navigate('/Profile?idUser=' + respJson.users[0]._id);
         } else {
             console.log("a");
         }
@@ -236,7 +241,7 @@ export function LoginRegister(props) {
                                             name="phpEmailLogin"
                                             className="form-control"
                                             type="text"
-                                            
+
                                             //inputMode="email"
                                             placeholder="Correo"
                                         ></input>
@@ -248,9 +253,9 @@ export function LoginRegister(props) {
                                         }>
                                             Contraseña
                                         </label>
-                                        <input id="PasswordLogin" name="phpPasswordLogin" className="form-control" type="password"  placeholder="Contraseña"></input>
+                                        <input id="PasswordLogin" name="phpPasswordLogin" className="form-control" type="password" placeholder="Contraseña"></input>
                                     </div>
-                                    
+
                                     <button className="btn btn-info mt-2" id="logInButton" type="submit">
                                         Ingresar
                                     </button>
@@ -299,7 +304,7 @@ export function LoginRegister(props) {
                                         <input className="form-control form-control-user" type="text" placeholder="Nombre"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             name="UsernameRegister"
-                                
+
                                             id="UsernameRegister"
                                         ></input>
                                     </div>
@@ -313,7 +318,7 @@ export function LoginRegister(props) {
                                         <input className="form-control form-control-user" type="text" placeholder="NickName"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             name="NicknameRegister"
-                                            
+
                                             id="NicknameRegister"
                                         ></input>
                                     </div>
@@ -324,10 +329,10 @@ export function LoginRegister(props) {
                                         Correo
                                     </label>
                                     <div className="mb-3">
-                                        <input className="form-control form-control-user" type="email" id="EmailRegister"
+                                        <input className="form-control form-control-user" type="text" id="EmailRegister"
                                             //onInput="this.value = this.value.toUpperCase()"
                                             placeholder="Correo"
-                                            
+
                                             name="phpEmailRegister"
                                             //inputMode="email"
                                         ></input>
@@ -341,10 +346,10 @@ export function LoginRegister(props) {
                                             Repetir Contraseña
                                         </label>
                                         <div className="col-sm-6 mb-3 mb-sm-0">
-                                            <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" className="form-control form-control-user" type="password" id="passwordRegister" placeholder="Contraseña"  name="phpPasswordRegister"></input>
+                                            <input className="form-control form-control-user" type="password" id="passwordRegister" placeholder="Contraseña" name="phpPasswordRegister"></input>
                                         </div>
                                         <div className="col-sm-6">
-                                            <input className="form-control form-control-user" type="password" id="passwordRegisterV" placeholder="Repetir Contraseña"  name="phpPasswordRegisterRepeat"></input>
+                                            <input className="form-control form-control-user" type="password" id="passwordRegisterV" placeholder="Repetir Contraseña" name="phpPasswordRegisterRepeat"></input>
                                         </div>
                                     </div>
 
@@ -375,7 +380,10 @@ export function LoginRegister(props) {
                                         className="form-img__img-preview"/>
                                     <input id="profilePic" name="profilePic " type="file" accept=".jpeg, .jpg, .png, .bmp"
                                         onChange={handleImg}/>
-<h1 style={{color:"red"}}>{Error}</h1>
+                                    <h3 style={
+                                        {color: "red"}
+                                    }>
+                                        {errorA}</h3>
                                     <button className="btn btn-info mt-2 d-block btn-user w-100" id="submitBtn" type="submit"
                                         //onClick="emailDuplicateValidation($('#phpEmailRegister').val());"
                                     >

@@ -37,6 +37,13 @@ export function Navbar() {
         setRenderedResponsea2(body[1].points);
         console.log(body);
 
+        const bufferCookies = "";
+        console.log(idUserCookies);
+        if (idUserCookies == bufferCookies) {
+            console.log("si entro");
+        }
+
+
         if (response.status !== 200) 
             throw Error(body.message);
         
@@ -53,7 +60,7 @@ export function Navbar() {
     const idUserCookies = cookiesNew.get("idUser");
 
     const ProfileID = (source) => {
-        if (source) {
+        if (source != "") {
             return (
                 <li className="nav-item" id="profile">
                     <a className="nav-link active" data-bss-hover-animate="pulse"
