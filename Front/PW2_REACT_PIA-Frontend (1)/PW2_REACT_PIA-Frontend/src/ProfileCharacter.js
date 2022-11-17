@@ -313,7 +313,12 @@ export function ProfileCharacter() {
 
               <div>
                 <img
-                  style={myImageStyle}
+                  style={{
+                    width: "1090px",
+                    maxHeight: "2400",
+                    border: "15px solid",
+                    color: "rgba(255,255,255,0.50)"
+                  }}
                   src={image}
                   alt=" "
                   className="form-img__img-preview"
@@ -334,6 +339,17 @@ export function ProfileCharacter() {
                 </div>
 
                 <div className="col-sm-12 col-md-6">
+                  <p className={styleTeam}>Fecha de creacion</p>
+                  <input
+                    value={friends.creationDate}
+                    className="form-control"
+                    disabled
+                    name="firstname"
+                  ></input>
+                  <br></br>
+                </div>
+
+                <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
                     <p className={styleTeam}>Descripcion</p>
                     <textarea
@@ -351,24 +367,18 @@ export function ProfileCharacter() {
                 <br></br>
 
                 <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <p className={styleTeam}>Fecha de creacion</p>
-                    <input
-                      value={friends.creationDate}
-                      className="form-control"
-                      disabled
-                      name="firstname"
-                    ></input>
-                    <br></br>
+                  <div
+                    style={{ marginBottom: "500px" }}
+                    className="form-group mb-3"
+                  >
                     <p className={styleTeam}>Character info:</p>
-
                     <table class="table table-bordered">
                       <tbody>
                         <tr>
                           <td class="w-25 text-right bg-light">
                             <b className={styleTeam}>Owner</b>
                           </td>
-                          <td>
+                          <td style={{ background: "rgba(255,255,255,0.50)" }}>
                             <strong>
                               <a href={"/Profile?idUser=" + idOwner}>
                                 {friendsUser2}
@@ -378,9 +388,9 @@ export function ProfileCharacter() {
                         </tr>
                         <tr>
                           <td class="w-25 text-right bg-light">
-                            <b>Designer</b>
+                            <b className={styleTeam}>Designer</b>
                           </td>
-                          <td>
+                          <td style={{ background: "rgba(255,255,255,0.50)" }}>
                             <strong>
                               <a href={"/Profile?idUser=" + idUser}>
                                 {friendsUser}

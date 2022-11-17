@@ -1,256 +1,194 @@
-import React, {useEffect, useState} from "react";
-import $, {get} from "jquery";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import $, { get } from "jquery";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 export function MisAtaques() {
-    let [renderedResponsea, setRenderedResponsea] = useState({});
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [friends, setFriends] = useState([]);
-    let [boolError, setBoolError] = useState(false);
-    const idCharacter = searchParams.get("idCharacter");
-    const idUser = searchParams.get("idUser");
+  let [renderedResponsea, setRenderedResponsea] = useState({});
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [friends, setFriends] = useState([]);
+  let [boolError, setBoolError] = useState(false);
+  const idCharacter = searchParams.get("idCharacter");
+  const idUser = searchParams.get("idUser");
 
-    const getResponse = async () => {
-        const response = await fetch(`/draw`);
-        const body = await response.json();
+  const getResponse = async () => {
+    const response = await fetch(`/draw`);
+    const body = await response.json();
 
-        setRenderedResponsea(body);
-        setFriends(body);
-        // console.log(body);
+    setRenderedResponsea(body);
+    setFriends(body);
+    // console.log(body);
 
-        if (response.status !== 200) 
-            throw Error(body.message);
-        
+    if (response.status !== 200) throw Error(body.message);
+  };
+  const ErrorNotFound = (source) => {
+    if (!source)
+      return (
+        <div class="container text-center">
+          <h1 style={{ color: "white" }}>NO HA REALIZADO ATAQUES</h1>
+          <img
+            style={{
+              width: 300,
+              maxHeight: 600,
+            }}
+            src="https://images.shoutwiki.com/battlecraze/thumb/1/14/AjitFull.png/360px-AjitFull.png"
+          ></img>
 
+          <a
+            class="btn btn-danger"
+            id="myProducts"
+            href={"profile?idUser=" + idUser}
+            style={{ textAlign: "center" }}
+          >
+            Regresar al perfil
+          </a>
+        </div>
+      );
+  };
+  useEffect(() => {
+    getResponse();
+  }, []);
 
-    };
-    const ErrorNotFound = (source) => {
-        if (!source) 
-            return (
-                <div class="container text-center">
-                    <h1 style={
-                        {color: "white"}
-                    }>NO HA REALIZADO ATAQUES</h1>
-                    <img style={
-                            {
-                                width: 300,
-                                maxHeight: 600
-                            }
-                        }
-                        src="https://images.shoutwiki.com/battlecraze/thumb/1/14/AjitFull.png/360px-AjitFull.png"></img>
-
-                    <a class="btn btn-danger" id="myProducts"
-                        href={
-                            'profile?idUser=' + idUser
-                        }
-                        style={
-                            {textAlign: "center"}
-                    }>
-                        Regresar al perfil
-                    </a>
-
-                </div>
-            );
-        
-
-
+  const compararID = () => {
+    if (!idUser) {
+      return (
+        <div className="one">
+          <h1 style={{ color: "white" }}>ATAQUES RECIBIDOS</h1>
+        </div>
+      );
+    } else if (!idCharacter) {
+      return (
+        <div className="one">
+          <h1 style={{ color: "white" }}>MIS ATAQUES</h1>
+        </div>
+      );
     }
-    useEffect(() => {
-        getResponse();
-    }, []);
+  };
 
-    const compararID = () => {
-        if (! idUser) {
-            return (
-                <div className="one">
-                    <h1 style={
-                        {color: "white"}
-                    }>ATAQUES RECIBIDOS</h1>
-                </div>
-            );
-        } else if (! idCharacter) {
-            return (
-                <div className="one">
-                    <h1 style={
-                        {color: "white"}
-                    }>MIS ATAQUES</h1>
-                </div>
-            );
-        }
-    };
+  return (
+    <>
+      <div
+        className="col-11 center"
+        style={{
+          marginTop: "30px",
+          marginLeft: "50px",
+        }}
+      >
+        <div className="row">{compararID()}</div>
+      </div>
+      {/* tarjeta de personajes  */}
+      {friends.map((character) => {
+        let estilo;
+        let estiloLetras;
+        if (
+          character.title !== character.character &&
+          character.cartoonist === idUser
+        ) {
+          if (!boolError) {
+            setBoolError(true);
+          }
+          if (character.team == 0) {
+            estilo = "rgb(227, 89, 169)";
+            estiloLetras = "rgb(77, 22, 77)";
+          }
+          if (character.team == 1) {
+            estilo = "rgb(156, 43, 28)";
+            estiloLetras = "rgb(77, 22, 22)";
+          }
 
-    return (
-        <>
-            <div className="col-11 center"
-                style={
-                    {
-                        marginTop: "30px",
-                        marginLeft: "50px"
+          return (
+            <div
+              className="container profile profile-view"
+              data-aos="fade-up"
+              id="profile"
+              style={{
+                border: "15px solid",
+                color: estiloLetras,
+                marginTop: "50px",
+                background: estilo,
+              }}
+            >
+              <div className="row">
+                <div className="col-md-4 center">
+                  <div className="p-5">
+                    <a
+                      href={
+                        "/ProfileCharacter?idCharacter=" +
+                        character._id +
+                        "&idUser=" +
+                        idUser
+                      }
+                    >
+                      <img
+                        style={{
+                          width: "1090px",
+                          maxHeight: "2400",
+                          border: "8px solid",
+                          color: "rgba(255,255,255,0.50)",
+                        }}
+                        className="img-fluid"
+                        alt=" "
+                        src={character.image.path}
+                      ></img>
+                    </a>
+                  </div>
+                </div>
+
+                <input
+                  className="form-control"
+                  type="hidden"
+                  name="idCharacter"
+                  id="idCharacter"
+                  value={character._id}
+                ></input>
+
+                <div className="col-md-8 center">
+                  <h1 style={{ color: estiloLetras }}> {character.title} </h1>
+                  <hr></hr>
+
+                  <div className="row">
+                    <div className="col-sm-12 col-md-6">
+                      <div className="form-group mb-3">
+                        <p style={{ color: estiloLetras }}>Descripcion:</p>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          value={character.descripcion}
+                          disabled
+                        ></input>
+                      </div>
+                    </div>
+                  </div>
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
+
+                  <hr></hr>
+                  <a
+                    href={
+                      "/ProfileCharacter?idCharacter=" +
+                      character._id +
+                      "&idUser=" +
+                      idCharacter
                     }
-            }>
-                <div className="row">
-                    {
-                    compararID()
-                }</div>
+                    class="btn"
+                    style={{ background: estiloLetras, float: "right" }}
+                  >
+                    <p style={{ color: "white" }}> Ir a</p>
+                  </a>
+                </div>
+              </div>
+              <div className="row" style={{ margin: "10px" }}></div>
             </div>
-            {/* tarjeta de personajes  */}
-            {
-            friends.map((character) => { /*    if (character.character === idCharacter) {
-                    if (!boolError) {
-                        setBoolError(true);
-                    }
-                    return (
-                        <div className="container profile profile-view" data-aos="fade-up" id="profile"
-                            style={
-                                {
-                                    marginTop: "50px",
-                                    background: "rgb(129, 129, 129)"
-                                }
-                        }>
-                            <div className="row"
-                                style={
-                                    {background: "rgba(255,255,255,0.37)"}
-                            }>
-                                <div className="col-md-4 center">
-                                    <div className="p-5">
-                                        <img className="img-fluid" alt=" "
-                                            src={
-                                                character.image.path
-                                        }></img>
-                                    </div>
-                                </div>
-
-                                <input className="form-control" type="hidden" name="idCharacter" id="idCharacter"
-                                    value={
-                                        character._id
-                                }></input>
-
-                                <div className="col-md-8 center">
-                                    <h1> {
-                                        character.character
-                                    } </h1>
-                                    <hr></hr>
-
-                                    <div className="row">
-                                        <div className="col-sm-12 col-md-6">
-                                            <div className="form-group mb-3">
-                                                <p>Descripcion:</p>
-                                                <input className="form-control" type="text" name="firstname"
-                                                    value={
-                                                        character.descripcion
-                                                    }
-                                                    disabled></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input className="form-control" type="hidden" name="idCharacter" id="idCharacter"
-                                        value={
-                                            character._id
-                                    }></input>
-
-                                    <hr></hr>
-                                    <a href={
-                                            "/ProfileCharacter?idCharacter=" + character._id + "&idUser=" + idCharacter
-                                        }
-                                        class="btn btn-primary btn-lg">
-                                        Ir a
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="row"
-                                style={
-                                    {margin: "10px"}
-                            }></div>
-                        </div>
-                    );
-                } */
-                let estilo;
-                if (character.title !== character.character && character.cartoonist === idUser) {
-                    if (!boolError) {
-                        setBoolError(true);
-                    }
-                    if (character.team == 0) {
-
-                        estilo = "rgb(215, 71, 155)";
-
-                    }
-                    if (character.team == 1) {
-
-                        estilo = "rgb( 179, 31, 15)";
-                    }
-
-                    return (
-                        <div className="container profile profile-view" data-aos="fade-up" id="profile"
-                            style={
-                                {
-                                    marginTop: "50px",
-                                    background: estilo
-                                }
-                        }>
-                            <div className="row"
-                                style={
-                                    {background: "rgba(255,255,255,0.15)"}
-                            }>
-                                <div className="col-md-4 center">
-                                    <div className="p-5">
-                                        <img alt="" className="img-fluid"
-
-                                            src={
-                                                character.image.path
-                                        }></img>
-                                    </div>
-                                </div>
-
-                                <input className="form-control" type="hidden" name="idCharacter" id="idCharacter"
-                                    value={
-                                        character._id
-                                }></input>
-
-                                <div className="col-md-8 center">
-                                    <h1> {
-                                        character.character
-                                    } </h1>
-                                    <hr></hr>
-
-                                    <div className="row">
-                                        <div className="col-sm-12 col-md-6">
-                                            <div className="form-group mb-3">
-                                                <p>Descripcion:</p>
-                                                <input className="form-control" type="text" name="firstname"
-                                                    value={
-                                                        character.descripcion
-                                                    }
-                                                    disabled></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input className="form-control" type="hidden" name="idCharacter" id="idCharacter"
-                                        value={
-                                            character._id
-                                    }></input>
-
-                                    <hr></hr>
-                                    <a href={
-                                            "/ProfileCharacter?idCharacter=" + character._id + "&idUser=" + idCharacter
-                                        }
-                                        class="btn btn-primary btn-lg">
-                                        Ir a
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="row"
-                                style={
-                                    {margin: "10px"}
-                            }></div>
-                        </div>
-                    );
-                }
-            })
+          );
         }
-            {
-            ErrorNotFound(boolError)
-        }
-            {/* tarjeta de personajes  */}
-            {" "} </>
-    );
+      })}
+      {ErrorNotFound(boolError)}
+      {/* tarjeta de personajes  */}{" "}
+    </>
+  );
 }
