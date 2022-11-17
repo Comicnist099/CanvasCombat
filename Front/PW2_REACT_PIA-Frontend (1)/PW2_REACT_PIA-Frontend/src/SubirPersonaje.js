@@ -4,11 +4,12 @@ import $ from "jquery";
 import { Link, useNavigate } from "react-router-dom";
 
 export function SubirPersonaje() {
+  const [friendsUser, setfriendsUser] = useState();
 
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
   const navigate = useNavigate();
-  
+
   //////////////////////////////////////////////////
   let characterPicData = null;
 
@@ -28,6 +29,14 @@ export function SubirPersonaje() {
   const refresh = async (e) => {
     e.preventDefault();
     console.log(characterPicData);
+  };
+
+  let getResponse = async () => {
+    const response = await fetch(`/users/${idUser}`);
+    const body = await response.json();
+    setfriendsUser(body);
+
+    if (response.status !== 200) throw Error(body.message);
   };
 
   const createCharacterHandler = async (e) => {
@@ -65,12 +74,12 @@ export function SubirPersonaje() {
 
           isActive: true,
           character: title,
-          title: " ",
+          title: title,
           descripcion: descripcion,
           owner: idUser,
           cartoonist: idUser,
           creationDate: creationDate,
-          team: " ",
+          team: friendsUser.team,
           body: " ",
           lineart: " ",
           detail: " ",
@@ -90,14 +99,18 @@ export function SubirPersonaje() {
         console.log(respJson);
         if (respJson.error == "Bad Request") {
           return console.log("NO JALO");
-        }else{
-          navigate("/MisPersonajes");
+        } else {
+          navigate('/MisPersonaje?idUser=' + idUser);
         }
       });
       reader.readAsDataURL(file);
     }
     console.log(file);
   };
+
+  useEffect(() => {
+    getResponse();
+  }, []);
 
   return (
     <>

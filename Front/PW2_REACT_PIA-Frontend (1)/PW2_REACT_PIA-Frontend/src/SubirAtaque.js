@@ -9,6 +9,7 @@ export function SubirAtaque() {
   const idUser = cookiesNew.get("idUser");
   const navigate = useNavigate();
 
+  const [friendsUser, setfriendsUser] = useState();
   const [valBody, setValBody] = useState("");
   const [valLineart, setValLineart] = useState("");
   const [valDetail, setValDetail] = useState("");
@@ -52,8 +53,6 @@ export function SubirAtaque() {
   };
   const idCharacter = searchParams.get("idCharacter");
 
-  
-
   const refresh = async (e) => {
     e.preventDefault();
     console.log(attackPicData);
@@ -70,6 +69,14 @@ export function SubirAtaque() {
     else if (nombre === body[3] || nombre === lineart[3] || nombre === detail[3] || nombre === background[3])
       puntuacion = puntuacion + 25;
 
+  };
+
+  let getResponse = async () => {
+    const response = await fetch(`/users/${idUser}`);
+    const body = await response.json();
+    setfriendsUser(body);
+
+    if (response.status !== 200) throw Error(body.message);
   };
 
   const attackCharacterHandler = async (e) => {
@@ -118,7 +125,7 @@ export function SubirAtaque() {
           owner: "owner",
           cartoonist: idUser,
           creationDate: creationDate,
-          team: " ",
+          team: friendsUser.team,
           body: vBody,
           lineart: vLineart,
           detail: vDetail,
@@ -147,6 +154,10 @@ export function SubirAtaque() {
     }
     console.log(file);
   };
+
+  useEffect(() => {
+    getResponse();
+  }, []);
 
   return (
     <>
