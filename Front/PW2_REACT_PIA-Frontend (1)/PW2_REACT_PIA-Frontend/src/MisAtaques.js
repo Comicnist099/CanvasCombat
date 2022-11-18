@@ -14,22 +14,13 @@ export function MisAtaques() {
   const getResponse = async () => {
     const response = await fetch(`/draw`);
     const body = await response.json();
-    const response2 = await fetch(`/draw/${idCharacter}`);
-    const body2 = await response2.json();
 
     setRenderedResponsea(body);
     setFriends(body);
-    setidUsuario(body2.owner);
-
     if (response.status !== 200) throw Error(body.message);
-    if (response2.status !== 200) throw Error(body2.message);
   };
   const ErrorNotFound = (source) => {
     if (!source) {
-      if (!idUser) {
-        idUser = idUsuario;
-        console.log(idUser);
-      }
       return (
         <div class="container text-center">
           <h1 style={{ color: "white" }}>NO HA REALIZADO ATAQUES</h1>
