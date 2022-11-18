@@ -242,21 +242,23 @@ export function ProfileCharacter() {
 
   const validarUser = () => {
     if (friends.title === friends.character) {
-      if (idOwner !== idUserCookies) {
+      if (idOwner !== idUserCookies && idUserCookies !== "") {
         return (
           <>
             <a
               href={"/SubirAtaque?idCharacter=" + friends._id}
-              class="btn btn-danger btn-lg"
+              class="btn btn-lg"
+              style={{ background: "rgba(0,0,0,0.80)" }}
             >
-              <h3 style={{ color: "white" }}>ATACAR</h3>
+              
+              <h2 style={{color: "white"}}>&#9876; ATACAR &#9876;</h2>
             </a>
             <a
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px", background: "rgba(0,0,0,0.20)" }}
               href={"/MisAtaques?idCharacter=" + friends._id}
-              class="btn btn-primary"
+              class="btn"
             >
-              Ataques recibidos
+              <b className= "far fa-eye" style={{ color: "white" }}>  Ataques recibidos  <b className= "far fa-eye" style={{ color: "white" }}></b></b>
             </a>
           </>
         );
@@ -264,11 +266,11 @@ export function ProfileCharacter() {
         return (
           <>
             <a
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px", background: "rgba(0,0,0,0.20)" }}
               href={"/MisAtaques?idCharacter=" + friends._id}
-              class="btn btn-primary"
+              class="btn"
             >
-              Ataques recibidos
+              <b className= "far fa-eye" style={{ color: "white" }}>  Ataques recibidos  <b className= "far fa-eye" style={{ color: "white" }}></b></b>
             </a>
           </>
         );
@@ -302,29 +304,58 @@ export function ProfileCharacter() {
           data-aos="fade-up"
           id="profile"
           style={{
+            border: "8px solid",
+            color: "rgba(0,0,0,0.50)",
             marginTop: "50px",
             background: styleTeamBack,
           }}
         >
           <div className="row" style={{ background: "rgba(255,255,255,0.15)" }}>
             <div className="col-md-12 ">
+              <a
+                href={'/Editar?idCharacter=' + friends._id}
+                class="btn"
+                style={{
+                  border: "2px solid",
+                  color: "rgba(255,255,255,0.50)",
+                  background: "rgba(0,0,0,0.70)",
+                  float: "right",
+                  marginTop: "20px",
+                }}
+              >
+                <small class="fas fa-trash-alt" style={{ color: "white" }}> Eliminar</small>
+              </a>
+              <a
+                href={'/Editar?idCharacter=' + friends._id}
+                class="btn"
+                style={{
+                  border: "2px solid",
+                  color: "rgba(255,255,255,0.50)",
+                  background: "rgba(0,0,0,0.20)",
+                  float: "right",
+                  marginTop: "20px",
+                  marginRight: "20px",
+                  marginBottom: "10px",
+                }}
+              >
+                <small class="fas fa-pen" style={{ color: "white" }}> Editar</small>
+              </a>
+              <hr style={{ width: "1000px" }}></hr>
               <h1 className={styleTeam}> {friends.title} </h1>
-              <hr></hr>
-
+              <hr style={{ width: "1000px" }}></hr>
               <div>
                 <img
                   style={{
-                    width: "1090px",
+                    width: "1050px",
                     maxHeight: "2400",
                     border: "15px solid",
-                    color: "rgba(255,255,255,0.50)"
+                    color: "rgba(255,255,255,0.50)",
                   }}
                   src={image}
                   alt=" "
                   className="form-img__img-preview"
                 ></img>
               </div>
-
               <div className="row">
                 <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
@@ -375,10 +406,10 @@ export function ProfileCharacter() {
                     <table class="table table-bordered">
                       <tbody>
                         <tr>
-                          <td class="w-25 text-right bg-light">
+                          <td class="w-25 text-right" style={{background: "rgba(255,255,255,0.50)"}}>
                             <b className={styleTeam}>Owner</b>
                           </td>
-                          <td style={{ background: "rgba(255,255,255,0.50)" }}>
+                          <td style={{ backgroundColor:"white" }}>
                             <strong>
                               <a href={"/Profile?idUser=" + idOwner}>
                                 {friendsUser2}
@@ -387,10 +418,10 @@ export function ProfileCharacter() {
                           </td>
                         </tr>
                         <tr>
-                          <td class="w-25 text-right bg-light">
+                          <td class="w-25 text-right" style={{background: "rgba(255,255,255,0.50)"}} >
                             <b className={styleTeam}>Designer</b>
                           </td>
-                          <td style={{ background: "rgba(255,255,255,0.50)" }}>
+                          <td style={{ backgroundColor:"white" }}>
                             <strong>
                               <a href={"/Profile?idUser=" + idUser}>
                                 {friendsUser}

@@ -80,11 +80,11 @@ export function MisPersonajes() {
             setBoolError(true);
           }
           if (character.team == 0) {
-            estilo = "rgb(227, 89, 169)";
+            estilo = "rgb(199, 97, 140)";
             estiloLetras = "rgb(77, 22, 77)";
           }
           if (character.team == 1) {
-            estilo = "rgb(156, 43, 28)";
+            estilo = "rgb(150, 57, 57)";
             estiloLetras = "rgb(77, 22, 22)";
           }
 
@@ -94,7 +94,7 @@ export function MisPersonajes() {
               data-aos="fade-up"
               id="profile"
               style={{
-                border: "15px solid",
+                border: "10px solid",
                 color: estiloLetras,
                 marginTop: "50px",
                 background: estilo,

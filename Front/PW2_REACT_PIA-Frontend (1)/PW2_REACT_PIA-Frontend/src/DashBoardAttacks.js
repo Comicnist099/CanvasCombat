@@ -66,7 +66,7 @@ export function DashBoardAttacks() {
                     <div>
                       <a
                         href={"/ProfileCharacter?idCharacter=" + character._id}
-                        class="card p-1 m-1 thumb-attack character-thumb thumbnail"
+                      
                       >
                         <img
                           className="form-img__img-preview"
