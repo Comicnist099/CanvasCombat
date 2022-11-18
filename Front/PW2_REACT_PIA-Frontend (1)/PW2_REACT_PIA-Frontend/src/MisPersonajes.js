@@ -4,10 +4,6 @@ import $, { get } from "jquery";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 export function MisPersonajes() {
-  const cookiesNew = new Cookies();
-  const idUserCookies = cookiesNew.get("idUser");
-  const navigate = useNavigate();
-
   let [renderedResponsea, setRenderedResponsea] = useState({});
   let [boolError, setBoolError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();

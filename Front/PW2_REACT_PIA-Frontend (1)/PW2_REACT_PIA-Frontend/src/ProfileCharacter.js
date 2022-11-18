@@ -249,7 +249,7 @@ export function ProfileCharacter() {
             </a>
             <a
               style={{ marginTop: "20px", background: "rgba(0,0,0,0.20)" }}
-              href={"/MisAtaques?idCharacter=" + idCharacter}
+              href={"/MisDefensas?idCharacter=" + idCharacter + '&idUser=' + friends.owner}
               class="btn"
             >
               <b className="far fa-eye" style={{ color: "white" }}>
@@ -264,7 +264,7 @@ export function ProfileCharacter() {
           <>
             <a
               style={{ marginTop: "20px", background: "rgba(0,0,0,0.20)" }}
-              href={"/MisAtaques?idCharacter=" + idCharacter}
+              href={"/MisDefensas?idCharacter=" + idCharacter + '&idUser=' + friends.owner}
               class="btn"
             >
               <b className="far fa-eye" style={{ color: "white" }}>
