@@ -69,7 +69,7 @@ export function MisAtaques() {
     } else if (!idCharacter) {
       return (
         <div className="one">
-          <h1 style={{ color: "white" }}>MIS ATAQUES</h1>
+          <h1 style={{ color: "white" }}> ATAQUES</h1>
         </div>
       );
     }
@@ -91,7 +91,7 @@ export function MisAtaques() {
         let estilo;
         let estiloLetras;
         if (
-          character.title !== character.character ||
+          character.title !== character.character &&
           character.cartoonist === idUser
         ) {
           if (!boolError) {
