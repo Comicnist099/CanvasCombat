@@ -23,10 +23,11 @@ export function ProfileCharacter() {
   let [styleTeamBack, setStyleTeamBack] = useState(" ");
   let [error, setError] = useState(" ");
   //let [i, setI] = useState(-1);
-  const idCharacter = searchParams.get("idCharacter");
+  let idCharacter = searchParams.get("idCharacter");
+
   // /////////////////////////////////////////
 
-  /*     if (idUserCommit == Commit._id) {
+  /*  if (idUserCommit == Commit._id) {
       let nicknameCommit = idUserCommit; */
 
   const getResponseComments = async () => {
@@ -189,13 +190,6 @@ export function ProfileCharacter() {
     );
   };
 
-  // /Variable de la imagen///////////////////////////////////////
-
-  const myImageStyle = {
-    width: "1090px",
-    maxHeight: "2400",
-  };
-
   const getResponse = async () => {
     const response = await fetch(`/draw/${idCharacter}`);
     const body = await response.json();
@@ -241,6 +235,7 @@ export function ProfileCharacter() {
   };
 
   const validarUser = () => {
+    
     if (friends.title === friends.character) {
       if (idOwner !== idUserCookies && idUserCookies !== "") {
         return (
@@ -250,15 +245,17 @@ export function ProfileCharacter() {
               class="btn btn-lg"
               style={{ background: "rgba(0,0,0,0.80)" }}
             >
-              
-              <h2 style={{color: "white"}}>&#9876; ATACAR &#9876;</h2>
+              <h2 style={{ color: "white" }}>&#9876; ATACAR &#9876;</h2>
             </a>
             <a
               style={{ marginTop: "20px", background: "rgba(0,0,0,0.20)" }}
-              href={"/MisAtaques?idCharacter=" + friends._id}
+              href={"/MisAtaques?idCharacter=" + idCharacter}
               class="btn"
             >
-              <b className= "far fa-eye" style={{ color: "white" }}>  Ataques recibidos  <b className= "far fa-eye" style={{ color: "white" }}></b></b>
+              <b className="far fa-eye" style={{ color: "white" }}>
+                Ataques recibidos
+                <b className="far fa-eye" style={{ color: "white" }}></b>
+              </b>
             </a>
           </>
         );
@@ -267,14 +264,60 @@ export function ProfileCharacter() {
           <>
             <a
               style={{ marginTop: "20px", background: "rgba(0,0,0,0.20)" }}
-              href={"/MisAtaques?idCharacter=" + friends._id}
+              href={"/MisAtaques?idCharacter=" + idCharacter}
               class="btn"
             >
-              <b className= "far fa-eye" style={{ color: "white" }}>  Ataques recibidos  <b className= "far fa-eye" style={{ color: "white" }}></b></b>
+              <b className="far fa-eye" style={{ color: "white" }}>
+                Ataques recibidos
+                <b className="far fa-eye" style={{ color: "white" }}></b>
+              </b>
             </a>
           </>
         );
       }
+    }
+  };
+
+  const valEditarDelete = () => {
+    if (friends.cartoonist === idUserCookies) {
+      return (
+        <>
+          <a
+            href={"/Editar?idCharacter=" + friends._id}
+            class="btn"
+            style={{
+              border: "2px solid",
+              color: "rgba(255,255,255,0.50)",
+              background: "rgba(0,0,0,0.70)",
+              float: "right",
+              marginTop: "20px",
+            }}
+          >
+            <small class="fas fa-trash-alt" style={{ color: "white" }}>
+              {" "}
+              Eliminar
+            </small>
+          </a>
+          <a
+            href={"/Editar?idCharacter=" + friends._id}
+            class="btn"
+            style={{
+              border: "2px solid",
+              color: "rgba(255,255,255,0.50)",
+              background: "rgba(0,0,0,0.20)",
+              float: "right",
+              marginTop: "20px",
+              marginRight: "20px",
+              marginBottom: "10px",
+            }}
+          >
+            <small class="fas fa-pen" style={{ color: "white" }}>
+              {" "}
+              Editar
+            </small>
+          </a>
+        </>
+      );
     }
   };
 
@@ -312,34 +355,8 @@ export function ProfileCharacter() {
         >
           <div className="row" style={{ background: "rgba(255,255,255,0.15)" }}>
             <div className="col-md-12 ">
-              <a
-                href={'/Editar?idCharacter=' + friends._id}
-                class="btn"
-                style={{
-                  border: "2px solid",
-                  color: "rgba(255,255,255,0.50)",
-                  background: "rgba(0,0,0,0.70)",
-                  float: "right",
-                  marginTop: "20px",
-                }}
-              >
-                <small class="fas fa-trash-alt" style={{ color: "white" }}> Eliminar</small>
-              </a>
-              <a
-                href={'/Editar?idCharacter=' + friends._id}
-                class="btn"
-                style={{
-                  border: "2px solid",
-                  color: "rgba(255,255,255,0.50)",
-                  background: "rgba(0,0,0,0.20)",
-                  float: "right",
-                  marginTop: "20px",
-                  marginRight: "20px",
-                  marginBottom: "10px",
-                }}
-              >
-                <small class="fas fa-pen" style={{ color: "white" }}> Editar</small>
-              </a>
+              {valEditarDelete()}
+
               <hr style={{ width: "1000px" }}></hr>
               <h1 className={styleTeam}> {friends.title} </h1>
               <hr style={{ width: "1000px" }}></hr>
@@ -406,10 +423,13 @@ export function ProfileCharacter() {
                     <table class="table table-bordered">
                       <tbody>
                         <tr>
-                          <td class="w-25 text-right" style={{background: "rgba(255,255,255,0.50)"}}>
+                          <td
+                            class="w-25 text-right"
+                            style={{ background: "rgba(255,255,255,0.50)" }}
+                          >
                             <b className={styleTeam}>Owner</b>
                           </td>
-                          <td style={{ backgroundColor:"white" }}>
+                          <td style={{ backgroundColor: "white" }}>
                             <strong>
                               <a href={"/Profile?idUser=" + idOwner}>
                                 {friendsUser2}
@@ -418,10 +438,13 @@ export function ProfileCharacter() {
                           </td>
                         </tr>
                         <tr>
-                          <td class="w-25 text-right" style={{background: "rgba(255,255,255,0.50)"}} >
+                          <td
+                            class="w-25 text-right"
+                            style={{ background: "rgba(255,255,255,0.50)" }}
+                          >
                             <b className={styleTeam}>Designer</b>
                           </td>
-                          <td style={{ backgroundColor:"white" }}>
+                          <td style={{ backgroundColor: "white" }}>
                             <strong>
                               <a href={"/Profile?idUser=" + idUser}>
                                 {friendsUser}
