@@ -55,9 +55,25 @@ router.get("/comments/:idDibujo", validatorHandler(getCommentsId, "params"), asy
 });
 
 router.post("/comments", validatorHandler(createCommentsDto, "body"), async (req, res, next) => {
-    const {isActive, idDraw, name, descripcion} = req.body;
+    const {
+        isActive,
+        idDraw,
+        name,
+        descripcion,
+        creationDate,
+        image,
+        nicknameCom
+    } = req.body;
     try {
-        const commentsConst = new commentsModel({isActive, idDraw, name, descripcion});
+        const commentsConst = new commentsModel({
+            isActive,
+            idDraw,
+            name,
+            descripcion,
+            creationDate,
+            image,
+            nicknameCom
+        });
         await commentsConst.save();
         res.json({success: true, message: "Comment was created successfully", data: commentsConst});
     } catch (error) {
@@ -73,6 +89,7 @@ router.patch("/comments/:id", validatorHandler(getCommentsId, "params"), validat
             idDraw: body2.idDraw,
             name: body2.name,
             descripcion: body2.descripcion
+
         };
         let comments = await commentsModel.find(); // await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
         let buffer = [];
