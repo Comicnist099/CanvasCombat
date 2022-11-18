@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import $, { get } from "jquery";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-export function MisAtaques() {
+export function MisDefensas() {
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const [friends, setFriends] = useState([]);
@@ -32,7 +32,7 @@ export function MisAtaques() {
       }
       return (
         <div class="container text-center">
-          <h1 style={{ color: "white" }}>NO HA REALIZADO ATAQUES</h1>
+          <h1 style={{ color: "white" }}>NO HA RECIBIDO DEFENSAS</h1>
           <img
             style={{
               width: 300,
@@ -63,13 +63,13 @@ export function MisAtaques() {
     if (!idUser) {
       return (
         <div className="one">
-          <h1 style={{ color: "white" }}>ATAQUES RECIBIDOS</h1>
+          <h1 style={{ color: "white" }}>DEFENSAS</h1>
         </div>
       );
     } else if (!idCharacter) {
       return (
         <div className="one">
-          <h1 style={{ color: "white" }}>MIS ATAQUES</h1>
+          <h1 style={{ color: "white" }}>MIS DEFENSAS</h1>
         </div>
       );
     }
@@ -91,8 +91,8 @@ export function MisAtaques() {
         let estilo;
         let estiloLetras;
         if (
-          character.title !== character.character ||
-          character.cartoonist === idUser
+          character.title !== character.character &&
+          character.owner === idUser
         ) {
           if (!boolError) {
             setBoolError(true);
