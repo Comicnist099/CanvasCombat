@@ -21,6 +21,28 @@ export function Profile(props) {
     let [styleTeamBack, setStyleTeamBack] = useState(" ");
     let [teamImage, setTeamImage] = useState(" ");
     let [colorMark, setColorMark] = useState(" ");
+    let [passwordValidate1, setPasswordValidate1] = useState("none");
+    let [passwordValidate2, setPasswordValidate2] = useState("hidden");
+    let [vacio, setvacio] = useState("hidden");
+    let [vacio2, setvacio2] = useState("button");
+
+    let [Errora, setErrora] = useState(false);
+
+
+    const PasswordBoolActive = (e) => {
+        setPasswordValidate1("block");
+        setPasswordValidate2("password");
+        setvacio("button");
+        setvacio2("hidden");
+    }
+    const PasswordBoolDesactive = (e) => {
+        setPasswordValidate1("none");
+        setPasswordValidate2("hidden");
+        setvacio("hidden");
+        setvacio2("button");
+    }
+
+
     // //////////////////////
     const idUser = searchParams.get("idUser");
 
@@ -65,7 +87,11 @@ export function Profile(props) {
 
         const name = $("#NombreProfile").val();
         const nickname = $("#NicknameProfile").val();
-        const Pass = $("#PasswordProfile").val();
+        let Pass = $("#PasswordProfile").val();
+        let NewPass = $("#NewPasswordProfile").val();
+
+        let hola = false;
+
         let FacebookB = $("#PerfilFacebook").val();
         let TwitterB = $("#PerfilTwitter").val();
         let InstagramB = $("#PerfilInstagram").val();
@@ -85,32 +111,84 @@ export function Profile(props) {
         
 
 
-        let file = $("#profilePic")[0].files[0];
+        if (passwordValidate1 == "none") 
+            Pass = "";
+        
 
-        const reader = new FileReader();
 
-        reader.addEventListener("load", async function readFile(event) {
-            if (file) {
-                console.log("con foto");
-                const nameparts = file.name.split(".");
-                const filename = nameparts[0];
-                const mime = nameparts[1];
-                profilePicData = event.target.result;
+        const validName = /^[a-zA-Z ]{1,}$/;
+        const validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-                profilePicData = profilePicData.split("base64")[1];
 
-                const profilePic = {
-                    name: filename,
-                    extention: mime,
-                    path: profilePicData
-                };
+        if (! validName.test(name)) {
+            setErrora('El nombre no puede tener numeros ni caracteres especiales');
+        } else if (renderedResponsea.password != Pass && "" != Pass) {
+
+            setErrora('La contraseña no es igual a la actual');
+            console.log("no es igual");
+        } else if (! validPassword.test(NewPass) && "" != Pass) {
+
+            setErrora('La nueva Contraseña debe tener mínimo letra mayuscula, una letra minuscula, un digito, un caracter especial y debe de contar con 8 o más caracteres');
+
+        } else {
+            if ("" == Pass) {
+                NewPass = renderedResponsea.password
+            }
+
+            setErrora("");
+
+            console.log(NewPass);
+            let file = $("#profilePic")[0].files[0];
+
+            const reader = new FileReader();
+
+            reader.addEventListener("load", async function readFile(event) {
+                if (file) {
+                    console.log("con foto");
+                    const nameparts = file.name.split(".");
+                    const filename = nameparts[0];
+                    const mime = nameparts[1];
+                    profilePicData = event.target.result;
+
+                    profilePicData = profilePicData.split("base64")[1];
+
+                    const profilePic = {
+                        name: filename,
+                        extention: mime,
+                        path: profilePicData
+                    };
+                    const body = {
+                        nameUser: name,
+                        nickname: nickname,
+                        image: profilePic,
+                        facebook: FacebookB,
+                        instagram: InstagramB,
+                        extra: TwitterB,
+                        password: NewPass
+                    };
+                    const response = await fetch(`http://localhost:5000/users/${idUser}`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(body)
+                    });
+                    const respJson = await response.json();
+                    console.log(respJson);
+                    if (respJson.error == "Bad Request") {
+                        return console.log("NO JALO");
+                    }
+                }
+            });
+            if (! file) {
+                console.log("sin foto");
                 const body = {
                     nameUser: name,
                     nickname: nickname,
-                    image: profilePic,
                     facebook: FacebookB,
                     instagram: InstagramB,
-                    extra: TwitterB
+                    extra: TwitterB,
+                    password: NewPass
                 };
                 const response = await fetch(`http://localhost:5000/users/${idUser}`, {
                     method: "PATCH",
@@ -124,34 +202,13 @@ export function Profile(props) {
                 if (respJson.error == "Bad Request") {
                     return console.log("NO JALO");
                 }
+            } else {
+                reader.readAsDataURL(file);
             }
-        });
-        if (! file) {
-            console.log("sin foto");
-            const body = {
-                nameUser: name,
-                nickname: nickname,
-                facebook: FacebookB,
-                instagram: InstagramB,
-                extra: TwitterB
-            };
-            const response = await fetch(`http://localhost:5000/users/${idUser}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            });
-            const respJson = await response.json();
-            console.log(respJson);
-            if (respJson.error == "Bad Request") {
-                return console.log("NO JALO");
-            }
-        } else {
-            reader.readAsDataURL(file);
+            window.location.reload();
         }
 
-        window.location.reload();
+
     };
     // ////////////////////////////////
 
@@ -471,7 +528,7 @@ export function Profile(props) {
                                             border: " 15px solid",
                                             color: colorMark,
                                             wdth: 300,
-                                            maxHeight: 600
+                                            maxHeight: 300
                                         }
                                     }
                                     src={src}
@@ -515,7 +572,7 @@ export function Profile(props) {
                                         <input placeholder={
                                                 renderedResponsea.nameUser
                                             }
-                                            minlength="3"
+
                                             className="form-control"
                                             type="text"
                                             name="NombreProfile"
@@ -529,7 +586,7 @@ export function Profile(props) {
                                         <input placeholder={
                                                 renderedResponsea.nickname
                                             }
-                                            minlength="3"
+
                                             className="form-control"
                                             type="text"
                                             name="NickNameProfile"
@@ -557,14 +614,43 @@ export function Profile(props) {
                             <div className="row">
                                 <div className="col-sm-12 col-md-6">
                                     <div className="form-group mb-3">
-                                        <label className={styleTeam}>Password</label>
-                                        <input className="form-control" type="password" name="password" autocomplete="off" required="" id="PasswordProfile"
-                                            placeholder={
-                                                renderedResponsea.password
-                                        }></input>
+                                        <label className={styleTeam}
+                                            style={
+                                                {display: passwordValidate1}
+                                        }>Password</label>
+                                        <input className="form-control"
+                                            type={passwordValidate2}
+                                            name="password"
+                                            autocomplete="off"
+                                            required=""
+                                            id="PasswordProfile"></input>
+
+                                    </div>
+
+                                    <div className="form-group mb-3">
+                                        <label style={
+                                                {display: passwordValidate1}
+                                            }
+                                            className={styleTeam}>Nueva Password</label>
+                                        <input className="form-control"
+                                            type={passwordValidate2}
+                                            name="password"
+                                            autocomplete="off"
+                                            required=""
+                                            id="NewPasswordProfile"></input>
+                                        <input class="btn btn-dark"
+                                            type={vacio2}
+                                            value="Cambiar Contraseña"
+                                            onClick={PasswordBoolActive}></input>
+
+                                        <input class="btn btn-dark"
+                                            type={vacio}
+                                            value="No cambiar Contraseña"
+                                            onClick={PasswordBoolDesactive}></input>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="row">
                                 <div className="col-sm-12 col-md-6">
                                     <div className="form-group mb-3">
@@ -587,6 +673,13 @@ export function Profile(props) {
                                 style={
                                     {marginBottom: "19px"}
                             }>
+                                <p style={
+                                    {
+                                        color: "red",
+                                        background: "white"
+                                    }
+                                }>
+                                    {Errora}</p>
                                 <input className="btn btn-danger" id="editButton" name="editButton " type="button" value="Regresar"
                                     onClick={staticMode}/>
                                 <button className="btn btn-success" id="logInButton" type="submit">
@@ -696,7 +789,9 @@ export function Profile(props) {
                                 <div className="col-sm-12 col-md-6">
                                     <div className="form-group mb-3">
                                         <label className={styleTeam}>Password</label>
-                                        <input className="form-control" type="password" name="password" autocomplete="off" required="" value="CONTRA" disabled></input>
+                                        <div>
+                                            <input className="form-control" type="password" name="password" autocomplete="off" required="" value="JAKSDJASKDJASKDJ" disabled></input>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
