@@ -524,6 +524,17 @@ export function Profile(props) {
                   SUS ATAQUES
                 </a>
               </li>
+              <li className="nav-item">
+                <a
+                  class="btn btn-dark"
+                  id="editButton"
+                  name="editButton "
+                  type="button"
+                  href={"MisDefensas?idUser=" + idUser}
+                >
+                  Sus Defensas
+                </a>
+              </li>
             </ul>
           </div>
         </div>

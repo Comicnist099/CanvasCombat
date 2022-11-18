@@ -12,7 +12,7 @@ export function MisDefensas() {
   let idUser = searchParams.get("idUser");
 
   const getResponse = async () => {
-    const response = await fetch(`/draw`);
+    const response = await fetch(`/draw/Defensas/${idUser}`);
     const body = await response.json();
     const response2 = await fetch(`/draw/${idCharacter}`);
     const body2 = await response2.json();
@@ -69,7 +69,7 @@ export function MisDefensas() {
     } else if (!idCharacter) {
       return (
         <div className="one">
-          <h1 style={{ color: "white" }}>MIS DEFENSAS</h1>
+          <h1 style={{ color: "white" }}> DEFENSAS</h1>
         </div>
       );
     }
@@ -90,10 +90,7 @@ export function MisDefensas() {
       {friends.map((character) => {
         let estilo;
         let estiloLetras;
-        if (
-          character.title !== character.character &&
-          character.owner === idUser
-        ) {
+       
           if (!boolError) {
             setBoolError(true);
           }
@@ -196,7 +193,7 @@ export function MisDefensas() {
               <div className="row" style={{ margin: "10px" }}></div>
             </div>
           );
-        }
+        
       })}
       {ErrorNotFound(boolError)}
       {/* tarjeta de personajes  */}{" "}
