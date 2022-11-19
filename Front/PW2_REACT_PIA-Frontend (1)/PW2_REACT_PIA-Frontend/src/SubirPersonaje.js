@@ -3,8 +3,12 @@ import Cookies from "universal-cookie";
 import $ from "jquery";
 import {Link, useNavigate} from "react-router-dom";
 
+
 export function SubirPersonaje() {
     const [friendsUser, setfriendsUser] = useState();
+    const [FinishProcess, setFinishProcess] = useState();
+    const [FinishProcess2, setFinishProcess2] = useState();
+
 
     const cookiesNew = new Cookies();
     const idUser = cookiesNew.get("idUser");
@@ -12,7 +16,7 @@ export function SubirPersonaje() {
 
     // ////////////////////////////////////////////////
     let characterPicData = null;
-
+    let characterPicData2 = null;
 
     const [errorA, setErrora] = useState("");
 
@@ -31,6 +35,23 @@ export function SubirPersonaje() {
             });
         }
     };
+
+
+    const [
+        {
+            alt2,
+            src2
+        }, setImg2
+    ] = useState({src2: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg", alt2: "Upload an Image"});
+    const handleImg2 = (e) => {
+        if (e.target.files[0]) {
+            setImg2({
+                src2: URL.createObjectURL(e.target.files[0]),
+                alt2: e.target.files[0].name
+            });
+        }
+    };
+
 
     const refresh = async (e) => {
         e.preventDefault();
@@ -67,7 +88,12 @@ export function SubirPersonaje() {
             const file = $("#characterPic")[0].files[0];
             const reader = new FileReader();
 
-            if (file) {
+            const file2 = $("#characterPic2")[0].files[0];
+            const reader2 = new FileReader();
+            setFinishProcess(false);
+            setFinishProcess2(false);
+
+            if (file && file2) {
                 setErrora('');
                 reader.addEventListener("load", async function readFile(event) {
                     const nameparts = file.name.split(".");
@@ -81,52 +107,112 @@ export function SubirPersonaje() {
                         extention: mime,
                         path: characterPicData
                     };
-                    console.log(characterPic);
 
-                    let d = Date(Date.now());
-                    let a = d.toString();
-                    const creationDate = a.substr(4, 20);
-                    console.log(creationDate);
+                    setFinishProcess(true);
+                    reader2.addEventListener("load", async function readFile(event2) {
 
-                    const body = {
-                        // Agrega todos los datos en conjunto para así poder subirlo a mongo
+                        const nameparts = file2.name.split(".");
+                        const filename = nameparts[0];
+                        const mime = nameparts[1];
+                        characterPicData2 = event2.target.result;
 
-                        isActive: true,
-                        character: title,
-                        title: title,
-                        descripcion: descripcion,
-                        owner: idUser,
-                        cartoonist: idUser,
-                        creationDate: creationDate,
-                        team: friendsUser.team,
-                        body: " ",
-                        lineart: " ",
-                        detail: " ",
-                        background: " ",
-                        image: characterPic,
-                        points: 0
-                    };
+                        characterPicData2 = characterPicData2.split("base64")[1];
+                        const characterPic2 = {
+                            name: filename,
+                            extention: mime,
+                            path: characterPicData2
+                        };
 
-                    const response = await fetch(`http://localhost:5000/draw`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(body)
+                        let d = Date(Date.now());
+                        let a = d.toString();
+                        const creationDate = a.substr(4, 20);
+                        console.log(characterPic2);
+                        console.log(characterPic);
+                        const body = {
+                            // Agrega todos los datos en conjunto para así poder subirlo a mongo
+                            isActive: true,
+                            character: title,
+                            title: title,
+                            descripcion: descripcion,
+                            owner: idUser,
+                            cartoonist: idUser,
+                            creationDate: creationDate,
+                            team: friendsUser.team,
+                            body: " ",
+                            lineart: " ",
+                            detail: " ",
+                            background: " ",
+                            image: characterPic,
+                            imageProfile: characterPic2,
+                            points: 0
+                        };
+
+                        const response = await fetch(`http://localhost:5000/draw`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(body)
+                        });
+                        const respJson = await response.json();
+                        console.log(respJson);
+                        if (respJson.error == "Bad Request") {
+                            return console.log("NO JALO");
+                        } else {
+                            navigate('/MisPersonajes?idUser=' + idUser);
+                        }
+
+
                     });
-                    const respJson = await response.json();
-                    console.log(respJson);
-                    if (respJson.error == "Bad Request") {
-                        return console.log("NO JALO");
-                    } else {
-                        navigate('/MisPersonajes?idUser=' + idUser);
-                    }
                 });
+
                 reader.readAsDataURL(file);
-            } else {
-                setErrora('Coloque la imagen del personaje');
+                reader2.readAsDataURL(file2);
+                console.log(FinishProcess);
+                console.log(FinishProcess2);
+
+                let d = Date(Date.now());
+                let a = d.toString();
+                const creationDate = a.substr(4, 20);
+                console.log(creationDate);
+
+                const body = {
+                    // Agrega todos los datos en conjunto para así poder subirlo a mongo
+                    isActive: true,
+                    character: title,
+                    title: title,
+                    descripcion: descripcion,
+                    owner: idUser,
+                    cartoonist: idUser,
+                    creationDate: creationDate,
+                    team: friendsUser.team,
+                    body: " ",
+                    lineart: " ",
+                    detail: " ",
+                    background: " ",
+                    image: characterPic,
+                    imageProfile: characterPic2,
+                    points: 0
+                };
+
+                const response = await fetch(`http://localhost:5000/draw`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+                const respJson = await response.json();
+                console.log(respJson);
+                if (respJson.error == "Bad Request") {
+                    return console.log("NO JALO");
+                } else {
+                    navigate('/MisPersonajes?idUser=' + idUser);
+                }
+
+
+                console.log(file);
             }
-            console.log(file);
         }
     };
 
@@ -184,7 +270,23 @@ export function SubirPersonaje() {
                                     style={
                                         {margin: "15px"}
                                 }></div>
+                                <h2>Miniatura del personaje</h2>
                                 <img height="200" width="200"
+                                    src={src2}
+                                    alt={alt2}
+                                    className="form-img__img-preview"/>
+
+                                <input id="characterPic2" name="characterPic" type="file" accept=".jpeg, .jpg, .png, .bmp"
+                                    onChange={handleImg2}/>
+                                <br></br>
+                                <br></br>
+                                <h2>Personaje completo</h2>
+                                <img style={
+                                        {
+                                            width: 400,
+                                            maxHeight: 2400
+                                        }
+                                    }
                                     src={src}
                                     alt={alt}
                                     className="form-img__img-preview"/>

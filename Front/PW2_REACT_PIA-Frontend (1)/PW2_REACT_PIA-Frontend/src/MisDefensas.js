@@ -24,9 +24,11 @@ export function MisDefensas() {
         if (response.status !== 200) 
             throw Error(body.message);
         
+
         if (response2.status !== 200) 
             throw Error(body2.message);
         
+
     };
     const ErrorNotFound = (source) => {
         if (!source) {
@@ -148,7 +150,7 @@ export function MisDefensas() {
                                             className="img-fluid"
                                             alt=" "
                                             src={
-                                                character.image.path
+                                                character.imageProfile.path
                                         }></img>
                                     </a>
                                 </div>

@@ -49,13 +49,22 @@ class drawServices {
         validateData(draws, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
         return draws;
     }
+    async findDefenseDraw(id) { // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
+        const draws = this.draws.filter((item) => item.owner === id && item.title !== item.character);
+        // NOT FOUND
+        validateData(draws, NOTFOUND, 'NOT FOUND Draw', (data) => !data);
+        validateData(draws, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
+        return draws;
+
+    }
     async findMisPersonajesDraw(id) { // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
-        const draws = this.draws.filter((item) => item.owner === id && item.cartoonist === item.owner);
+        const draws = this.draws.filter((item) => item.owner === id && item.owner === item.cartoonist);
         // NOT FOUND
         validateData(draws, NOTFOUND, 'NOT FOUND Draw', (data) => !data);
         validateData(draws, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
         return draws;
     }
+
 
     // FAKER
     create(data) {

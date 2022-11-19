@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const validatorHandler = require("./../middlewares/validator.handler");
-
+const faker = require('faker');
 const DrawsProduct = require("../services/draw.service");
 const UserComments = require("../services/comment.service");
 const drawsModel = require("../models/draw");
@@ -186,7 +186,8 @@ router.post("/", validatorHandler(createDrawDto, "body"), async (req, res, next)
         detail,
         background,
         image,
-        points
+        points,
+        imageProfile
     } = req.body;
 
     const drawsConst = new drawsModel({
@@ -203,13 +204,14 @@ router.post("/", validatorHandler(createDrawDto, "body"), async (req, res, next)
         detail,
         background,
         image,
-        points
+        points,
+        imageProfile
     });
+    if (image && imageProfile) {
 
-    if (image) {
         ({name, path, extention} = image);
+        name = name + faker.datatype.uuid() + "." + extention;
 
-        name = name + "." + extention;
 
         let buffer = new Buffer(path, "base64");
         await blobService.createBlockBlobFromText(container, name, buffer, {
@@ -219,19 +221,43 @@ router.post("/", validatorHandler(createDrawDto, "body"), async (req, res, next)
                 res.json({success: false, message: err});
             } else {
                 const fileURL = `${URL}${container}/${name}`;
-
                 drawsConst["image"]["path"] = fileURL;
-                await drawsConst.save();
-                res.json({success: true, message: "El personaje se ha creado con exito", Data: drawsConst});
+
+                ({name, path, extention} = imageProfile);
+                name = name + faker.datatype.uuid() + "." + extention;
+
+                let buffer = new Buffer(path, "base64");
+                await blobService.createBlockBlobFromText(container, name, buffer, {
+                    contentType: extention
+                }, async function (err) {
+                    if (err) {
+                        res.json({success: false, message: err});
+                    } else {
+
+                        const fileURL = `${URL}${container}/${name}`;
+                        drawsConst["imageProfile"]["path"] = fileURL;
+
+
+                        await drawsConst.save();
+                        res.json({success: true, message: "El personaje se ha creado con exito", Data: drawsConst});
+
+                    }
+                });
+
             }
         });
-    } else {
+
+
+        /*        
+ */
+    } /* else {
         await drawsConst.save();
-        res.json({success: true, message: "Draws was created successfully", data: drawsConst});
-    }
+        
+    } /*   res.json({success: true, message: "El personaje se ha creado con exito", Data: drawsConst});
+ */
 });
 
-router.patch("/:id", validatorHandler(getDrawId, "params"), validatorHandler(updateDrawDto, "body"), async (req, res) => {
+router.patch("/ : id ", validatorHandler(getDrawId, " params "), validatorHandler(updateDrawDto, " body "), async (req, res) => {
     try {
         const body2 = req.body;
         const drawsM = {
