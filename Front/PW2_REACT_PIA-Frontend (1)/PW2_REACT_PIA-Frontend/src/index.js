@@ -19,6 +19,7 @@ import { DashBoardCharacter } from "./DashBoardCharacter";
 import { DashBoardAttacks } from "./DashBoardAttacks";
 import { MisAtaques } from "./MisAtaques";
 import { MisDefensas } from "./MisDefensas";
+import { MisDefensasCharacter } from "./MisDefensasCharacter";
 
 import "./App.css";
 import "./fonts/fontawesome-all.min.css";
@@ -63,6 +64,7 @@ root.render(
       <Route path="DashBoardAttacks" element={<DashBoardAttacks />} />
       <Route path="MisAtaques" element={<MisAtaques />} />
       <Route path="MisDefensas" element={<MisDefensas />} />
+      <Route path="MisDefensasCharacter" element={<MisDefensasCharacter />} />
     </Routes>
     <Footer />
   </BrowserRouter>

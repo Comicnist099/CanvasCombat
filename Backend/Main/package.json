@@ -41,8 +41,10 @@
     "mongoose": "^6.7.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "react-hook-form": "^7.39.4",
     "react-router-dom": "^6.4.3",
     "react-select": "^5.6.0",
+    "sweetalert": "^2.1.2",
     "universal-cookie": "^4.0.4"
   }
 }
