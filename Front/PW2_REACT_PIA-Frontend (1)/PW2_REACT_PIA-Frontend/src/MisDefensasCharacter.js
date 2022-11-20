@@ -12,14 +12,16 @@ export function MisDefensasCharacter() {
   let idUser = searchParams.get("idUser");
 
   const getResponse = async () => {
-    const response = await fetch(`/draw/Defensas/${idUser}`);
+    const response = await fetch(`/draw/profile/Defensas/${idCharacter}`);
     const body = await response.json();
-    const response2 = await fetch(`/draw/${idCharacter}`);
+    const response2 = await fetch(`/draw/${idUser}`);
     const body2 = await response2.json();
 
     setRenderedResponsea(body);
     setFriends(body);
     setidUsuario(body2.owner);
+
+    console.log(body);
 
     if (response.status !== 200) throw Error(body.message);
 
