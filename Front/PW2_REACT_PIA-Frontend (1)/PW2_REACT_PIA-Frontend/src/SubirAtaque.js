@@ -7,7 +7,6 @@ import swal from "sweetalert";
 export function SubirAtaque() {
   const cookiesNew = new Cookies();
   const idUser = cookiesNew.get("idUser");
-  const navigate = useNavigate();
   const [errorA, setErrora] = useState("");
   const [nameDraw, setNameDraw] = useState();
   const [imageDraw, setImageDraw] = useState();
@@ -179,7 +178,27 @@ export function SubirAtaque() {
                   path: characterPicData2,
                 };
 
-                // ///////////////////////////////////
+                ////////////patch de usuario
+                const bodyUser = {
+                  achievements3: true,
+                };
+                const response2 = await fetch(
+                  `http://localhost:5000/users/${idUser}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bodyUser),
+                  }
+                );
+                const respJson2 = await response2.json();
+                console.log(respJson2);
+                if (respJson2.error == "Bad Request") {
+                  return console.log("NO JALO");
+                }
+
+                // //////////////Subida de ataque
                 let d = Date(Date.now());
                 let a = d.toString();
                 const creationDate = a.substr(4, 20);
@@ -219,11 +238,6 @@ export function SubirAtaque() {
                 if (respJson.error == "Bad Request") {
                   return console.log("NO JALO");
                 } else {
-                  /*
-                TEAM SWEET ID : 6375936aad8bffc948b4d770
-                TEAM SPICY ID : 63759398ad8bffc948b4d778
-              
-                */
 
                   let body3;
                   if (friendsUser.team == "0") {

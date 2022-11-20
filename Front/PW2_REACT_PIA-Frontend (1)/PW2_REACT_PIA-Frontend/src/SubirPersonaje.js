@@ -118,6 +118,27 @@ export function SubirPersonaje() {
                   path: characterPicData2,
                 };
 
+                /////////PATCH de usuario
+                const bodyUser = {
+                  achievements2: true,
+                };
+                const response2 = await fetch(
+                  `http://localhost:5000/users/${idUser}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bodyUser),
+                  }
+                );
+                const respJson2 = await response2.json();
+                console.log(respJson2);
+                if (respJson2.error == "Bad Request") {
+                  return console.log("NO JALO");
+                }
+
+                //////////Subida de Personaje
                 let d = Date(Date.now());
                 let a = d.toString();
                 const creationDate = a.substr(4, 20);

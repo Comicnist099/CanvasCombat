@@ -23,14 +23,7 @@ const UserSchema = new Schema({
   achievements1: { type: Boolean, required: true },
   achievements2: { type: Boolean, required: true },
   achievements3: { type: Boolean, required: true },
-  achievements4: { type: Boolean, required: true },
-  achievements5: { type: Boolean, required: true },
-  achievements6: { type: Boolean, required: true },
-  achievements7: { type: Boolean, required: true },
-  achievements8: { type: Boolean, required: true },
-  achievements9: { type: Boolean, required: true },
-  achievements10: { type: Boolean, required: true },
-  achievements11: { type: Boolean, required: true }
+  achievements4: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('users', UserSchema);

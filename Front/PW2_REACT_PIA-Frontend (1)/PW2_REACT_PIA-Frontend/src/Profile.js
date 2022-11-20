@@ -7,7 +7,6 @@ import swal from "sweetalert";
 
 export function Profile(props) {
   let profilePicData = null;
-  const navigate = useNavigate();
   // /////////hook///////////
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
@@ -445,7 +444,7 @@ export function Profile(props) {
                 <a
                   class="btn btn-dark"
                   id="lists"
-                  href="Logros"
+                  href={"Logros?idUser=" + idUser}
                   style={{ textSlign: "center" }}
                 >
                   LOGROS
@@ -516,10 +515,10 @@ export function Profile(props) {
                 <a
                   class="btn btn-dark"
                   id="lists"
-                  href="Logros"
+                  href={"Logros?idUser=" + idUser}
                   style={{ textSlign: "center" }}
                 >
-                  LOGROS
+                  SUS LOGROS
                 </a>
               </li>
 

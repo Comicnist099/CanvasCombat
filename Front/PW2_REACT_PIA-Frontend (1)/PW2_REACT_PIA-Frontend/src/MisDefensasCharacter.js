@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import $, { get } from "jquery";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-export function MisDefensas() {
+export function MisDefensasCharacter() {
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const [friends, setFriends] = useState([]);
@@ -60,22 +60,6 @@ export function MisDefensas() {
     getResponse();
   }, []);
 
-  const compararID = () => {
-    if (!idUser) {
-      return (
-        <div className="one">
-          <h1 style={{ color: "white" }}>DEFENSAS</h1>
-        </div>
-      );
-    } else if (!idCharacter) {
-      return (
-        <div className="one">
-          <h1 style={{ color: "white" }}>DEFENSAS</h1>
-        </div>
-      );
-    }
-  };
-
   return (
     <>
       <div
@@ -85,7 +69,9 @@ export function MisDefensas() {
           marginLeft: "50px",
         }}
       >
-        <div className="row">{compararID()}</div>
+        <div className="one">
+          <h1 style={{ color: "white" }}>DEFENSAS</h1>
+        </div>
       </div>
       {/* tarjeta de personajes  */}
       {friends.map((character) => {
