@@ -252,7 +252,7 @@ export function ProfileCharacter() { // /COOCKIES/////////
                                 }
                             }
                             href={
-                                "/MisDefensas?idCharacter=" + idCharacter + '&idUser=' + friends.owner
+                                "/MisDefensasCharacter?idCharacter=" + idCharacter + '&idUser=' + friends.owner
                             }
                             class="btn">
                             <b className="far fa-eye"
