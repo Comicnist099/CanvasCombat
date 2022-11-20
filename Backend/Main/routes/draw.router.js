@@ -39,14 +39,14 @@ router.get("/comments", async (req, res) => {
 
 // //////////////////////////////
 // ////////Comentario///////////
-router.get("/comments/:idDibujo", validatorHandler(getCommentsId, "params"), async (req, res, next) => {
+router.get("/comments/:id", validatorHandler(getCommentsId, "params"), async (req, res, next) => {
     try {
-        const {idDibujo} = req.params;
+        const {id} = req.params;
         let comments = await commentsModel.find();
         let buffer = [];
         buffer = comments;
         await commentService.generate(buffer);
-        const commentsId = await commentService.findCommentsDraw(idDibujo);
+        const commentsId = await commentService.findCommentsDraw(id);
 
         res.json(commentsId);
     } catch (error) {
