@@ -43,9 +43,8 @@ export function ProfileCharacter() { // /COOCKIES/////////
 
 
     };
-    async function refresh2(id) { /*     const element = "#" + id;
-        $(element).hide(); */
 
+    async function deleteCommitContent(id) {
         const response = await fetch(`http://localhost:5000/draw/comments/${id}`, {method: "DELETE"});
         const respJson = await response.json();
         console.log(respJson);
@@ -54,6 +53,83 @@ export function ProfileCharacter() { // /COOCKIES/////////
         };
         getResponseComments();
     }
+
+    async function deleteCommit(id) { /*     const element = "#" + id;
+        $(element).hide(); */
+
+        swal({
+            title: "AVISO",
+            text: "Esta seguro que desea eliminar este comentario",
+            icon: "warning",
+            buttons: ["Cancelar", "OK"]
+        }).then((respuesta) => {
+            if (respuesta) {
+                deleteCommitContent(id);
+            }
+        });
+
+    }
+
+    async function PatchCommit(id, contentCommit) { /*     const element = "#" + id;
+    $(element).hide(); */
+
+        ModeEdit(false, id + "1", id + "2", id + "3", id + "4", id + "5");
+
+        const finalContent = document.getElementById(contentCommit).value
+
+        console.log(finalContent);
+        const body = {
+            descripcion: finalContent
+        }
+
+        const response = await fetch(`http://localhost:5000/draw/comments/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+        const respJson = await response.json();
+        console.log(respJson);
+        if (respJson.error == "Bad Request") {
+            return console.log("NO JALO");
+        }
+        getResponseComments();
+
+    }
+
+
+    async function ModeEdit(Mode, textBox, buttonText, buttonTextEditar1, buttonTextEditar2, textboxFinal) { /*
+        const element = "#" + id;
+        $(element).hide(); */
+        if (Mode) {
+            document.getElementById(textBox).style.display = "inline";
+            document.getElementById(buttonText).style.display = "inline";
+            document.getElementById(buttonTextEditar1).style.display = "inline";
+            document.getElementById(buttonTextEditar2).style.display = "none";
+            document.getElementById(textboxFinal).style.display = "none";
+        } else {
+            document.getElementById(textBox).style.display = "none";
+            document.getElementById(buttonText).style.display = "none";
+            document.getElementById(buttonTextEditar1).style.display = "none";
+            document.getElementById(buttonTextEditar2).style.display = "inline";
+            document.getElementById(textboxFinal).style.display = "inline";
+        }
+        /*  const response = await fetch(`http://localhost:5000/draw/comments/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+        const respJson = await response.json();
+        console.log(respJson);
+        if (respJson.error == "Bad Request") {
+            return console.log("NO JALO");
+        }
+        getResponseComments(); */
+    }
+
 
     let getResponseIdActive = async () => {
         const response = await fetch(`/users/`);
@@ -548,20 +624,80 @@ export function ProfileCharacter() { // /COOCKIES/////////
                                                                 }</p>
                                                             </div>
                                                         </div>
-                                                        <div class="comment-text">
+                                                        <div id={
+                                                                Commit._id + "5"
+                                                            }
+                                                            class="comment-text">
                                                             {
                                                             Commit.descripcion
                                                         } </div>
 
 
+                                                        <input type="type"
+                                                            style={
+                                                                {display: "none"}
+                                                            }
+
+                                                            defaultValue={
+                                                                Commit.descripcion
+                                                            }
+                                                            id={
+                                                                Commit._id + "1"
+                                                        }></input>
+                                                        <button id={
+                                                                Commit._id + "2"
+                                                            }
+                                                            class="btn btn-success btn-xs "
+                                                            style={
+                                                                {display: "none"}
+                                                            }
+                                                            onClick={
+                                                                async () => PatchCommit(Commit._id, Commit._id + "1")
+                                                        }>
+                                                            <span class="fas fa-arrow-alt-circle-right"></span>
+                                                        </button>
+
                                                         <div class="action">
                                                             <form>
-                                                                <button type="button" class="btn btn-success btn-xs" title="Approved">
-                                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                                <button type="button"
+                                                                    id={
+                                                                        Commit._id + "3"
+                                                                    }
+                                                                    style={
+                                                                        {display: "none"}
+                                                                    }
+                                                                    class="btn btn-success btn-xs"
+                                                                    title="Approved"
+                                                                    onClick={
+                                                                        async () => ModeEdit(false, Commit._id + "1", Commit._id + "2", Commit._id + "3", Commit._id + "4", Commit._id + "5")
+                                                                }>
+                                                                    <span class="fas fa-pencil-alt"></span>
                                                                 </button>
+                                                                {/*
+                                                                Commit1      =    Textbox  editar    
+                                                                Commit2      =    button editar
+                                                                Commit3      =    button regresarModo normal
+                                                                Commit4      =    Modificarmodo         
+                                                                Commit5      =    Textbox Final
+                                                                
+                                                                
+                                                                */}
+                                                                <button id={
+                                                                        Commit._id + "4"
+                                                                    }
+                                                                    type="button"
+                                                                    class="btn btn-success btn-xs"
+                                                                    title="Approved"
+                                                                    onClick={
+                                                                        async () => ModeEdit(true, Commit._id + "1", Commit._id + "2", Commit._id + "3", Commit._id + "4", Commit._id + "5")
+                                                                }>
+                                                                    <span class="fas fa-pencil-alt"></span>
+                                                                </button>
+
+
                                                                 <button type="button" class=" btn btn-danger btn-xs" title="Edit"
                                                                     onClick={
-                                                                        async () => refresh2(Commit._id)
+                                                                        async () => deleteCommit(Commit._id)
                                                                 }>
                                                                     <span class="far fa-trash-alt"></span>
                                                                 </button>

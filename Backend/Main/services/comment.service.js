@@ -63,6 +63,15 @@ class commentServices {
     }
 
 
+    async findComments(id) { // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
+        const comments = this.comments.find((item) => item._id === id);
+        // NOT FOUND
+        validateData(comments, NOTFOUND, 'NOT FOUND Comments', (data) => !data);
+        validateData(comments, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
+        return comments;
+    }
+
+
     // FAKER
     create(data) {
         const newComments = {

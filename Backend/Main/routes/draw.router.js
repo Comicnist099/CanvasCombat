@@ -54,6 +54,22 @@ router.get("/comments/:id", validatorHandler(getCommentsId, "params"), async (re
     }
 });
 
+
+router.get("unico/comments/:id", validatorHandler(getCommentsId, "params"), async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        let comments = await commentsModel.find();
+        let buffer = [];
+        buffer = comments;
+        await commentService.generate(buffer);
+        const commentsId = await commentService.findComments(id);
+        res.json(commentsId);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
 router.get("/Defensas/:id", validatorHandler(getDrawId, "params"), async (req, res, next) => {
     try {
         const {id} = req.params; // aquí agarra el id de la url
