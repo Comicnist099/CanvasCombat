@@ -168,50 +168,6 @@ export function SubirPersonaje() {
 
                 reader.readAsDataURL(file);
                 reader2.readAsDataURL(file2);
-                console.log(FinishProcess);
-                console.log(FinishProcess2);
-
-                let d = Date(Date.now());
-                let a = d.toString();
-                const creationDate = a.substr(4, 20);
-                console.log(creationDate);
-
-                const body = {
-                    // Agrega todos los datos en conjunto para así poder subirlo a mongo
-                    isActive: true,
-                    character: title,
-                    title: title,
-                    descripcion: descripcion,
-                    owner: idUser,
-                    cartoonist: idUser,
-                    creationDate: creationDate,
-                    team: friendsUser.team,
-                    body: " ",
-                    lineart: " ",
-                    detail: " ",
-                    background: " ",
-                    image: characterPic,
-                    imageProfile: characterPic2,
-                    points: 0
-                };
-
-                const response = await fetch(`http://localhost:5000/draw`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                });
-                const respJson = await response.json();
-                console.log(respJson);
-                if (respJson.error == "Bad Request") {
-                    return console.log("NO JALO");
-                } else {
-                    navigate('/MisPersonajes?idUser=' + idUser);
-                }
-
-
-                console.log(file);
             }
         }
     };
