@@ -13,7 +13,7 @@ export function ProfileCharacter() { // /COOCKIES/////////
     const [friendsUser, setfriendsUser] = useState();
     const [friendsUser2, setfriendsUser2] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [Commentarios, setCommentarios] = useState([]);
+    const [commentarios, setCommentarios] = useState([]);
     const [image, setImage] = useState();
     const [idUser, setIdUser] = useState();
     const [idOwner, setIdOwner] = useState();
@@ -35,12 +35,6 @@ export function ProfileCharacter() { // /COOCKIES/////////
         setError(body.error);
         setCommentarios(body);
 
-        if (Commentarios.error != "Not Found") {
-            console.log("not found commit")
-
-
-        }
-
 
         console.log(body);
         if (response.status !== 200) 
@@ -49,55 +43,16 @@ export function ProfileCharacter() { // /COOCKIES/////////
 
 
     };
-    const CommitEnable = () => {
-        if (Commentarios[0].error !== "Not Found") {
-            Commentarios.map((Commit) => {
-                return (
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-xs-2 col-md-1">
-                                        <img width={80}
-                                            lenght={80}
-                                            src="https://imgs.search.brave.com/AHLpYMvoMk9Sj0GIXCuDKarbSslo36wkqvbXAealMxo/rs:fit:1200:1080:1/g:ce/aHR0cHM6Ly9pbWcu/Zm90b2NvbW11bml0/eS5jb20vYXRhcmRl/Y2VyZXMtMWIyODI5/YmQtZTI4Zi00N2U1/LTlhNTUtOGQ5OTg4/ZjhlMTg0LmpwZz9o/ZWlnaHQ9MTA4MA"
-                                            class="img-circle img-responsive"
-                                            alt=""/>
-                                    </div>
-                                    <div class="col-xs-10 col-md-11">
-                                        <div>
-                                            <div class="mic-info">
-                                                By:
-                                                <a href="#">
-                                                    {}</a>
-                                                on 2 Aug 2013
-                                            </div>
-                                        </div>
-                                        <div class="comment-text">
-                                            {
-                                            Commit.descripcion
-                                        } </div>
-                                        <div class="action">
-                                            <button type="button" class="btn btn-primary btn-xs" title="Edit">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </button>
-                                            <button type="button" class="btn btn-success btn-xs" title="Approved">
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-xs" title="Delete">
-                                                <span class="glyphicon glyphicon-trash"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <br></br>
-                        <br></br>
-                    </div>
-                );
-            })
-        }
+    async function refresh2(id) { /*     const element = "#" + id;
+        $(element).hide(); */
+
+        const response = await fetch(`http://localhost:5000/draw/comments/${id}`, {method: "DELETE"});
+        const respJson = await response.json();
+        console.log(respJson);
+        if (respJson.error == "Bad Request") {
+            return console.log("NO JALO");
+        };
+        getResponseComments();
     }
 
     let getResponseIdActive = async () => {
@@ -119,30 +74,13 @@ export function ProfileCharacter() { // /COOCKIES/////////
     }, []);
 
     // ///COMENTARIO Y RESPUESTA///////////
-    const Comments = () => {
-        return (
-            <div class="row">
-                <div class="panel panel-default widget">
-                    <div class="panel-heading">
-                        <span class="glyphicon glyphicon-comment"></span>
-                        <h3 class="panel-title"
-                            style={
-                                {color: "white"}
-                        }>
-                            Recent Comments
-                        </h3>
-                        <span class="label label-info">78</span>
-                    </div>
-                    {CommitEnable}; {" "} </div>
-            </div>
-        );
-    };
+
     const PushCommit = async (e) => {
         e.preventDefault();
         const contentCommit = $("#CharacterCommit").val();
         console.log(contentCommit);
 
-        const response2 = await fetch(`/users/${idUser}`);
+        const response2 = await fetch(`/users/${idUserCookies}`);
         const body2 = await response2.json();
 
 
@@ -391,6 +329,11 @@ export function ProfileCharacter() { // /COOCKIES/////////
         getResponse();
     }, []);
 
+
+    const hola = () => {
+        render()
+    }
+
     return (
         <>
             <div className="col-11 center"
@@ -553,9 +496,141 @@ export function ProfileCharacter() { // /COOCKIES/////////
             </div>
 
             <div className="container">
-                {
-                Comments()
-            }
+                <div class="row">
+                    <div class="panel panel-default widget">
+                        <div class="panel-heading">
+                            <span class="glyphicon glyphicon-comment"></span>
+                            <h3 class="panel-title"
+                                style={
+                                    {color: "white"}
+                            }>
+                                Recent Comments
+                            </h3>
+                            <span class="label label-info">78</span>
+                        </div>
+                        {
+                        commentarios.map((Commit) => {
+                            console.log(Commit);
+
+                            if (Commit.name == idUserCookies) {
+                                return (
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-md-1">
+                                                        <img width={80}
+                                                            lenght={80}
+                                                            src={
+                                                                Commit.image.path
+                                                            }
+                                                            class="img-circle img-responsive"
+                                                            alt=""/>
+                                                    </div>
+                                                    <div class="col-xs-10 col-md-11">
+                                                        <div>
+                                                            <div class="mic-info">
+
+                                                                <a href={
+                                                                    "/profile?idUser=" + Commit.name
+                                                                }>
+                                                                    {
+                                                                    Commit.nicknameCom
+                                                                }</a>
+                                                                <p id={
+                                                                        Commit._id
+                                                                    }
+                                                                    style={
+                                                                        {color: "grey"}
+                                                                }>
+                                                                    {
+                                                                    Commit.creationDate
+                                                                }</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            {
+                                                            Commit.descripcion
+                                                        } </div>
+
+
+                                                        <div class="action">
+                                                            <form>
+                                                                <button type="button" class="btn btn-success btn-xs" title="Approved">
+                                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                                </button>
+                                                                <button type="button" class=" btn btn-danger btn-xs" title="Edit"
+                                                                    onClick={
+                                                                        async () => refresh2(Commit._id)
+                                                                }>
+                                                                    <span class="far fa-trash-alt"></span>
+                                                                </button>
+
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <br></br>
+                                        <br></br>
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-md-1">
+                                                        <img width={80}
+                                                            lenght={80}
+                                                            src={
+                                                                Commit.image.path
+                                                            }
+                                                            class="img-circle img-responsive"
+                                                            alt=""/>
+                                                    </div>
+                                                    <div class="col-xs-10 col-md-11">
+                                                        <div>
+                                                            <div class="mic-info">
+
+                                                                <a href={
+                                                                    "/profile?idUser=" + Commit.name
+                                                                }>
+                                                                    {
+                                                                    Commit.nicknameCom
+                                                                }</a>
+                                                                <p style={
+                                                                    {color: "grey"}
+                                                                }>
+                                                                    {
+                                                                    Commit.creationDate
+                                                                }</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            {
+                                                            Commit.descripcion
+                                                        } </div>
+
+                                                        <div class="action">´
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <br></br>
+                                        <br></br>
+                                    </div>
+                                );
+                            }
+
+                        })
+                    }
+                        {" "} </div>
+                </div>
                 {
                 answers()
             }

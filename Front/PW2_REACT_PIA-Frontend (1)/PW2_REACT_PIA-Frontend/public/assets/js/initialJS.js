@@ -4,46 +4,42 @@ var isLogged = false;
 var returnPage = "index.php";
 
 
+$(document).ready(function () {
 
-$(document).ready(function() 
-{
-    
     $('#registerSection').hide();
-
 
 
 });
 
 
-
-function isLoggedVal()
-{
+function isLoggedVal() {}
 
 
+function refresh(id) {
+    const element = "#" + id;
+    $(element).hide();
 
-}
+    console.log("characterPicData");
+};
 
 
-
-
-
-function hideLogin(){
+function hideLogin() {
     $('#loginSection').hide();
-    
+
     $('#registerSection').show(1000);
-    $("#emailLogin").val( "" );
-    $("#passwordLogin").val( "" );
+    $("#emailLogin").val("");
+    $("#passwordLogin").val("");
 
 
 }
 
-function showLogin(){
+function showLogin() {
     $('#loginSection').show(1000);
     $('#registerSection').hide();
     $("#phpUsernameRegister").val("");
-    $("#phpEmailRegister").val( "" );
-    $("#password").val( "" );
-    $("#phpFirstNameRegister").val( "" );
-    $("#phpLastNameRegister").val( "" );
-    $("#verifyPassword").val( "" );
+    $("#phpEmailRegister").val("");
+    $("#password").val("");
+    $("#phpFirstNameRegister").val("");
+    $("#phpLastNameRegister").val("");
+    $("#verifyPassword").val("");
 }

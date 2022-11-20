@@ -70,6 +70,22 @@ router.get("/Defensas/:id", validatorHandler(getDrawId, "params"), async (req, r
 });
 
 
+router.get("/profile/Defensas/:id", validatorHandler(getDrawId, "params"), async (req, res, next) => {
+    try {
+        const {id} = req.params; // aquí agarra el id de la url
+        let draws = await drawsModel.find(); // await sirve para q se espere antes de realizar la funcion y se pueda ejecutar correctamente
+        let buffer = [];
+        buffer = draws;
+        await drawService.generate(buffer);
+        const drawsId = await drawService.FindDefenseCharacter(id);
+
+        res.json(drawsId);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
 router.get("/MisPersonajes/:id", validatorHandler(getDrawId, "params"), async (req, res, next) => {
     try {
         const {id} = req.params; // aquí agarra el id de la url

@@ -64,7 +64,13 @@ class drawServices {
         validateData(draws, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
         return draws;
     }
-
+    async FindDefenseCharacter(id) { // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
+        const draws = this.draws.filter((item) => item.character === id && item.character !== item.title);
+        // NOT FOUND
+        validateData(draws, NOTFOUND, 'NOT FOUND Draw', (data) => !data);
+        validateData(draws, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
+        return draws;
+    }
 
     // FAKER
     create(data) {

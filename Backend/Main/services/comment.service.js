@@ -55,7 +55,7 @@ class commentServices {
     }
 
     async findCommentsDraw(id) { // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
-        const comments = this.comments.find((item) => item.idDraw === id);
+        const comments = this.comments.filter((item) => item.idDraw === id);
         // NOT FOUND
         validateData(comments, NOTFOUND, 'NOT FOUND Comments', (data) => !data);
         validateData(comments, CONFLICT, 'CONFLICTO, el producto esta bloqueado.', (data) => data.isActive == false);
@@ -79,6 +79,7 @@ class commentServices {
         if (index === -1) 
             throw boom.notFound('Error 404 not Found Draw');
         
+
 
         // throw new Error('Product not found'); Forma tradicional
 
