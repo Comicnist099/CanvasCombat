@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import swal from "sweetalert";
 
 export function MisPersonajes() {
   let [boolError, setBoolError] = useState(false);
@@ -41,6 +42,31 @@ export function MisPersonajes() {
       );
   };
 
+  async function deleteDrawContent(id) {
+    const response = await fetch(`http://localhost:5000/draw/${id}`, {
+      method: "DELETE",
+    });
+    const respJson = await response.json();
+    console.log(respJson);
+    if (respJson.error == "Bad Request") {
+      return console.log("NO JALO");
+    }
+    getResponse();
+  }
+
+  async function deleteCharacter(id) {
+    swal({
+      title: "AVISO",
+      text: "Esta seguro que desea eliminar este dibujo",
+      icon: "error",
+      buttons: ["Cancelar", "OK"],
+    }).then((respuesta) => {
+      if (respuesta) {
+        deleteDrawContent(id);
+      }
+    });
+  }
+
   async function ModeEdit(
     Mode,
     textBox,
@@ -81,7 +107,7 @@ export function MisPersonajes() {
       id + "6",
       id + "7"
     );
-    
+
     const finalTitle = document.getElementById(contentTitle).value;
     const finalDescription = document.getElementById(contentDescription).value;
 
@@ -91,7 +117,7 @@ export function MisPersonajes() {
     const body = {
       character: finalTitle,
       title: finalTitle,
-      descripcion: finalDescription
+      descripcion: finalDescription,
     };
 
     const response = await fetch(`http://localhost:5000/draw/${id}`, {
@@ -125,7 +151,6 @@ export function MisPersonajes() {
         <div className="row">
           <div className="one">
             <h1 style={{ color: "white" }}>MIS PERSONAJES</h1>
-            <h4 style={{ color: "white" }}>Modo Editar</h4>
           </div>
         </div>
       </div>
@@ -283,6 +308,8 @@ export function MisPersonajes() {
                     </button>
                   </div>
                 </div>
+
+                
                 <input
                   className="form-control"
                   type="hidden"
@@ -292,7 +319,8 @@ export function MisPersonajes() {
                 ></input>
                 <hr></hr>
                 <button
-                  class="btn"
+                  type="button"
+                  class=" btn btn-danger btn-xs"
                   id="deleteButton"
                   name="deleteButton"
                   style={{
@@ -300,7 +328,7 @@ export function MisPersonajes() {
                     color: "rgba(255,255,255,0.50)",
                     background: "rgba(0,0,0,0.70)",
                   }}
-                  value="Eliminar"
+                  onClick={async () => deleteCharacter(character._id)}
                 >
                   <p style={{ color: "white" }}>ELIMINAR</p>
                 </button>

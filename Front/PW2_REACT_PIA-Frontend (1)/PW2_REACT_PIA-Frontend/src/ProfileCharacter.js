@@ -11,7 +11,6 @@ export function ProfileCharacter() {
   const idUserCookies = cookiesNew.get("idUser");
 
   // /////////hook///////////
-  let [renderedResponsea, setRenderedResponsea] = useState({});
   const [friends, setFriends] = useState([]);
   const [friendsUser, setfriendsUser] = useState();
   const [friendsUser2, setfriendsUser2] = useState();
@@ -20,6 +19,7 @@ export function ProfileCharacter() {
   const [image, setImage] = useState();
   const [idUser, setIdUser] = useState();
   const [idOwner, setIdOwner] = useState();
+  const [characterName, setcharacterName] = useState();
   const [idUserCommit, setidUserCommit] = useState([]);
   let [styleTeam, setStyleTeam] = useState(" ");
   let [styleTeamBack, setStyleTeamBack] = useState(" ");
@@ -61,7 +61,7 @@ export function ProfileCharacter() {
     swal({
       title: "AVISO",
       text: "Esta seguro que desea eliminar este comentario",
-      icon: "warning",
+      icon: "error",
       buttons: ["Cancelar", "OK"],
     }).then((respuesta) => {
       if (respuesta) {
@@ -218,7 +218,6 @@ export function ProfileCharacter() {
     const body = await response.json();
 
     if (body.isActive) {
-      setRenderedResponsea(body);
       setFriends(body);
 
       if (body.title !== body.character) {
@@ -228,6 +227,7 @@ export function ProfileCharacter() {
         const bodyUser2 = await responseUser2.json();
 
         setIdOwner(body2.owner);
+        setcharacterName(body2.title);
         setfriendsUser2(bodyUser2.nickname);
       } else {
         const responseUser2 = await fetch(`/users/${body.owner}`);
@@ -255,6 +255,28 @@ export function ProfileCharacter() {
     }
 
     if (response.status !== 200) throw Error(body.message);
+  };
+
+  const characterAttacked = () => {
+    if (friends.title !== friends.character) {
+      return (
+        <tr>
+          <td
+            class="w-25 text-right"
+            style={{ background: "rgba(255,255,255,0.50)" }}
+          >
+            <b className={styleTeam}>Character Attacked</b>
+          </td>
+          <td style={{ backgroundColor: "white" }}>
+            <strong>
+              <a href={"/ProfileCharacter?idCharacter=" + friends.character}>
+                {characterName}
+              </a>
+            </strong>
+          </td>
+        </tr>
+      );
+    }
   };
 
   const validarUser = () => {
@@ -441,6 +463,7 @@ export function ProfileCharacter() {
                             </strong>
                           </td>
                         </tr>
+                        {characterAttacked()}
                       </tbody>
                     </table>
                     <br></br>

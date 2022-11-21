@@ -94,7 +94,7 @@ export function MisDefensasCharacter() {
         }
         return (
           <div
-            className="container profile profile-view"
+            className="container profileCharacter profile-view"
             data-aos="fade-up"
             id="profile"
             style={{
@@ -104,9 +104,19 @@ export function MisDefensasCharacter() {
               background: estilo,
             }}
           >
-            <div className="row">
-              <div className="col-md-4 center">
-                <div className="p-5">
+            <div className="row center">
+              <a
+                href={
+                  "/ProfileCharacter?idCharacter=" +
+                  character._id +
+                  "&idUser=" +
+                  idUser
+                }
+              >
+                <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+              </a>
+              <div className="col-md-4">
+                <div className="p-10">
                   <a
                     href={
                       "/ProfileCharacter?idCharacter=" +
@@ -117,10 +127,12 @@ export function MisDefensasCharacter() {
                   >
                     <img
                       style={{
-                        width: "1090px",
-                        maxHeight: "2400",
-                        border: "8px solid",
+                        width: "3090px",
+                        maxHeight: "4400",
+                        border: "5px solid",
                         color: "rgba(255,255,255,0.50)",
+                        marginBottom: "30px",
+                        marginTop: "20px",
                       }}
                       className="img-fluid"
                       alt=" "
@@ -139,25 +151,36 @@ export function MisDefensasCharacter() {
               ></input>
 
               <div className="col-md-8 center">
-                <h1 style={{ color: estiloLetras }}>{character.title} </h1>
                 <hr></hr>
 
                 <div className="row">
-                  <div className="col-sm-12 col-md-6">
-                    <div className="form-group mb-3">
-                      <div>
-                        <p style={{ color: estiloLetras }}>Descripcion:</p>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="firstname"
-                          value={character.descripcion}
-                          disabled
-                        ></input>
-                      </div>
+                  <div className="col-sm-12">
+                    <div>
+                      <p style={{ color: estiloLetras }}>Titulo:</p>
+
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="firstname"
+                        disabled
+                        value={character.title}
+                      ></input>
+                    </div>
+
+                    <div>
+                      <p style={{ color: estiloLetras }}>Descripcion:</p>
+
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="firstname"
+                        disabled
+                        value={character.descripcion}
+                      ></input>
                     </div>
                   </div>
                 </div>
+
                 <input
                   className="form-control"
                   type="hidden"
@@ -165,25 +188,10 @@ export function MisDefensasCharacter() {
                   id="idCharacter"
                   value={character._id}
                 ></input>
-
                 <hr></hr>
-                <a
-                  href={
-                    "/ProfileCharacter?idCharacter=" +
-                    character._id +
-                    "&idUser=" +
-                    idUser
-                  }
-                  class="btn"
-                  style={{
-                    background: estiloLetras,
-                    float: "right",
-                  }}
-                >
-                  <p style={{ color: "white" }}>Ir a</p>
-                </a>
               </div>
             </div>
+
             <div className="row" style={{ margin: "10px" }}></div>
           </div>
         );

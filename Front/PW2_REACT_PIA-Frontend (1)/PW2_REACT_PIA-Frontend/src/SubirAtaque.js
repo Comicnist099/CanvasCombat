@@ -9,6 +9,7 @@ export function SubirAtaque() {
   const idUser = cookiesNew.get("idUser");
   const [errorA, setErrora] = useState("");
   const [nameDraw, setNameDraw] = useState();
+  const [puntosUser, setPuntosUser] = useState();
   const [imageDraw, setImageDraw] = useState();
   const [idOwner, setIdOwner] = useState();
   const [friendsUser, setfriendsUser] = useState();
@@ -106,6 +107,7 @@ export function SubirAtaque() {
     const response = await fetch(`/users/${idUser}`);
     const body = await response.json();
     setfriendsUser(body);
+    setPuntosUser(body.points);
 
     if (response.status !== 200) throw Error(body.message);
 
@@ -178,26 +180,6 @@ export function SubirAtaque() {
                   path: characterPicData2,
                 };
 
-                ////////////patch de usuario
-                const bodyUser = {
-                  achievements3: true,
-                };
-                const response2 = await fetch(
-                  `http://localhost:5000/users/${idUser}`,
-                  {
-                    method: "PATCH",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(bodyUser),
-                  }
-                );
-                const respJson2 = await response2.json();
-                console.log(respJson2);
-                if (respJson2.error == "Bad Request") {
-                  return console.log("NO JALO");
-                }
-
                 // //////////////Subida de ataque
                 let d = Date(Date.now());
                 let a = d.toString();
@@ -238,7 +220,6 @@ export function SubirAtaque() {
                 if (respJson.error == "Bad Request") {
                   return console.log("NO JALO");
                 } else {
-
                   let body3;
                   if (friendsUser.team == "0") {
                     const response3 = await fetch(
@@ -253,11 +234,38 @@ export function SubirAtaque() {
                   }
 
                   let puntosteam = parseInt(body3.points);
+                  let puntosUsuario = parseInt(puntosUser);
+                  console.log(puntosUser);
 
                   let TotalPoints = puntuacion + puntosteam;
+                  let TotalPointsUsuario = puntuacion + puntosUsuario;
                   const stringpoints = TotalPoints.toString();
+                  const Userpoints = TotalPointsUsuario.toString();
                   console.log(TotalPoints);
                   console.log(stringpoints);
+
+                  ////////////patch de usuario
+                  const bodyUser = {
+                    achievements3: true,
+                    points: Userpoints,
+                  };
+                  const response2 = await fetch(
+                    `http://localhost:5000/users/${idUser}`,
+                    {
+                      method: "PATCH",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(bodyUser),
+                    }
+                  );
+                  const respJson2 = await response2.json();
+                  console.log(respJson2);
+                  if (respJson2.error == "Bad Request") {
+                    return console.log("NO JALO");
+                  }
+
+                  //////////puntos del bodyteam///////////////
                   const bodyTeam = {
                     points: stringpoints,
                   };
