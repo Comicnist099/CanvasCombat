@@ -93,8 +93,6 @@ export function Profile(props) {
     let Pass = $("#PasswordProfile").val();
     let NewPass = $("#NewPasswordProfile").val();
 
-    let hola = false;
-
     let FacebookB = $("#PerfilFacebook").val();
     let TwitterB = $("#PerfilTwitter").val();
     let InstagramB = $("#PerfilInstagram").val();
@@ -632,6 +630,7 @@ export function Profile(props) {
                     width: 200,
                     maxHeight: 200,
                   }}
+                  alt=" "
                   src={teamImage}
                 />
               </div>
@@ -845,6 +844,7 @@ export function Profile(props) {
                     width: 200,
                     maxHeight: 200,
                   }}
+                  alt= " "
                   src={teamImage}
                 />
               </div>
