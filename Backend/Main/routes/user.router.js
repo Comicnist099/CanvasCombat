@@ -227,16 +227,6 @@ router.patch(
         Data: usersM,
       });
     }
-    /*  let user = await User.find(); 
-        let buffer = [];
-        buffer = user;
-        await service.generate(buffer);
-        await service.update(req.params.id, body2);
-        await User.findByIdAndUpdate(req.params.id, usersM);
-        res.json(usersM);
-    } catch (error) {
-        res.status(404).json({message: error.message})
-    } */
   }
 );
 
