@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Cookies from "universal-cookie";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { render } from "@testing-library/react";
+import { useSearchParams } from "react-router-dom";
+import DrawNavBar from "./Componentes/Profile/DrawNavBar";
+
 import swal from "sweetalert";
 
 export function Profile(props) {
@@ -53,7 +54,7 @@ export function Profile(props) {
       title: "AVISO",
       text: "¿Seguro que quieres cerrar sesion?",
       icon: "warning",
-      buttons: ["Cancelar", "Si"]
+      buttons: ["Cancelar", "Si"],
     }).then((respuesta) => {
       if (respuesta) {
         cookiesNew.set("idUser", "", { path: "/" });
@@ -205,7 +206,6 @@ export function Profile(props) {
           window.location.reload();
         }
       });
-      
     }
   };
   // ////////////////////////////////
@@ -420,143 +420,6 @@ export function Profile(props) {
   useEffect(() => {
     getResponse();
   }, []);
-
-  const NavBarMultimedia = (source) => {
-    if (idUser === idUserCookies) {
-      return (
-        <div className="container">
-          <button
-            className="navbar-toggler"
-            data-bs-toggle="collapse"
-            data-bs-target="#navcol-6"
-          >
-            <span className="visually-hidden">Toggle navigation</span>
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div
-            id="navcol-6"
-            className="collapse navbar-collapse flex-grow-0 order-md-first"
-          >
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="lists"
-                  href={"Logros?idUser=" + idUser}
-                  style={{ textSlign: "center" }}
-                >
-                  LOGROS
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="orders"
-                  href="SubirPersonaje"
-                  style={{ textAlign: "center" }}
-                >
-                  SUBIR PERSONAJE
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="editButton"
-                  name="editButton "
-                  type="button"
-                  href={"MisPersonajes?idUser=" + idUser}
-                >
-                  Mis Personajes
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="myProducts"
-                  href={"MisAtaques?idUser=" + idUser}
-                  style={{ textAlign: "center" }}
-                >
-                  MIS ATAQUES
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="myProducts"
-                  href={"MisDefensas?idUser=" + idUser}
-                  style={{ textAlign: "center" }}
-                >
-                  MIS DEFENSAS
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="container">
-          <button
-            className="navbar-toggler"
-            data-bs-toggle="collapse"
-            data-bs-target="#navcol-6"
-          >
-            <span className="visually-hidden">Toggle navigation</span>
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div
-            id="navcol-6"
-            className="collapse navbar-collapse flex-grow-0 order-md-first"
-          >
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="lists"
-                  href={"Logros?idUser=" + idUser}
-                  style={{ textSlign: "center" }}
-                >
-                  SUS LOGROS
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="myProducts"
-                  href={"MisPersonajes?idUser=" + idUser}
-                  style={{ textAlign: "center" }}
-                >
-                  SUS PERSONAJES
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="myProducts"
-                  href={"MisAtaques?idUser=" + idUser}
-                  style={{ textAlign: "center" }}
-                >
-                  SUS ATAQUES
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  class="btn btn-dark"
-                  id="editButton"
-                  name="editButton "
-                  type="button"
-                  href={"MisDefensas?idUser=" + idUser}
-                >
-                  Sus Defensas
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      );
-    }
-  };
 
   const NotFoundProfile = (source) => {
     if (error != "Not Found") {
@@ -844,7 +707,7 @@ export function Profile(props) {
                     width: 200,
                     maxHeight: 200,
                   }}
-                  alt= " "
+                  alt=" "
                   src={teamImage}
                 />
               </div>
@@ -995,20 +858,15 @@ export function Profile(props) {
     }
   };
 
-  const NotFoundProfileBar = () => {
-    if (error != "Not Found") {
-      return (
-        <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3">
-          {NavBarMultimedia()}{" "}
-        </nav>
-      );
-    }
+  const Errores = {
+    advice: error,
+    idUser: idUser,
+    idUserCookies: idUserCookies,
   };
 
   return (
     <>
-      {" "}
-      {NotFoundProfileBar()}
+      <DrawNavBar Errores={Errores}></DrawNavBar>
       <form onSubmit={UpdateProfile}>{NotFoundProfile(edit)}</form>
     </>
   );
