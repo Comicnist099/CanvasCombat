@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 export function MisAtaques() {
   let [renderedResponsea, setRenderedResponsea] = useState({});
@@ -7,6 +8,9 @@ export function MisAtaques() {
   const [friends, setFriends] = useState([]);
   let [boolError, setBoolError] = useState(false);
   let [idUsuario, setidUsuario] = useState();
+
+  const cookiesNew = new Cookies();
+  const CookiesUser = cookiesNew.get("idUser");
   const idCharacter = searchParams.get("idCharacter");
   let idUser = searchParams.get("idUser");
 
@@ -153,7 +157,6 @@ export function MisAtaques() {
           character.title !== character.character &&
           character.cartoonist === idUser
         ) {
-          
           if (!boolError) {
             setBoolError(true);
           }
@@ -166,142 +169,54 @@ export function MisAtaques() {
             estilo = "rgb(150, 57, 57)";
             estiloLetras = "rgb(77, 22, 22)";
           }
-          return (
-            <div
-              className="container profileCharacter profile-view"
-              data-aos="fade-up"
-              id="profile"
-              style={{
-                border: "10px solid",
-                color: estiloLetras,
-                marginTop: "50px",
-                background: estilo,
-              }}
-            >
-              <div className="row center">
-                <a
-                  href={
-                    "/ProfileCharacter?idCharacter=" +
-                    character._id +
-                    "&idUser=" +
-                    idUser
-                  }
-                >
-                  <h1 style={{ color: estiloLetras }}>{character.title} </h1>
-                </a>
-                <div className="col-md-4">
-                  <div className="p-10">
-                    <a
-                      href={
-                        "/ProfileCharacter?idCharacter=" +
-                        character._id +
-                        "&idUser=" +
-                        idUser
-                      }
-                    >
-                      <img
-                        style={{
-                          width: "3090px",
-                          maxHeight: "4400",
-                          border: "5px solid",
-                          color: "rgba(255,255,255,0.50)",
-                          marginBottom: "30px",
-                          marginTop: "20px",
-                        }}
-                        className="img-fluid"
-                        alt=" "
-                        src={character.imageProfile.path}
-                      ></img>
-                    </a>
-                  </div>
-                </div>
-
-                <input
-                  className="form-control"
-                  type="hidden"
-                  name="idCharacter"
-                  id="idCharacter"
-                  value={character._id}
-                ></input>
-
-                <div className="col-md-8 center">
-                  <hr></hr>
-
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <div>
-                        <p style={{ color: estiloLetras }}>Titulo:</p>
-                        <input
-                          className="form-control"
-                          type="text"
-                          style={{ display: "none" }}
-                          name="firstname"
-                          id={character._id + "1"}
-                          defaultValue={character.title}
-                        ></input>
-
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="firstname"
-                          disabled
-                          id={character._id + "6"}
-                          value={character.title}
-                        ></input>
-                      </div>
-
-                      <div>
-                        <p style={{ color: estiloLetras }}>Descripcion:</p>
-                        <input
-                          className="form-control"
-                          type="text"
-                          style={{ display: "none" }}
-                          name="firstname"
-                          id={character._id + "2"}
-                          defaultValue={character.descripcion}
-                        ></input>
-
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="firstname"
-                          disabled
-                          id={character._id + "7"}
-                          value={character.descripcion}
-                        ></input>
-                      </div>
-                      <button
-                        class="btn"
-                        id={character._id + "3"}
-                        name="saveButton"
-                        style={{
-                          display: "none",
-                          border: "2px solid",
-                          marginTop: "18px",
-                          width: "90px",
-                          height: "60px",
-                          color: "rgba(255,255,255,0.50)",
-                          background: "rgba(0,0,0,0.20)",
-                        }}
-                        onClick={async () =>
-                          PatchCommit(
-                            character._id,
-                            character._id + "1",
-                            character._id + "2"
-                          )
+          if (CookiesUser == idUser) {
+            return (
+              <div
+                className="container profileCharacter profile-view"
+                data-aos="fade-up"
+                id="profile"
+                style={{
+                  border: "10px solid",
+                  color: estiloLetras,
+                  marginTop: "50px",
+                  background: estilo,
+                }}
+              >
+                <div className="row center">
+                  <a
+                    href={
+                      "/ProfileCharacter?idCharacter=" +
+                      character._id +
+                      "&idUser=" +
+                      idUser
+                    }
+                  >
+                    <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+                  </a>
+                  <div className="col-md-4">
+                    <div className="p-10">
+                      <a
+                        href={
+                          "/ProfileCharacter?idCharacter=" +
+                          character._id +
+                          "&idUser=" +
+                          idUser
                         }
-                        value="Guardar"
                       >
-                        <span
+                        <img
                           style={{
-                            color: "white",
-                            display: "flex",
-                            justifyContent: "center",
+                            width: "3090px",
+                            maxHeight: "4400",
+                            border: "5px solid",
+                            color: "rgba(255,255,255,0.50)",
+                            marginBottom: "30px",
+                            marginTop: "20px",
                           }}
-                        >
-                          Guardar
-                        </span>
-                      </button>
+                          className="img-fluid"
+                          alt=" "
+                          src={character.imageProfile.path}
+                        ></img>
+                      </a>
                     </div>
                   </div>
 
@@ -312,64 +227,307 @@ export function MisAtaques() {
                     id="idCharacter"
                     value={character._id}
                   ></input>
-                  <hr></hr>
-                  <button
-                    class="btn"
-                    id={character._id + "4"}
-                    name="editButton"
-                    style={{
-                      border: "2px solid",
-                      color: "rgba(255,255,255,0.50)",
-                      background: "rgba(0,0,0,0.20)",
-                      display: "none",
-                    }}
-                    onClick={async () =>
-                      ModeEdit(
-                        false,
-                        character._id + "1",
-                        character._id + "2",
-                        character._id + "3",
-                        character._id + "4",
-                        character._id + "5",
-                        character._id + "6",
-                        character._id + "7"
-                      )
-                    }
-                    value="Editar"
-                  >
-                    <p style={{ color: "white" }}>Editar</p>
-                  </button>
 
-                  <button
-                    class="btn"
-                    id={character._id + "5"}
-                    name="editButton"
-                    style={{
-                      border: "2px solid",
-                      color: "rgba(255,255,255,0.50)",
-                      background: "rgba(0,0,0,0.20)",
-                    }}
-                    onClick={async () =>
-                      ModeEdit(
-                        true,
-                        character._id + "1",
-                        character._id + "2",
-                        character._id + "3",
-                        character._id + "4",
-                        character._id + "5",
-                        character._id + "6",
-                        character._id + "7"
-                      )
-                    }
-                    value="Editar"
-                  >
-                    <p style={{ color: "white" }}>Editar</p>
-                  </button>
+                  <div className="col-md-8 center">
+                    <hr></hr>
+
+                    <div className="row">
+                      <div className="col-sm-12">
+                        <div>
+                          <p style={{ color: estiloLetras }}>Titulo:</p>
+                          <input
+                            className="form-control"
+                            type="text"
+                            style={{ display: "none" }}
+                            name="firstname"
+                            id={character._id + "1"}
+                            defaultValue={character.title}
+                          ></input>
+
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="firstname"
+                            disabled
+                            id={character._id + "6"}
+                            value={character.title}
+                          ></input>
+                        </div>
+
+                        <div>
+                          <p style={{ color: estiloLetras }}>Descripcion:</p>
+                          <input
+                            className="form-control"
+                            type="text"
+                            style={{ display: "none" }}
+                            name="firstname"
+                            id={character._id + "2"}
+                            defaultValue={character.descripcion}
+                          ></input>
+
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="firstname"
+                            disabled
+                            id={character._id + "7"}
+                            value={character.descripcion}
+                          ></input>
+                        </div>
+                        <button
+                          class="btn"
+                          id={character._id + "3"}
+                          name="saveButton"
+                          style={{
+                            display: "none",
+                            border: "2px solid",
+                            marginTop: "18px",
+                            width: "90px",
+                            height: "60px",
+                            color: "rgba(255,255,255,0.50)",
+                            background: "rgba(0,0,0,0.20)",
+                          }}
+                          onClick={async () =>
+                            PatchCommit(
+                              character._id,
+                              character._id + "1",
+                              character._id + "2"
+                            )
+                          }
+                          value="Guardar"
+                        >
+                          <span
+                            style={{
+                              color: "white",
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            Guardar
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <input
+                      className="form-control"
+                      type="hidden"
+                      name="idCharacter"
+                      id="idCharacter"
+                      value={character._id}
+                    ></input>
+                    <hr></hr>
+                    <button
+                      class="btn"
+                      id={character._id + "4"}
+                      name="editButton"
+                      style={{
+                        border: "2px solid",
+                        color: "rgba(255,255,255,0.50)",
+                        background: "rgba(0,0,0,0.20)",
+                        display: "none",
+                      }}
+                      onClick={async () =>
+                        ModeEdit(
+                          false,
+                          character._id + "1",
+                          character._id + "2",
+                          character._id + "3",
+                          character._id + "4",
+                          character._id + "5",
+                          character._id + "6",
+                          character._id + "7"
+                        )
+                      }
+                      value="Editar"
+                    >
+                      <p style={{ color: "white" }}>Editar</p>
+                    </button>
+
+                    <button
+                      class="btn"
+                      id={character._id + "5"}
+                      name="editButton"
+                      style={{
+                        border: "2px solid",
+                        color: "rgba(255,255,255,0.50)",
+                        background: "rgba(0,0,0,0.20)",
+                      }}
+                      onClick={async () =>
+                        ModeEdit(
+                          true,
+                          character._id + "1",
+                          character._id + "2",
+                          character._id + "3",
+                          character._id + "4",
+                          character._id + "5",
+                          character._id + "6",
+                          character._id + "7"
+                        )
+                      }
+                      value="Editar"
+                    >
+                      <p style={{ color: "white" }}>Editar</p>
+                    </button>
+                  </div>
                 </div>
+                <div className="row" style={{ margin: "10px" }}></div>
               </div>
-              <div className="row" style={{ margin: "10px" }}></div>
-            </div>
-          );
+            );
+          } else {
+            return (
+              <div
+                className="container profileCharacter profile-view"
+                data-aos="fade-up"
+                id="profile"
+                style={{
+                  border: "10px solid",
+                  color: estiloLetras,
+                  marginTop: "50px",
+                  background: estilo,
+                }}
+              >
+                <div className="row center">
+                  <a
+                    href={
+                      "/ProfileCharacter?idCharacter=" +
+                      character._id +
+                      "&idUser=" +
+                      idUser
+                    }
+                  >
+                    <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+                  </a>
+                  <div className="col-md-4">
+                    <div className="p-10">
+                      <a
+                        href={
+                          "/ProfileCharacter?idCharacter=" +
+                          character._id +
+                          "&idUser=" +
+                          idUser
+                        }
+                      >
+                        <img
+                          style={{
+                            width: "3090px",
+                            maxHeight: "4400",
+                            border: "5px solid",
+                            color: "rgba(255,255,255,0.50)",
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                          }}
+                          className="img-fluid"
+                          alt=" "
+                          src={character.imageProfile.path}
+                        ></img>
+                      </a>
+                    </div>
+                  </div>
+
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
+
+                  <div className="col-md-8 center">
+                    <hr></hr>
+
+                    <div className="row">
+                      <div className="col-sm-12">
+                        <div>
+                          <p style={{ color: estiloLetras }}>Titulo:</p>
+                          <input
+                            className="form-control"
+                            type="text"
+                            style={{ display: "none" }}
+                            name="firstname"
+                            id={character._id + "1"}
+                            defaultValue={character.title}
+                          ></input>
+
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="firstname"
+                            disabled
+                            id={character._id + "6"}
+                            value={character.title}
+                          ></input>
+                        </div>
+
+                        <div>
+                          <p style={{ color: estiloLetras }}>Descripcion:</p>
+                          <input
+                            className="form-control"
+                            type="text"
+                            style={{ display: "none" }}
+                            name="firstname"
+                            id={character._id + "2"}
+                            defaultValue={character.descripcion}
+                          ></input>
+
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="firstname"
+                            disabled
+                            id={character._id + "7"}
+                            value={character.descripcion}
+                          ></input>
+                        </div>
+                        <button
+                          class="btn"
+                          id={character._id + "3"}
+                          name="saveButton"
+                          style={{
+                            display: "none",
+                            border: "2px solid",
+                            marginTop: "18px",
+                            width: "90px",
+                            height: "60px",
+                            color: "rgba(255,255,255,0.50)",
+                            background: "rgba(0,0,0,0.20)",
+                          }}
+                          onClick={async () =>
+                            PatchCommit(
+                              character._id,
+                              character._id + "1",
+                              character._id + "2"
+                            )
+                          }
+                          value="Guardar"
+                        >
+                          <span
+                            style={{
+                              color: "white",
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            Guardar
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <input
+                      className="form-control"
+                      type="hidden"
+                      name="idCharacter"
+                      id="idCharacter"
+                      value={character._id}
+                    ></input>
+                    <hr></hr>
+                  </div>
+                </div>
+                <div className="row" style={{ margin: "10px" }}></div>
+              </div>
+            );
+          }
         }
       })}
       {ErrorNotFound(boolError)}

@@ -96,7 +96,7 @@ router.post(
       achievements1,
       achievements2,
       achievements3,
-      achievements4
+      achievements4,
     } = req.body;
     const user = new User({
       isActive,
@@ -116,7 +116,7 @@ router.post(
       achievements1,
       achievements2,
       achievements3,
-      achievements4
+      achievements4,
     });
 
     if (image) {
@@ -187,7 +187,7 @@ router.patch(
       achievements1: body2.achievements1,
       achievements2: body2.achievements2,
       achievements3: body2.achievements3,
-      achievements4: body2.achievements4
+      achievements4: body2.achievements4,
     };
     if (body2.image) {
       ({ name, path, extention } = body2.image);

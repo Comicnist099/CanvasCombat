@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import swal from "sweetalert";
+import Cookies from "universal-cookie";
 
 export function MisPersonajes() {
   let [boolError, setBoolError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [friends, setFriends] = useState([]);
-
+  const cookiesNew = new Cookies();
+  const CookiesUser = cookiesNew.get("idUser");
   const idUser = searchParams.get("idUser");
 
   const getResponse = async () => {
@@ -158,6 +160,7 @@ export function MisPersonajes() {
       {friends.map((character) => {
         let estilo;
         let estiloLetras;
+
         if (!boolError) {
           setBoolError(true);
         }
@@ -169,147 +172,57 @@ export function MisPersonajes() {
           estilo = "rgb(150, 57, 57)";
           estiloLetras = "rgb(77, 22, 22)";
         }
-
-        return (
-          <div
-            className="container profileCharacter profile-view"
-            data-aos="fade-up"
-            id="profile"
-            style={{
-              border: "10px solid",
-              color: estiloLetras,
-              marginTop: "50px",
-              background: estilo,
-            }}
-          >
-            <div className="row center">
-              <a
-                href={
-                  "/ProfileCharacter?idCharacter=" +
-                  character._id +
-                  "&idUser=" +
-                  idUser
-                }
-              >
-                <h1 style={{ color: estiloLetras }}>{character.title} </h1>
-              </a>
-              <div className="col-md-4">
-                <div className="p-10">
-                  <a
-                    href={
-                      "/ProfileCharacter?idCharacter=" +
-                      character._id +
-                      "&idUser=" +
-                      idUser
-                    }
-                  >
-                    <img
-                      style={{
-                        width: "3090px",
-                        maxHeight: "4400",
-                        border: "5px solid",
-                        color: "rgba(255,255,255,0.50)",
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                      }}
-                      className="img-fluid"
-                      alt=" "
-                      src={character.imageProfile.path}
-                    ></img>
-                  </a>
-                </div>
-              </div>
-
-              <input
-                className="form-control"
-                type="hidden"
-                name="idCharacter"
-                id="idCharacter"
-                value={character._id}
-              ></input>
-
-              <div className="col-md-8 center">
-                <hr></hr>
-
-                <div className="row">
-                  <div className="col-sm-12">
-                    <div>
-                      <p style={{ color: estiloLetras }}>Titulo:</p>
-                      <input
-                        className="form-control"
-                        type="text"
-                        style={{ display: "none" }}
-                        name="firstname"
-                        id={character._id + "1"}
-                        defaultValue={character.title}
-                      ></input>
-
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="firstname"
-                        disabled
-                        id={character._id + "6"}
-                        value={character.title}
-                      ></input>
-                    </div>
-
-                    <div>
-                      <p style={{ color: estiloLetras }}>Descripcion:</p>
-                      <input
-                        className="form-control"
-                        type="text"
-                        style={{ display: "none" }}
-                        name="firstname"
-                        id={character._id + "2"}
-                        defaultValue={character.descripcion}
-                      ></input>
-
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="firstname"
-                        disabled
-                        id={character._id + "7"}
-                        value={character.descripcion}
-                      ></input>
-                    </div>
-                    <button
-                      class="btn"
-                      id={character._id + "3"}
-                      name="saveButton"
-                      style={{
-                        display: "none",
-                        border: "2px solid",
-                        marginTop: "18px",
-                        width: "90px",
-                        height: "60px",
-                        color: "rgba(255,255,255,0.50)",
-                        background: "rgba(0,0,0,0.20)",
-                      }}
-                      onClick={async () =>
-                        PatchCommit(
-                          character._id,
-                          character._id + "1",
-                          character._id + "2"
-                        )
+        if (idUser == CookiesUser) {
+          return (
+            <div
+              className="container profileCharacter profile-view"
+              data-aos="fade-up"
+              id="profile"
+              style={{
+                border: "10px solid",
+                color: estiloLetras,
+                marginTop: "50px",
+                background: estilo,
+              }}
+            >
+              <div className="row center">
+                <a
+                  href={
+                    "/ProfileCharacter?idCharacter=" +
+                    character._id +
+                    "&idUser=" +
+                    idUser
+                  }
+                >
+                  <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+                </a>
+                <div className="col-md-4">
+                  <div className="p-10">
+                    <a
+                      href={
+                        "/ProfileCharacter?idCharacter=" +
+                        character._id +
+                        "&idUser=" +
+                        idUser
                       }
-                      value="Guardar"
                     >
-                      <span
+                      <img
                         style={{
-                          color: "white",
-                          display: "flex",
-                          justifyContent: "center",
+                          width: "3090px",
+                          maxHeight: "4400",
+                          border: "5px solid",
+                          color: "rgba(255,255,255,0.50)",
+                          marginBottom: "30px",
+                          marginTop: "20px",
                         }}
-                      >
-                        Guardar
-                      </span>
-                    </button>
+                        className="img-fluid"
+                        alt=" "
+                        src={character.imageProfile.path}
+                      ></img>
+                    </a>
                   </div>
                 </div>
 
-                
                 <input
                   className="form-control"
                   type="hidden"
@@ -317,79 +230,322 @@ export function MisPersonajes() {
                   id="idCharacter"
                   value={character._id}
                 ></input>
-                <hr></hr>
-                <button
-                  type="button"
-                  class=" btn btn-danger btn-xs"
-                  id="deleteButton"
-                  name="deleteButton"
-                  style={{
-                    border: "2px solid",
-                    color: "rgba(255,255,255,0.50)",
-                    background: "rgba(0,0,0,0.70)",
-                  }}
-                  onClick={async () => deleteCharacter(character._id)}
-                >
-                  <p style={{ color: "white" }}>ELIMINAR</p>
-                </button>
 
-                <button
-                  class="btn"
-                  id={character._id + "4"}
-                  name="editButton"
-                  style={{
-                    border: "2px solid",
-                    color: "rgba(255,255,255,0.50)",
-                    background: "rgba(0,0,0,0.20)",
-                    display: "none",
-                  }}
-                  onClick={async () =>
-                    ModeEdit(
-                      false,
-                      character._id + "1",
-                      character._id + "2",
-                      character._id + "3",
-                      character._id + "4",
-                      character._id + "5",
-                      character._id + "6",
-                      character._id + "7"
-                    )
-                  }
-                  value="Editar"
-                >
-                  <p style={{ color: "white" }}>Editar</p>
-                </button>
+                <div className="col-md-8 center">
+                  <hr></hr>
 
-                <button
-                  class="btn"
-                  id={character._id + "5"}
-                  name="editButton"
-                  style={{
-                    border: "2px solid",
-                    color: "rgba(255,255,255,0.50)",
-                    background: "rgba(0,0,0,0.20)",
-                  }}
-                  onClick={async () =>
-                    ModeEdit(
-                      true,
-                      character._id + "1",
-                      character._id + "2",
-                      character._id + "3",
-                      character._id + "4",
-                      character._id + "5",
-                      character._id + "6",
-                      character._id + "7"
-                    )
-                  }
-                  value="Editar"
-                >
-                  <p style={{ color: "white" }}>Editar</p>
-                </button>
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <div>
+                        <p style={{ color: estiloLetras }}>Titulo:</p>
+                        <input
+                          className="form-control"
+                          type="text"
+                          style={{ display: "none" }}
+                          name="firstname"
+                          id={character._id + "1"}
+                          defaultValue={character.title}
+                        ></input>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          id={character._id + "6"}
+                          value={character.title}
+                        ></input>
+                      </div>
+
+                      <div>
+                        <p style={{ color: estiloLetras }}>Descripcion:</p>
+                        <input
+                          className="form-control"
+                          type="text"
+                          style={{ display: "none" }}
+                          name="firstname"
+                          id={character._id + "2"}
+                          defaultValue={character.descripcion}
+                        ></input>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          id={character._id + "7"}
+                          value={character.descripcion}
+                        ></input>
+                      </div>
+                      <button
+                        class="btn"
+                        id={character._id + "3"}
+                        name="saveButton"
+                        style={{
+                          display: "none",
+                          border: "2px solid",
+                          marginTop: "18px",
+                          width: "90px",
+                          height: "60px",
+                          color: "rgba(255,255,255,0.50)",
+                          background: "rgba(0,0,0,0.20)",
+                        }}
+                        onClick={async () =>
+                          PatchCommit(
+                            character._id,
+                            character._id + "1",
+                            character._id + "2"
+                          )
+                        }
+                        value="Guardar"
+                      >
+                        <span
+                          style={{
+                            color: "white",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          Guardar
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
+                  <hr></hr>
+                  <button
+                    type="button"
+                    class=" btn btn-danger btn-xs"
+                    id="deleteButton"
+                    name="deleteButton"
+                    style={{
+                      border: "2px solid",
+                      color: "rgba(255,255,255,0.50)",
+                      background: "rgba(0,0,0,0.70)",
+                    }}
+                    onClick={async () => deleteCharacter(character._id)}
+                  >
+                    <p style={{ color: "white" }}>ELIMINAR</p>
+                  </button>
+
+                  <button
+                    class="btn"
+                    id={character._id + "4"}
+                    name="editButton"
+                    style={{
+                      border: "2px solid",
+                      color: "rgba(255,255,255,0.50)",
+                      background: "rgba(0,0,0,0.20)",
+                      display: "none",
+                    }}
+                    onClick={async () =>
+                      ModeEdit(
+                        false,
+                        character._id + "1",
+                        character._id + "2",
+                        character._id + "3",
+                        character._id + "4",
+                        character._id + "5",
+                        character._id + "6",
+                        character._id + "7"
+                      )
+                    }
+                    value="Editar"
+                  >
+                    <p style={{ color: "white" }}>Editar</p>
+                  </button>
+
+                  <button
+                    class="btn"
+                    id={character._id + "5"}
+                    name="editButton"
+                    style={{
+                      border: "2px solid",
+                      color: "rgba(255,255,255,0.50)",
+                      background: "rgba(0,0,0,0.20)",
+                    }}
+                    onClick={async () =>
+                      ModeEdit(
+                        true,
+                        character._id + "1",
+                        character._id + "2",
+                        character._id + "3",
+                        character._id + "4",
+                        character._id + "5",
+                        character._id + "6",
+                        character._id + "7"
+                      )
+                    }
+                    value="Editar"
+                  >
+                    <p style={{ color: "white" }}>Editar</p>
+                  </button>
+                </div>
               </div>
+              <div className="row" style={{ margin: "10px" }}></div>
             </div>
-            <div className="row" style={{ margin: "10px" }}></div>
-          </div>
-        );
+          );
+        } else {
+          return (
+            <div
+              className="container profileCharacter profile-view"
+              data-aos="fade-up"
+              id="profile"
+              style={{
+                border: "10px solid",
+                color: estiloLetras,
+                marginTop: "50px",
+                background: estilo,
+              }}
+            >
+              <div className="row center">
+                <a
+                  href={
+                    "/ProfileCharacter?idCharacter=" +
+                    character._id +
+                    "&idUser=" +
+                    idUser
+                  }
+                >
+                  <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+                </a>
+                <div className="col-md-4">
+                  <div className="p-10">
+                    <a
+                      href={
+                        "/ProfileCharacter?idCharacter=" +
+                        character._id +
+                        "&idUser=" +
+                        idUser
+                      }
+                    >
+                      <img
+                        style={{
+                          width: "3090px",
+                          maxHeight: "4400",
+                          border: "5px solid",
+                          color: "rgba(255,255,255,0.50)",
+                          marginBottom: "30px",
+                          marginTop: "20px",
+                        }}
+                        className="img-fluid"
+                        alt=" "
+                        src={character.imageProfile.path}
+                      ></img>
+                    </a>
+                  </div>
+                </div>
+
+                <input
+                  className="form-control"
+                  type="hidden"
+                  name="idCharacter"
+                  id="idCharacter"
+                  value={character._id}
+                ></input>
+
+                <div className="col-md-8 center">
+                  <hr></hr>
+
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <div>
+                        <p style={{ color: estiloLetras }}>Titulo:</p>
+                        <input
+                          className="form-control"
+                          type="text"
+                          style={{ display: "none" }}
+                          name="firstname"
+                          id={character._id + "1"}
+                          defaultValue={character.title}
+                        ></input>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          id={character._id + "6"}
+                          value={character.title}
+                        ></input>
+                      </div>
+
+                      <div>
+                        <p style={{ color: estiloLetras }}>Descripcion:</p>
+                        <input
+                          className="form-control"
+                          type="text"
+                          style={{ display: "none" }}
+                          name="firstname"
+                          id={character._id + "2"}
+                          defaultValue={character.descripcion}
+                        ></input>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          id={character._id + "7"}
+                          value={character.descripcion}
+                        ></input>
+                      </div>
+                      <button
+                        class="btn"
+                        id={character._id + "3"}
+                        name="saveButton"
+                        style={{
+                          display: "none",
+                          border: "2px solid",
+                          marginTop: "18px",
+                          width: "90px",
+                          height: "60px",
+                          color: "rgba(255,255,255,0.50)",
+                          background: "rgba(0,0,0,0.20)",
+                        }}
+                        onClick={async () =>
+                          PatchCommit(
+                            character._id,
+                            character._id + "1",
+                            character._id + "2"
+                          )
+                        }
+                        value="Guardar"
+                      >
+                        <span
+                          style={{
+                            color: "white",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          Guardar
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
+                  <hr></hr>
+                </div>
+              </div>
+              <div className="row" style={{ margin: "10px" }}></div>
+            </div>
+          );
+        }
       })}
       {ErrorNotFound(boolError)}
       {/* tarjeta de personajes  */}{" "}

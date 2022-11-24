@@ -24,6 +24,7 @@ export function ProfileCharacter() {
   let [styleTeam, setStyleTeam] = useState(" ");
   let [styleTeamBack, setStyleTeamBack] = useState(" ");
   let [error, setError] = useState(" ");
+  let [NotFoundDraw, setNotFoundDraw] = useState(false);
   // let [i, setI] = useState(-1);
   let idCharacter = searchParams.get("idCharacter");
 
@@ -178,29 +179,31 @@ export function ProfileCharacter() {
   };
 
   const answers = () => {
-    return (
-      <form onSubmit={PushCommit}>
-        <div class="card">
-          <div class="row">
-            <div style={{ left: "20" }}>
-              <div class="container text-center">
-                <h4>¡Dinos que piensas!</h4>
-                <div class="comment-area">
-                  <textarea
-                    id="CharacterCommit"
-                    class="form-control"
-                    placeholder="what is your view?"
-                    rows="4"
-                  ></textarea>
-                </div>
-                <div class="comment-btns mt-2">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="pull-right">
-                        <button class="btn btn-success send btn-sm">
-                          Send
-                          <i class="fa fa-long-arrow-right ml-1"></i>
-                        </button>
+    if (idUserCookies != "") {
+      return (
+        <form onSubmit={PushCommit}>
+          <div class="card">
+            <div class="row">
+              <div style={{ left: "20" }}>
+                <div class="container text-center">
+                  <h4>¡Dinos que piensas!</h4>
+                  <div class="comment-area">
+                    <textarea
+                      id="CharacterCommit"
+                      class="form-control"
+                      placeholder="what is your view?"
+                      rows="4"
+                    ></textarea>
+                  </div>
+                  <div class="comment-btns mt-2">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="pull-right">
+                          <button class="btn btn-success send btn-sm">
+                            Send
+                            <i class="fa fa-long-arrow-right ml-1"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -208,9 +211,9 @@ export function ProfileCharacter() {
               </div>
             </div>
           </div>
-        </div>
-      </form>
-    );
+        </form>
+      );
+    }
   };
 
   const getResponse = async () => {
@@ -219,7 +222,6 @@ export function ProfileCharacter() {
 
     if (body.isActive) {
       setFriends(body);
-
       if (body.title !== body.character) {
         const response2 = await fetch(`/draw/${body.character}`);
         const body2 = await response2.json();
@@ -252,6 +254,8 @@ export function ProfileCharacter() {
         setStyleTeam("Spicy");
         setStyleTeamBack("rgb( 179, 31, 15)");
       }
+    } else {
+      setNotFoundDraw(true);
     }
 
     if (response.status !== 200) throw Error(body.message);
@@ -341,223 +345,226 @@ export function ProfileCharacter() {
   useEffect(() => {
     getResponse();
   }, []);
-
-  return (
-    <>
-      <div
-        className="col-11 center"
-        style={{
-          marginTop: "30px",
-          marginLeft: "90px",
-        }}
-      >
-        <div className="row">
-          <div className="one">
-            <h1 style={{ color: "white" }}>Perfil de Personaje</h1>
-          </div>
-        </div>
-      </div>
-
-      <div class="container text-center">
+  if (!NotFoundDraw) {
+    return (
+      <>
         <div
-          className="container profile profile-view"
-          data-aos="fade-up"
-          id="profile"
+          className="col-11 center"
           style={{
-            border: "8px solid",
-            color: "rgba(0,0,0,0.50)",
-            marginTop: "50px",
-            background: styleTeamBack,
+            marginTop: "30px",
+            marginLeft: "90px",
           }}
         >
-          <div className="row" style={{ background: "rgba(255,255,255,0.15)" }}>
-            <div className="col-md-12 ">
-              <hr style={{ width: "1000px" }}></hr>
-              <h1 className={styleTeam}>{friends.title} </h1>
-              <hr style={{ width: "1000px" }}></hr>
-              <div>
-                <img
-                  style={{
-                    width: "1050px",
-                    maxHeight: "2400",
-                    border: "15px solid",
-                    color: "rgba(255,255,255,0.50)",
-                  }}
-                  src={image}
-                  alt=" "
-                  className="form-img__img-preview"
-                ></img>
-              </div>
-              <div className="row">
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <p className={styleTeam}>Nombre</p>
+          <div className="row">
+            <div className="one">
+              <h1 style={{ color: "white" }}>Perfil de Personaje</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="container text-center">
+          <div
+            className="container profile profile-view"
+            data-aos="fade-up"
+            id="profile"
+            style={{
+              border: "8px solid",
+              color: "rgba(0,0,0,0.50)",
+              marginTop: "50px",
+              background: styleTeamBack,
+            }}
+          >
+            <div
+              className="row"
+              style={{ background: "rgba(255,255,255,0.15)" }}
+            >
+              <div className="col-md-12 ">
+                <hr style={{ width: "1000px" }}></hr>
+                <h1 className={styleTeam}>{friends.title} </h1>
+                <hr style={{ width: "1000px" }}></hr>
+                <div>
+                  <img
+                    style={{
+                      width: "1050px",
+                      maxHeight: "2400",
+                      border: "15px solid",
+                      color: "rgba(255,255,255,0.50)",
+                    }}
+                    src={image}
+                    alt=" "
+                    className="form-img__img-preview"
+                  ></img>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12 col-md-6">
+                    <div className="form-group mb-3">
+                      <p className={styleTeam}>Nombre</p>
+                      <input
+                        value={friends.title}
+                        className="form-control"
+                        disabled
+                        name="firstname"
+                      ></input>
+                    </div>
+                  </div>
+                  <div className="col-sm-12 col-md-6">
+                    <p className={styleTeam}>Fecha de creacion</p>
                     <input
-                      value={friends.title}
+                      value={friends.creationDate}
                       className="form-control"
                       disabled
                       name="firstname"
                     ></input>
-                  </div>
-                </div>
-                <div className="col-sm-12 col-md-6">
-                  <p className={styleTeam}>Fecha de creacion</p>
-                  <input
-                    value={friends.creationDate}
-                    className="form-control"
-                    disabled
-                    name="firstname"
-                  ></input>
-                  <br></br>
-                </div>
-                <div className="col-sm-12 col-md-6">
-                  <div className="form-group mb-3">
-                    <p className={styleTeam}>Descripcion</p>
-                    <textarea
-                      value={friends.descripcion}
-                      class="form-group"
-                      rows="5"
-                      className="form-control"
-                      disabled
-                      style={{ resize: "none" }}
-                      name="lastname"
-                    ></textarea>
-                  </div>
-                </div>
-                <br></br>
-                <div className="col-sm-12 col-md-6">
-                  <div
-                    style={{ marginBottom: "500px" }}
-                    className="form-group mb-3"
-                  >
-                    <p className={styleTeam}>Character info:</p>
-                    <table class="table table-bordered">
-                      <tbody>
-                        <tr>
-                          <td
-                            class="w-25 text-right"
-                            style={{ background: "rgba(255,255,255,0.50)" }}
-                          >
-                            <b className={styleTeam}>Owner</b>
-                          </td>
-                          <td style={{ backgroundColor: "white" }}>
-                            <strong>
-                              <a href={"/Profile?idUser=" + idOwner}>
-                                {friendsUser2}{" "}
-                              </a>
-                            </strong>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="w-25 text-right"
-                            style={{ background: "rgba(255,255,255,0.50)" }}
-                          >
-                            <b className={styleTeam}>Designer</b>
-                          </td>
-                          <td style={{ backgroundColor: "white" }}>
-                            <strong>
-                              <a href={"/Profile?idUser=" + idUser}>
-                                {friendsUser}{" "}
-                              </a>
-                            </strong>
-                          </td>
-                        </tr>
-                        {characterAttacked()}
-                      </tbody>
-                    </table>
                     <br></br>
                   </div>
+                  <div className="col-sm-12 col-md-6">
+                    <div className="form-group mb-3">
+                      <p className={styleTeam}>Descripcion</p>
+                      <textarea
+                        value={friends.descripcion}
+                        class="form-group"
+                        rows="5"
+                        className="form-control"
+                        disabled
+                        style={{ resize: "none" }}
+                        name="lastname"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <br></br>
+                  <div className="col-sm-12 col-md-6">
+                    <div
+                      style={{ marginBottom: "500px" }}
+                      className="form-group mb-3"
+                    >
+                      <p className={styleTeam}>Character info:</p>
+                      <table class="table table-bordered">
+                        <tbody>
+                          <tr>
+                            <td
+                              class="w-25 text-right"
+                              style={{ background: "rgba(255,255,255,0.50)" }}
+                            >
+                              <b className={styleTeam}>Owner</b>
+                            </td>
+                            <td style={{ backgroundColor: "white" }}>
+                              <strong>
+                                <a href={"/Profile?idUser=" + idOwner}>
+                                  {friendsUser2}{" "}
+                                </a>
+                              </strong>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="w-25 text-right"
+                              style={{ background: "rgba(255,255,255,0.50)" }}
+                            >
+                              <b className={styleTeam}>Designer</b>
+                            </td>
+                            <td style={{ backgroundColor: "white" }}>
+                              <strong>
+                                <a href={"/Profile?idUser=" + idUser}>
+                                  {friendsUser}{" "}
+                                </a>
+                              </strong>
+                            </td>
+                          </tr>
+                          {characterAttacked()}
+                        </tbody>
+                      </table>
+                      <br></br>
+                    </div>
+                  </div>
+                  {validarUser()}{" "}
                 </div>
-                {validarUser()}{" "}
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div class="row">
-          <div class="panel panel-default widget">
-            <div class="panel-heading">
-              <span class="glyphicon glyphicon-comment"></span>
-              <h3 class="panel-title" style={{ color: "white" }}>
-                Recent Comments
-              </h3>
-              <span class="label label-info">78</span>
-            </div>
-            {commentarios.map((Commit) => {
-              console.log(Commit);
+        <div className="container">
+          <div class="row">
+            <div class="panel panel-default widget">
+              <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title" style={{ color: "white" }}>
+                  Recent Comments
+                </h3>
+                <span class="label label-info">78</span>
+              </div>
+              {commentarios.map((Commit) => {
+                console.log(Commit);
 
-              if (Commit.name == idUserCookies) {
-                return (
-                  <div class="panel-body">
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <div class="row">
-                          <div class="col-xs-2 col-md-1">
-                            <img
-                              width={80}
-                              lenght={80}
-                              src={Commit.image.path}
-                              class="img-circle img-responsive"
-                              alt=""
-                            />
-                          </div>
-                          <div class="col-xs-10 col-md-11">
-                            <div>
-                              <div class="mic-info">
-                                <a href={"/profile?idUser=" + Commit.name}>
-                                  {Commit.nicknameCom}
-                                </a>
-                                <p id={Commit._id} style={{ color: "grey" }}>
-                                  {Commit.creationDate}
-                                </p>
+                if (Commit.name == idUserCookies) {
+                  return (
+                    <div class="panel-body">
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2 col-md-1">
+                              <img
+                                width={80}
+                                lenght={80}
+                                src={Commit.image.path}
+                                class="img-circle img-responsive"
+                                alt=""
+                              />
+                            </div>
+                            <div class="col-xs-10 col-md-11">
+                              <div>
+                                <div class="mic-info">
+                                  <a href={"/profile?idUser=" + Commit.name}>
+                                    {Commit.nicknameCom}
+                                  </a>
+                                  <p id={Commit._id} style={{ color: "grey" }}>
+                                    {Commit.creationDate}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <div id={Commit._id + "5"} class="comment-text">
-                              {Commit.descripcion}{" "}
-                            </div>
+                              <div id={Commit._id + "5"} class="comment-text">
+                                {Commit.descripcion}{" "}
+                              </div>
 
-                            <input
-                              type="type"
-                              style={{ display: "none" }}
-                              defaultValue={Commit.descripcion}
-                              id={Commit._id + "1"}
-                            ></input>
-                            <button
-                              id={Commit._id + "2"}
-                              class="btn btn-success btn-xs "
-                              style={{ display: "none" }}
-                              onClick={async () =>
-                                PatchCommit(Commit._id, Commit._id + "1")
-                              }
-                            >
-                              <span class="fas fa-arrow-alt-circle-right"></span>
-                            </button>
+                              <input
+                                type="type"
+                                style={{ display: "none" }}
+                                defaultValue={Commit.descripcion}
+                                id={Commit._id + "1"}
+                              ></input>
+                              <button
+                                id={Commit._id + "2"}
+                                class="btn btn-success btn-xs "
+                                style={{ display: "none" }}
+                                onClick={async () =>
+                                  PatchCommit(Commit._id, Commit._id + "1")
+                                }
+                              >
+                                <span class="fas fa-arrow-alt-circle-right"></span>
+                              </button>
 
-                            <div class="action">
-                              <form>
-                                <button
-                                  type="button"
-                                  id={Commit._id + "3"}
-                                  style={{ display: "none" }}
-                                  class="btn btn-success btn-xs"
-                                  title="Approved"
-                                  onClick={async () =>
-                                    ModeEdit(
-                                      false,
-                                      Commit._id + "1",
-                                      Commit._id + "2",
-                                      Commit._id + "3",
-                                      Commit._id + "4",
-                                      Commit._id + "5"
-                                    )
-                                  }
-                                >
-                                  <span class="fas fa-pencil-alt"></span>
-                                </button>
-                                {/*
+                              <div class="action">
+                                <form>
+                                  <button
+                                    type="button"
+                                    id={Commit._id + "3"}
+                                    style={{ display: "none" }}
+                                    class="btn btn-success btn-xs"
+                                    title="Approved"
+                                    onClick={async () =>
+                                      ModeEdit(
+                                        false,
+                                        Commit._id + "1",
+                                        Commit._id + "2",
+                                        Commit._id + "3",
+                                        Commit._id + "4",
+                                        Commit._id + "5"
+                                      )
+                                    }
+                                  >
+                                    <span class="fas fa-pencil-alt"></span>
+                                  </button>
+                                  {/*
                                                                 Commit1      =    Textbox  editar    
                                                                 Commit2      =    button editar
                                                                 Commit3      =    button regresarModo normal
@@ -566,88 +573,108 @@ export function ProfileCharacter() {
                                                                 
                                                                 
                                                                 */}
-                                <button
-                                  id={Commit._id + "4"}
-                                  type="button"
-                                  class="btn btn-success btn-xs"
-                                  title="Approved"
-                                  onClick={async () =>
-                                    ModeEdit(
-                                      true,
-                                      Commit._id + "1",
-                                      Commit._id + "2",
-                                      Commit._id + "3",
-                                      Commit._id + "4",
-                                      Commit._id + "5"
-                                    )
-                                  }
-                                >
-                                  <span class="fas fa-pencil-alt"></span>
-                                </button>
+                                  <button
+                                    id={Commit._id + "4"}
+                                    type="button"
+                                    class="btn btn-success btn-xs"
+                                    title="Approved"
+                                    onClick={async () =>
+                                      ModeEdit(
+                                        true,
+                                        Commit._id + "1",
+                                        Commit._id + "2",
+                                        Commit._id + "3",
+                                        Commit._id + "4",
+                                        Commit._id + "5"
+                                      )
+                                    }
+                                  >
+                                    <span class="fas fa-pencil-alt"></span>
+                                  </button>
 
-                                <button
-                                  type="button"
-                                  class=" btn btn-danger btn-xs"
-                                  title="Edit"
-                                  onClick={async () => deleteCommit(Commit._id)}
-                                >
-                                  <span class="far fa-trash-alt"></span>
-                                </button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                    <br></br>
-                    <br></br>
-                  </div>
-                );
-              } else {
-                return (
-                  <div class="panel-body">
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                        <div class="row">
-                          <div class="col-xs-2 col-md-1">
-                            <img
-                              width={80}
-                              lenght={80}
-                              src={Commit.image.path}
-                              class="img-circle img-responsive"
-                              alt=""
-                            />
-                          </div>
-                          <div class="col-xs-10 col-md-11">
-                            <div>
-                              <div class="mic-info">
-                                <a href={"/profile?idUser=" + Commit.name}>
-                                  {Commit.nicknameCom}
-                                </a>
-                                <p style={{ color: "grey" }}>
-                                  {Commit.creationDate}
-                                </p>
+                                  <button
+                                    type="button"
+                                    class=" btn btn-danger btn-xs"
+                                    title="Edit"
+                                    onClick={async () =>
+                                      deleteCommit(Commit._id)
+                                    }
+                                  >
+                                    <span class="far fa-trash-alt"></span>
+                                  </button>
+                                </form>
                               </div>
                             </div>
-                            <div class="comment-text">
-                              {Commit.descripcion}{" "}
-                            </div>
-
-                            <div class="action">´</div>
                           </div>
-                        </div>
-                      </li>
-                    </ul>
-                    <br></br>
-                    <br></br>
-                  </div>
-                );
-              }
-            })}{" "}
+                        </li>
+                      </ul>
+                      <br></br>
+                      <br></br>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div class="panel-body">
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-xs-2 col-md-1">
+                              <img
+                                width={80}
+                                lenght={80}
+                                src={Commit.image.path}
+                                class="img-circle img-responsive"
+                                alt=""
+                              />
+                            </div>
+                            <div class="col-xs-10 col-md-11">
+                              <div>
+                                <div class="mic-info">
+                                  <a href={"/profile?idUser=" + Commit.name}>
+                                    {Commit.nicknameCom}
+                                  </a>
+                                  <p style={{ color: "grey" }}>
+                                    {Commit.creationDate}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="comment-text">
+                                {Commit.descripcion}{" "}
+                              </div>
+
+                              <div class="action">´</div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <br></br>
+                      <br></br>
+                    </div>
+                  );
+                }
+              })}{" "}
+            </div>
           </div>
+          {answers()}{" "}
         </div>
-        {answers()}{" "}
+      </>
+    );
+  } else {
+    return (
+      <div class="container text-center">
+        <h1 style={{ color: "white" }}>ERROR 404</h1>
+
+        <h2 style={{ color: "grey" }}>No se encontro el dibujo</h2>
+        <img
+          class="container text-center"
+          style={{
+            width: 600,
+            maxHeight: 1200,
+          }}
+          alt=" "
+          src="https://images.vexels.com/media/users/3/280410/isolated/preview/555902bbac31a4ddf819a364c154eb30-anti-valentine-s-day-sad-heart-character.png"
+        ></img>
       </div>
-    </>
-  );
+    );
+  }
 }

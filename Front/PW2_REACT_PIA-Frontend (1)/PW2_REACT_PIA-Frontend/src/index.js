@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { HeadingDeclaration } from "./HeadingDeclaration";
 import { FooterInclude } from "./FooterInclude";
 import { Navbar } from "./Navbar";
+
 import { Footer } from "./Footer";
 import { SplashPage } from "./SplashPage";
 import { AboutUs } from "./AboutUs";
@@ -20,6 +21,7 @@ import { DashBoardAttacks } from "./DashBoardAttacks";
 import { MisAtaques } from "./MisAtaques";
 import { MisDefensas } from "./MisDefensas";
 import { MisDefensasCharacter } from "./MisDefensasCharacter";
+import { PageNotFound } from "./PageNotFound";
 
 import "./App.css";
 import "./fonts/fontawesome-all.min.css";
@@ -65,6 +67,7 @@ root.render(
       <Route path="MisAtaques" element={<MisAtaques />} />
       <Route path="MisDefensas" element={<MisDefensas />} />
       <Route path="MisDefensasCharacter" element={<MisDefensasCharacter />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
     <Footer />
   </BrowserRouter>
