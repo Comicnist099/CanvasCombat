@@ -47,7 +47,10 @@ class drawServices {
   async findDefenseDraw(id) {
     // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const draws = this.draws.filter(
-      (item) => item.owner === id && item.title !== item.character
+      (item) =>
+        item.owner === id &&
+        item.title !== item.character &&
+        item.isActive === true
     );
     // NOT FOUND
     validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
@@ -62,7 +65,10 @@ class drawServices {
   async findDefenseDraw(id) {
     // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const draws = this.draws.filter(
-      (item) => item.owner === id && item.title !== item.character
+      (item) =>
+        item.owner === id &&
+        item.title !== item.character &&
+        item.isActive === true
     );
     // NOT FOUND
     validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
@@ -77,7 +83,10 @@ class drawServices {
   async findMisPersonajesDraw(id) {
     // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const draws = this.draws.filter(
-      (item) => item.owner === id && item.owner === item.cartoonist
+      (item) =>
+        item.owner === id &&
+        item.owner === item.cartoonist &&
+        item.isActive === true
     );
     // NOT FOUND
     validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
@@ -92,7 +101,10 @@ class drawServices {
   async FindDefenseCharacter(id) {
     // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const draws = this.draws.filter(
-      (item) => item.character === id && item.character !== item.title
+      (item) =>
+        item.character === id &&
+        item.character !== item.title &&
+        item.isActive === true
     );
     // NOT FOUND
     validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
@@ -109,6 +121,26 @@ class drawServices {
     // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
     const draws = this.draws.filter((item) => item.isActive === false);
     // NOT FOUND
+    validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
+    return draws;
+  }
+
+  async FindDashboardAttack() {
+    // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
+    const draws = this.draws.filter(
+      (item) => item.title !== item.character && item.isActive !== false
+    );
+    //NOT FOUND
+    validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
+    return draws;
+  }
+
+  async FindDashboardCharacter() {
+    // const name = this.getTotal(); PRUEBA DE ERROR DE TRY Y CATCH
+    const draws = this.draws.filter(
+      (item) => item.title === item.character && item.isActive !== false
+    );
+    //NOT FOUND
     validateData(draws, NOTFOUND, "NOT FOUND Draw", (data) => !data);
     return draws;
   }

@@ -503,7 +503,6 @@ export function ProfileCharacter() {
                 <h3 class="panel-title" style={{ color: "white" }}>
                   Recent Comments
                 </h3>
-                <span class="label label-info">78</span>
               </div>
               {commentarios.map((Commit) => {
                 console.log(Commit);

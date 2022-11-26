@@ -33,6 +33,24 @@ router.get("/", async (req, res) => {
   res.json(draws);
 });
 
+router.get("/AttackDashboard", async (req, res) => {
+  let draws = await drawsModel.find();
+  let buffer = [];
+  buffer = draws;
+  await drawService.generate(buffer);
+  let attack = await drawService.FindDashboardAttack();
+  res.json(attack);
+});
+
+router.get("/CharacterDashboard", async (req, res) => {
+  let draws = await drawsModel.find();
+  let buffer = [];
+  buffer = draws;
+  await drawService.generate(buffer);
+  let attack = await drawService.FindDashboardCharacter();
+  res.json(attack);
+});
+
 router.get("/Attack", async (req, res) => {
   let draws = await drawsModel.find();
   let buffer = [];
