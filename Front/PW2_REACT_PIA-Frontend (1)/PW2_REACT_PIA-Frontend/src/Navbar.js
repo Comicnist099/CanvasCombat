@@ -59,25 +59,7 @@ export function Navbar() {
 
   const ProfileID = (source) => {
 
-    if(typeUser == "2"){
-      return (
-        <li className="nav-item" id="profile">
-          <a
-            className="nav-link active"
-            data-bss-hover-animate="pulse"
-            href={"profileAdmin?idUser=" + idUserCookies}
-            style={{
-              color: "rgb(255,255,255)",
-              marginRight: "0px",
-            }}
-          >
-            <i className="fas fa-user" style={{ color: "rgb(0,255,10)" }}></i>
-            &nbsp;ADMIN
-          </a>
-        </li>
-      );
-    }
-    else if (source != "") {
+    if (source != "") {
       return (
         <li className="nav-item" id="profile">
           <a
