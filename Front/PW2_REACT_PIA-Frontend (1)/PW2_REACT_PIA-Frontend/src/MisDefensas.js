@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import $, { get } from "jquery";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 export function MisDefensas() {
+  const cookiesNew = new Cookies();
+  const idUserCookies = cookiesNew.get("idUser");
+
   let [renderedResponsea, setRenderedResponsea] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const [friends, setFriends] = useState([]);
@@ -17,7 +21,7 @@ export function MisDefensas() {
 
     swal({
       title: "AVISO",
-      text: "Esta seguro que desea eliminar este comentario",
+      text: "¿Deseas reportar este Ataque? Si reportas un ataque que te han realizado este se pondrá en revisión por los administradores de la pagina",
       icon: "error",
       buttons: ["Cancelar", "OK"],
     }).then((respuesta) => {
@@ -28,14 +32,24 @@ export function MisDefensas() {
   }
 
   async function ReportValidateMake(id) {
-    const response = await fetch(`http://localhost:5000/draw/comments/${id}`, {
-      method: "DELETE",
+    const body = {
+      isActive: false,
+    };
+
+    const response = await fetch(`http://localhost:5000/draw/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
     });
     const respJson = await response.json();
     console.log(respJson);
     if (respJson.error == "Bad Request") {
       return console.log("NO JALO");
     }
+
+    getResponse();
   }
 
   const getResponse = async () => {
@@ -48,9 +62,14 @@ export function MisDefensas() {
     setFriends(body);
     setidUsuario(body2.owner);
 
-    if (response.status !== 200) throw Error(body.message);
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
 
-    if (response2.status !== 200) throw Error(body2.message);
+    if (response2.status !== 200) {
+      setBoolError(false);
+      throw Error(body2.message);
+    }
   };
   const ErrorNotFound = (source) => {
     if (!source) {
@@ -131,93 +150,56 @@ export function MisDefensas() {
           estilo = "rgb(150, 57, 57)";
           estiloLetras = "rgb(77, 22, 22)";
         }
-        return (
-          <div
-            className="container profileCharacter profile-view"
-            data-aos="fade-up"
-            id="profile"
-            style={{
-              border: "10px solid",
-              color: estiloLetras,
-              marginTop: "50px",
-              background: estilo,
-            }}
-          >
-            <div className="row center">
-              <a
-                href={
-                  "/ProfileCharacter?idCharacter=" +
-                  character._id +
-                  "&idUser=" +
-                  idUser
-                }
-              >
-                <h1 style={{ color: estiloLetras }}>{character.title} </h1>
-              </a>
-              <div className="col-md-4">
-                <div className="p-10">
-                  <a
-                    href={
-                      "/ProfileCharacter?idCharacter=" +
-                      character._id +
-                      "&idUser=" +
-                      idUser
-                    }
-                  >
-                    <img
-                      style={{
-                        width: "3090px",
-                        maxHeight: "4400",
-                        border: "5px solid",
-                        color: "rgba(255,255,255,0.50)",
-                        marginBottom: "30px",
-                        marginTop: "20px",
-                      }}
-                      className="img-fluid"
-                      alt=" "
-                      src={character.imageProfile.path}
-                    ></img>
-                  </a>
-                </div>
-              </div>
-              <input
-                className="form-control"
-                type="hidden"
-                name="idCharacter"
-                id="idCharacter"
-                value={character._id}
-              ></input>
-              <div className="col-md-8 center">
-                <hr></hr>
-
-                <div className="row">
-                  <div className="col-sm-12">
-                    <div>
-                      <p style={{ color: estiloLetras }}>Titulo:</p>
-
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="firstname"
-                        disabled
-                        value={character.title}
-                      ></input>
-                    </div>
-
-                    <div>
-                      <p style={{ color: estiloLetras }}>Descripcion:</p>
-
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="firstname"
-                        disabled
-                        value={character.descripcion}
-                      ></input>
-                    </div>
+        if (character.owner == idUserCookies) {
+          return (
+            <div
+              className="container profileCharacter profile-view"
+              data-aos="fade-up"
+              id="profile"
+              style={{
+                border: "10px solid",
+                color: estiloLetras,
+                marginTop: "50px",
+                background: estilo,
+              }}
+            >
+              <div className="row center">
+                <a
+                  href={
+                    "/ProfileCharacter?idCharacter=" +
+                    character._id +
+                    "&idUser=" +
+                    idUser
+                  }
+                >
+                  <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+                </a>
+                <div className="col-md-4">
+                  <div className="p-10">
+                    <a
+                      href={
+                        "/ProfileCharacter?idCharacter=" +
+                        character._id +
+                        "&idUser=" +
+                        idUser
+                      }
+                    >
+                      <img
+                        style={{
+                          width: "3090px",
+                          maxHeight: "4400",
+                          border: "5px solid",
+                          color: "rgba(255,255,255,0.50)",
+                          marginBottom: "30px",
+                          marginTop: "20px",
+                        }}
+                        className="img-fluid"
+                        alt=" "
+                        src={character.imageProfile.path}
+                      ></img>
+                    </a>
                   </div>
                 </div>
-
                 <input
                   className="form-control"
                   type="hidden"
@@ -225,21 +207,162 @@ export function MisDefensas() {
                   id="idCharacter"
                   value={character._id}
                 ></input>
-                <hr></hr>
-              </div>{" "}
+                <div className="col-md-8 center">
+                  <hr></hr>
+
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <div>
+                        <p style={{ color: estiloLetras }}>Titulo:</p>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          value={character.title}
+                        ></input>
+                      </div>
+
+                      <div>
+                        <p style={{ color: estiloLetras }}>Descripcion:</p>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          value={character.descripcion}
+                        ></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
+                  <hr></hr>
+                </div>{" "}
+              </div>
+              <button
+                style={{ float: "right" }}
+                className="fas fa-exclamation-triangle"
+                name="idCharacter"
+                id="idCharacter"
+                onClick={async () => ReportValidate(character._id)}
+              >
+                Reportar
+              </button>
+              <div className="row" style={{ margin: "10px" }}></div>
             </div>
-            <button
-              style={{ float: "right" }}
-              className="fas fa-exclamation-triangle"
-              name="idCharacter"
-              id="idCharacter"
-              onClick={async () => ReportValidate(character._id)}
+          );
+        } else {
+          return (
+            <div
+              className="container profileCharacter profile-view"
+              data-aos="fade-up"
+              id="profile"
+              style={{
+                border: "10px solid",
+                color: estiloLetras,
+                marginTop: "50px",
+                background: estilo,
+              }}
             >
-              Reportar
-            </button>
-            <div className="row" style={{ margin: "10px" }}></div>
-          </div>
-        );
+              <div className="row center">
+                <a
+                  href={
+                    "/ProfileCharacter?idCharacter=" +
+                    character._id +
+                    "&idUser=" +
+                    idUser
+                  }
+                >
+                  <h1 style={{ color: estiloLetras }}>{character.title} </h1>
+                </a>
+                <div className="col-md-4">
+                  <div className="p-10">
+                    <a
+                      href={
+                        "/ProfileCharacter?idCharacter=" +
+                        character._id +
+                        "&idUser=" +
+                        idUser
+                      }
+                    >
+                      <img
+                        style={{
+                          width: "3090px",
+                          maxHeight: "4400",
+                          border: "5px solid",
+                          color: "rgba(255,255,255,0.50)",
+                          marginBottom: "30px",
+                          marginTop: "20px",
+                        }}
+                        className="img-fluid"
+                        alt=" "
+                        src={character.imageProfile.path}
+                      ></img>
+                    </a>
+                  </div>
+                </div>
+                <input
+                  className="form-control"
+                  type="hidden"
+                  name="idCharacter"
+                  id="idCharacter"
+                  value={character._id}
+                ></input>
+                <div className="col-md-8 center">
+                  <hr></hr>
+
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <div>
+                        <p style={{ color: estiloLetras }}>Titulo:</p>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          value={character.title}
+                        ></input>
+                      </div>
+
+                      <div>
+                        <p style={{ color: estiloLetras }}>Descripcion:</p>
+
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="firstname"
+                          disabled
+                          value={character.descripcion}
+                        ></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input
+                    className="form-control"
+                    type="hidden"
+                    name="idCharacter"
+                    id="idCharacter"
+                    value={character._id}
+                  ></input>
+                  <hr></hr>
+                </div>{" "}
+              </div>
+
+              <div className="row" style={{ margin: "10px" }}></div>
+            </div>
+          );
+        }
       })}
       {ErrorNotFound(boolError)}
       {/* tarjeta de personajes  */}{" "}
