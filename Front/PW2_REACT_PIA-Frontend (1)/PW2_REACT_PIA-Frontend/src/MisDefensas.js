@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import $, { get } from "jquery";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Cookies from "universal-cookie";
+import swal from "sweetalert";
 
 export function MisDefensas() {
   const cookiesNew = new Cookies();
   const idUserCookies = cookiesNew.get("idUser");
 
-  let [renderedResponsea, setRenderedResponsea] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const [friends, setFriends] = useState([]);
   let [boolError, setBoolError] = useState(false);
@@ -16,8 +16,6 @@ export function MisDefensas() {
   let idUser = searchParams.get("idUser");
 
   async function ReportValidate(id) {
-    /*     const element = "#" + id;
-        $(element).hide(); */
 
     swal({
       title: "AVISO",
@@ -58,7 +56,6 @@ export function MisDefensas() {
     const response2 = await fetch(`/draw/${idCharacter}`);
     const body2 = await response2.json();
 
-    setRenderedResponsea(body);
     setFriends(body);
     setidUsuario(body2.owner);
 

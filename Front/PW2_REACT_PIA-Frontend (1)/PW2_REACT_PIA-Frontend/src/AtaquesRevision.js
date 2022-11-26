@@ -112,22 +112,20 @@ export function AtaquesRevision() {
     };
 
     const response4 = await fetch(`/users/${cartoonist}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyUser),
-      });
-      const respJso3 = await response4.json();
-      console.log(respJso3);
-      if (respJso3.error == "Bad Request") {
-        return console.log("NO JALO");
-      }
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyUser),
+    });
+    const respJso3 = await response4.json();
+    console.log(respJso3);
+    if (respJso3.error == "Bad Request") {
+      return console.log("NO JALO");
+    }
 
     window.location.assign("/AtaquesRevision?idUser=" + idUser);
   }
-
-
 
   async function DeleteCharacter(id, team, points, cartoonist) {
     swal({
@@ -138,6 +136,40 @@ export function AtaquesRevision() {
     }).then((respuesta) => {
       if (respuesta) {
         deleteDrawContent(id, team, points, cartoonist);
+      }
+    });
+  }
+
+  async function characterPatched(id) {
+    const body = {
+      isActive: true,
+    };
+
+    const response = await fetch(`http://localhost:5000/draw/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const respJson = await response.json();
+    console.log(respJson);
+    if (respJson.error == "Bad Request") {
+      return console.log("NO JALO");
+    }
+
+    window.location.assign("/AtaquesRevision?idUser=" + idUser);
+  }
+
+  async function patchCharacter(id) {
+    swal({
+      title: "AVISO",
+      text: "Este Ataque sera aceptado y mandado a la página",
+      icon: "warning",
+      buttons: ["Cancelar", "OK"],
+    }).then((respuesta) => {
+      if (respuesta) {
+        characterPatched(id);
       }
     });
   }
@@ -357,6 +389,7 @@ export function AtaquesRevision() {
                           color: "rgba(255,255,255,0.50)",
                           background: "rgba(0,0,0,0.20)",
                         }}
+                        onClick={async () => patchCharacter(character._id)}
                         value="OK"
                       >
                         <p style={{ color: "white" }}>Todo Ok</p>
