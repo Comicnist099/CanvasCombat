@@ -27,10 +27,15 @@ import { useSearchParams } from "react-router-dom";
 export function Navbar() {
   let [renderedResponsea, setRenderedResponsea] = useState();
   let [renderedResponsea2, setRenderedResponsea2] = useState();
+  let [typeUser, setTypeUser] = useState(" ");
 
   const getResponse = async () => {
     const response = await fetch(`/teams/`);
     const body = await response.json();
+
+    const response2 = await fetch(`/users/${idUserCookies}`);
+    const body2 = await response2.json();
+    setTypeUser(body2.typeUser);
 
     setRenderedResponsea(body[0].points);
     setRenderedResponsea2(body[1].points);
@@ -53,7 +58,26 @@ export function Navbar() {
   const idUserCookies = cookiesNew.get("idUser");
 
   const ProfileID = (source) => {
-    if (source != "") {
+
+    if(typeUser == "2"){
+      return (
+        <li className="nav-item" id="profile">
+          <a
+            className="nav-link active"
+            data-bss-hover-animate="pulse"
+            href={"profileAdmin?idUser=" + idUserCookies}
+            style={{
+              color: "rgb(255,255,255)",
+              marginRight: "0px",
+            }}
+          >
+            <i className="fas fa-user" style={{ color: "rgb(0,255,10)" }}></i>
+            &nbsp;ADMIN
+          </a>
+        </li>
+      );
+    }
+    else if (source != "") {
       return (
         <li className="nav-item" id="profile">
           <a
@@ -116,7 +140,7 @@ export function Navbar() {
               height: "80px",
               marginRight: "20px",
             }}
-            alt= " "
+            alt=" "
             src="https://cdn.discordapp.com/attachments/921926176484773909/1042324661100367882/canvascombat.png"
           ></img>
           <a
@@ -168,18 +192,6 @@ export function Navbar() {
                 </a>
               </li>
               <li className="nav-item dropdown">
-                <a
-                  className="dropdown-toggle nav-link"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                  href="#"
-                  style={{
-                    color: "rgb(255,255,255)",
-                    margintop: "0px",
-                  }}
-                >
-                  <i className="fa fa-search"></i>&nbsp;BUSCAR&nbsp;
-                </a>
 
                 <div className="dropdown-menu">
                   <a
@@ -216,7 +228,7 @@ export function Navbar() {
                   <i className="fa fa-id-card"></i>&nbsp;NOSOTROS
                 </a>
               </li>
-              {ProfileID(idUserCookies)}{" "}
+              {ProfileID(idUserCookies)}
             </ul>
           </div>
         </div>

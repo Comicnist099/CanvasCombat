@@ -18,7 +18,7 @@ const UserSchema = new Schema({
   image: { type: Object, required: true },
   points:  { type: String, required: true },
   ban:  { type: Boolean, required: true },
-  typeUser: { type: Boolean, required: true },
+  typeUser: { type: String, required: true },
 
   achievements1: { type: Boolean, required: true },
   achievements2: { type: Boolean, required: true },

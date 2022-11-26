@@ -11,6 +11,7 @@ import { SplashPage } from "./SplashPage";
 import { AboutUs } from "./AboutUs";
 import { LoginRegister } from "./LoginRegister";
 import { Profile } from "./Profile";
+import { ProfileAdmin } from "./ProfileAdmin";
 import { MisPersonajes } from "./MisPersonajes";
 import { ProfileCharacter } from "./ProfileCharacter";
 import { Logros } from "./Logros";
@@ -21,6 +22,7 @@ import { DashBoardAttacks } from "./DashBoardAttacks";
 import { MisAtaques } from "./MisAtaques";
 import { MisDefensas } from "./MisDefensas";
 import { MisDefensasCharacter } from "./MisDefensasCharacter";
+import { AtaquesRevision } from "./AtaquesRevision";
 import { PageNotFound } from "./PageNotFound";
 
 import "./App.css";
@@ -57,6 +59,7 @@ root.render(
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="LoginRegister" element={<LoginRegister />} />
       <Route path="Profile" element={<Profile />} />
+      <Route path="ProfileAdmin" element={<ProfileAdmin />} />
       <Route path="MisPersonajes" element={<MisPersonajes />} />
       <Route path="Logros" element={<Logros />} />
       <Route path="SubirPersonaje" element={<SubirPersonaje />} />
@@ -67,6 +70,7 @@ root.render(
       <Route path="MisAtaques" element={<MisAtaques />} />
       <Route path="MisDefensas" element={<MisDefensas />} />
       <Route path="MisDefensasCharacter" element={<MisDefensasCharacter />} />
+      <Route path="AtaquesRevision" element={<AtaquesRevision />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
     <Footer />

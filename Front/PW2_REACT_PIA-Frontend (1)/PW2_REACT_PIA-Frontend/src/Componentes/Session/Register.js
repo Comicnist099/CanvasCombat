@@ -91,7 +91,7 @@ export default function Register(props) {
                         extra: " ",
                         image: profilePic,
                         points: 0,
-                        typeUser: true,
+                        typeUser: "1",
                         ban: false,
                         achievements1: true,
                         achievements2: false,

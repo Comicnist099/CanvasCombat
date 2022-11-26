@@ -94,8 +94,8 @@ return (
 
 
         <div class="col-sm-4" style={{background: "#818181", marginTop: "44px", marginBottom: "39px"}}>
-            <div class="text-center team-member"><img class="rounded-circle mx-auto" src="assets/img/team/wicho.jpg" width="200" height="200"></img>
-                <h4 style={{color: "rgb(255,255,255)"}}>Dani</h4>
+            <div class="text-center team-member"><img class="rounded-circle mx-auto" src="https://media.discordapp.net/attachments/1006687673425080340/1035032279413694514/CHOPPERDANI.png?width=633&height=676" width="200" height="200"></img>
+                <h4 style={{color: "rgb(255,255,255)"}}>Daniela Guillen</h4>
                 <p class="" style={{color: "rgb(255,255,255)"}}>Frontend Developer</p>
                 <ul class="list-inline social-buttons">
                     <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>

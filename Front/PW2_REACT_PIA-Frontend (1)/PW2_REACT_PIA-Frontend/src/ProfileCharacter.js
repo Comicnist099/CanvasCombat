@@ -17,6 +17,7 @@ export function ProfileCharacter() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [commentarios, setCommentarios] = useState([]);
   const [image, setImage] = useState();
+  const [typeUser, setTypeUser] = useState();
   const [idUser, setIdUser] = useState();
   const [idOwner, setIdOwner] = useState();
   const [characterName, setcharacterName] = useState();
@@ -25,7 +26,6 @@ export function ProfileCharacter() {
   let [styleTeamBack, setStyleTeamBack] = useState(" ");
   let [error, setError] = useState(" ");
   let [NotFoundDraw, setNotFoundDraw] = useState(false);
-  // let [i, setI] = useState(-1);
   let idCharacter = searchParams.get("idCharacter");
 
   // /////////////////////////////////////////
@@ -148,6 +148,7 @@ export function ProfileCharacter() {
 
     const response2 = await fetch(`/users/${idUserCookies}`);
     const body2 = await response2.json();
+    setTypeUser(body2.typeUser);
 
     let d = Date(Date.now());
     let a = d.toString();
@@ -285,7 +286,7 @@ export function ProfileCharacter() {
 
   const validarUser = () => {
     if (friends.title === friends.character) {
-      if (idOwner !== idUserCookies && idUserCookies !== "") {
+      if (idOwner !== idUserCookies && idUserCookies !== "" && typeUser === "1") {
         return (
           <>
             <a

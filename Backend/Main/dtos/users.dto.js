@@ -21,7 +21,7 @@ const image = Joi.object().keys({
 });
 const points = Joi.number();
 const ban = Joi.boolean();
-const typeUser = Joi.boolean();
+const typeUser = Joi.string();
 
 const achievements1 = Joi.boolean();
 const achievements2 = Joi.boolean();
