@@ -33,6 +33,15 @@ router.get("/", async (req, res) => {
   res.json(draws);
 });
 
+router.get("/Attack", async (req, res) => {
+  let draws = await drawsModel.find();
+  let buffer = [];
+  buffer = draws;
+  await drawService.generate(buffer);
+  let attack = await drawService.FindAttackFix();
+  res.json(attack);
+});
+
 router.get("/comments", async (req, res) => {
   let comments = await commentsModel.find();
   let buffer = [];
@@ -343,9 +352,9 @@ router.post(
 );
 
 router.patch(
-  '/:id',
-  validatorHandler(getDrawId, 'params'),
-  validatorHandler(updateDrawDto, 'body'),
+  "/:id",
+  validatorHandler(getDrawId, "params"),
+  validatorHandler(updateDrawDto, "body"),
   async (req, res) => {
     try {
       const body2 = req.body;

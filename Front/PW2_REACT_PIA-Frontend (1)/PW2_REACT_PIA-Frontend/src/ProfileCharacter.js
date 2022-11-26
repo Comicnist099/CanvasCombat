@@ -221,6 +221,10 @@ export function ProfileCharacter() {
     const response = await fetch(`/draw/${idCharacter}`);
     const body = await response.json();
 
+    const response2 = await fetch(`/users/${idUserCookies}`);
+    const body2 = await response2.json();
+    setTypeUser(body2.typeUser);
+
     if (body.isActive) {
       setFriends(body);
       if (body.title !== body.character) {
@@ -286,7 +290,11 @@ export function ProfileCharacter() {
 
   const validarUser = () => {
     if (friends.title === friends.character) {
-      if (idOwner !== idUserCookies && idUserCookies !== "" && typeUser === "1") {
+      if (
+        idOwner !== idUserCookies &&
+        idUserCookies !== "" &&
+        typeUser === "1"
+      ) {
         return (
           <>
             <a
@@ -379,11 +387,14 @@ export function ProfileCharacter() {
               className="row"
               style={{ background: "rgba(255,255,255,0.15)" }}
             >
+              {" "}
               <div className="col-md-12 ">
+                <br></br> <small class="fas fa-lock">{friends._id}</small>
                 <hr style={{ width: "1000px" }}></hr>
                 <h1 className={styleTeam}>{friends.title} </h1>
                 <hr style={{ width: "1000px" }}></hr>
                 <div>
+                  {" "}
                   <img
                     style={{
                       width: "1050px",
