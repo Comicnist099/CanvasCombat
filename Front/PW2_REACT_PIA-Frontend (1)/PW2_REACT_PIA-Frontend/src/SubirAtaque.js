@@ -12,6 +12,7 @@ export function SubirAtaque() {
   const [puntosUser, setPuntosUser] = useState();
   const [imageDraw, setImageDraw] = useState();
   const [idOwner, setIdOwner] = useState();
+  const [teamOwner, setTeamOwner] = useState();
   const [friendsUser, setfriendsUser] = useState();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -118,6 +119,12 @@ export function SubirAtaque() {
     setIdOwner(body2.owner);
 
     if (response2.status !== 200) throw Error(body2.message);
+
+    const response3 = await fetch(`/users/${body2.owner}`);
+    const body3 = await response3.json();
+    setTeamOwner(body3.team);
+
+    if (response3.status !== 200) throw Error(body3.message);
   };
 
   const attackCharacterHandler = async (e) => {
@@ -179,7 +186,6 @@ export function SubirAtaque() {
                   extention: mime,
                   path: characterPicData2,
                 };
-
                 // //////////////Subida de ataque
                 let d = Date(Date.now());
                 let a = d.toString();
@@ -188,6 +194,12 @@ export function SubirAtaque() {
                 points(vLineart);
                 points(vDetail);
                 points(vBackground);
+
+                if (teamOwner === friendsUser.team) {
+                  puntuacion = puntuacion / 2;
+                }
+                console.log(puntuacion);
+
                 const body = {
                   // Agrega todos los datos en conjunto para así poder subirlo a mongo
 
@@ -287,9 +299,6 @@ export function SubirAtaque() {
                       window.location.assign("/MisAtaques?idUser=" + idUser);
                     }
                   });
-
-                  //
-                  //navigate("/MisAtaques?idUser=" + idUser);
                 }
               });
             });

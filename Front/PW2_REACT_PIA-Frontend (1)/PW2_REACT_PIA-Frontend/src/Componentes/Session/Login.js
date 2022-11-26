@@ -57,6 +57,9 @@ export function Login(props) {
                     marginbottom: "46px",
                   }}
                 >
+                  <h1 style={{ color: "white" }}> LOGIN </h1>
+                  <br></br>
+                  <br></br>
                   <a
                     className="navbar-brand"
                     href="index.php"
