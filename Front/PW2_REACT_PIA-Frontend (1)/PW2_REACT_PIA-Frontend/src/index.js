@@ -11,7 +11,6 @@ import { SplashPage } from "./SplashPage";
 import { AboutUs } from "./AboutUs";
 import { LoginRegister } from "./LoginRegister";
 import { Profile } from "./Profile";
-import { ProfileAdmin } from "./ProfileAdmin";
 import { MisPersonajes } from "./MisPersonajes";
 import { ProfileCharacter } from "./ProfileCharacter";
 import { Logros } from "./Logros";
@@ -59,7 +58,6 @@ root.render(
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="LoginRegister" element={<LoginRegister />} />
       <Route path="Profile" element={<Profile />} />
-      <Route path="ProfileAdmin" element={<ProfileAdmin />} />
       <Route path="MisPersonajes" element={<MisPersonajes />} />
       <Route path="Logros" element={<Logros />} />
       <Route path="SubirPersonaje" element={<SubirPersonaje />} />

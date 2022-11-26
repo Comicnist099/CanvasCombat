@@ -3,7 +3,6 @@ import $ from "jquery";
 import Cookies from "universal-cookie";
 import { useSearchParams } from "react-router-dom";
 import DrawNavBar from "./Componentes/Profile/DrawNavBar";
-
 import swal from "sweetalert";
 
 export function Profile(props) {
@@ -27,8 +26,9 @@ export function Profile(props) {
   let [passwordValidate2, setPasswordValidate2] = useState("hidden");
   let [vacio, setvacio] = useState("hidden");
   let [vacio2, setvacio2] = useState("button");
-
   let [Errora, setErrora] = useState(false);
+  let [typeUser, setTypeUser] = useState(" ");
+  let [display, setDisplay] = useState("none");
 
   const PasswordBoolActive = (e) => {
     setPasswordValidate1("block");
@@ -214,6 +214,8 @@ export function Profile(props) {
     const response = await fetch(`/users/${idUser}`);
     const body = await response.json();
     setError(body.error);
+    setTypeUser(body.typeUser);
+    console.log(typeUser);
 
     if (body.isActive) {
       let bufferImage = body.image.path;
@@ -225,16 +227,27 @@ export function Profile(props) {
       const insta = instagram.substr(0, 25);
 
       // ///////////////////////VALIDAR ESTILOS
-      if (body.team == 0) {
+
+      if (body.typeUser == "2") {
+        setStyleTeamBack("gray");
+        setDisplay("none");
+        setBorderTeam("rgb(28, 28, 28)");
+        setTeamImage(
+          "https://media.discordapp.net/attachments/921926176484773909/1045893753489076254/image.png"
+        );
+        setColorMark("rgb(54, 53, 53)");
+      } else if (body.team == 0) {
         setStyleTeam("Sweet");
+        setDisplay("inline");
         setStyleTeamBack("rgb(199, 97, 140)");
         setBorderTeam("rgb(77, 22, 77)");
         setTeamImage(
           "https://cdn.discordapp.com/attachments/921926176484773909/1042613734205562961/SweetFont.png"
         );
         setColorMark("rgba(255,255,255,0.50)");
-      } else {
+      } else if (body.team == 1) {
         setStyleTeam("Spicy");
+        setDisplay("inline");
         setStyleTeamBack("rgb(150, 57, 57)");
         setBorderTeam("rgb(77, 22, 22)");
         setTeamImage(
@@ -608,7 +621,7 @@ export function Profile(props) {
                   </div>
                 </div>
               </div>
-              <div className="row">
+              <div className="row" style={{display:display}}>
                 <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
                     <label className={styleTeam}>Puntos Totales</label>
@@ -790,7 +803,7 @@ export function Profile(props) {
                   </div>
                 </div>
               </div>
-              <div className="row">
+              <div className="row" style={{display: display}}>
                 <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
                     <label className={styleTeam}>Puntos Totales</label>
@@ -821,6 +834,52 @@ export function Profile(props) {
       );
     }
   };
+
+  const NavBarMultimedia = () => {
+    return (
+      <div className="container">
+        <button
+          className="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#navcol-6"
+        >
+          <span className="visually-hidden">Toggle navigation</span>
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          id="navcol-6"
+          className="collapse navbar-collapse flex-grow-0 order-md-first"
+        >
+          <ul className="navbar-nav me-auto">
+            <li className="nav-item">
+              <a
+                class="btn btn-dark"
+                id="lists"
+                href={"AtaquesRevision?idUser=" + idUser}
+                style={{ textSlign: "center" }}
+              >
+                Revisar Ataques
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  const navbarAdmin = () => {
+    console.log(typeUser);
+    if (typeUser === "2" && idUser === idUserCookies) {
+      return (
+        <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3">
+          {NavBarMultimedia()}
+        </nav>
+      );
+    } else if(typeUser === "1") {
+      return <DrawNavBar Errores={Errores}></DrawNavBar>;
+    }
+  };
+
   const buttons = () => {
     if (idUser === idUserCookies) {
       return (
@@ -866,7 +925,7 @@ export function Profile(props) {
 
   return (
     <>
-      <DrawNavBar Errores={Errores}></DrawNavBar>
+      {navbarAdmin()}
       <form onSubmit={UpdateProfile}>{NotFoundProfile(edit)}</form>
     </>
   );
