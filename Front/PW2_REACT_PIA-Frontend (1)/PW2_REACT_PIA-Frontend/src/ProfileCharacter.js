@@ -11,9 +11,9 @@ export function ProfileCharacter() {
   const idUserCookies = cookiesNew.get("idUser");
 
   // /////////hook///////////
-  const [friends, setFriends] = useState([]);
-  const [friendsUser, setfriendsUser] = useState();
-  const [friendsUser2, setfriendsUser2] = useState();
+  const [bodyCharacter, setBodyCharacter] = useState([]);
+  const [nicknameCartonist, setNicknameCartoonist] = useState("");
+  const [nicknameOwner, setNicknameOwner] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [commentarios, setCommentarios] = useState([]);
   const [image, setImage] = useState();
@@ -44,7 +44,7 @@ export function ProfileCharacter() {
   };
 
   const ataquePuntos = () => {
-    if (friends.title !== friends.character) {
+    if (bodyCharacter.title !== bodyCharacter.character) {
       return (
         <div className="form-group mb-3">
           <p className={styleTeam}>Character points:</p>
@@ -58,7 +58,7 @@ export function ProfileCharacter() {
                   <b className={styleTeam}>Body</b>
                 </td>
                 <td style={{ backgroundColor: "white" }}>
-                  <strong>{friends.body}</strong>
+                  <strong>{bodyCharacter.body}</strong>
                 </td>
               </tr>
               <tr>
@@ -69,7 +69,7 @@ export function ProfileCharacter() {
                   <b className={styleTeam}>Lineart</b>
                 </td>
                 <td style={{ backgroundColor: "white" }}>
-                  <strong>{friends.lineart}</strong>
+                  <strong>{bodyCharacter.lineart}</strong>
                 </td>
               </tr>
               <tr>
@@ -80,7 +80,7 @@ export function ProfileCharacter() {
                   <b className={styleTeam}>Detail</b>
                 </td>
                 <td style={{ backgroundColor: "white" }}>
-                  <strong>{friends.detail}</strong>
+                  <strong>{bodyCharacter.detail}</strong>
                 </td>
               </tr>
               <tr>
@@ -91,7 +91,7 @@ export function ProfileCharacter() {
                   <b className={styleTeam}>Background</b>
                 </td>
                 <td style={{ backgroundColor: "white" }}>
-                  <strong>{friends.background}</strong>
+                  <strong>{bodyCharacter.background}</strong>
                 </td>
               </tr>
               <tr>
@@ -102,7 +102,7 @@ export function ProfileCharacter() {
                   <b className={styleTeam}>Puntos Totales</b>
                 </td>
                 <td style={{ backgroundColor: "white" }}>
-                  <strong>{friends.points}</strong>
+                  <strong>{bodyCharacter.points}</strong>
                 </td>
               </tr>
             </tbody>
@@ -296,7 +296,8 @@ export function ProfileCharacter() {
     setTypeUser(body2.typeUser);
 
     if (body.isActive) {
-      setFriends(body);
+      setBodyCharacter(body);
+
       if (body.title !== body.character) {
         const response2 = await fetch(`/draw/${body.character}`);
         const body2 = await response2.json();
@@ -304,21 +305,41 @@ export function ProfileCharacter() {
         const bodyUser2 = await responseUser2.json();
 
         setIdOwner(body2.owner);
-        setcharacterName(body2.title);
-        setfriendsUser2(bodyUser2.nickname);
+
+        if (body2.error == "Not Found") {
+          setcharacterName("DIBUJO ELIMINADO");
+        } else {
+          setcharacterName(body2.title);
+        }
+
+        if (bodyUser2.error == "Not Found") {
+          setNicknameOwner("USUARIO ELIMINADO");
+        } else {
+          setNicknameOwner(bodyUser2.nickname);
+        }
       } else {
         const responseUser2 = await fetch(`/users/${body.owner}`);
         const bodyUser2 = await responseUser2.json();
-        setIdOwner(body.owner);
-        setfriendsUser2(bodyUser2.nickname);
-      }
 
+        setIdOwner(body.owner);
+
+        if (bodyUser2.error == "Not Found") {
+          setNicknameOwner("USUARIO ELIMINADO");
+        } else {
+          setNicknameOwner(bodyUser2.nickname);
+        }
+      }
       const responseUser = await fetch(`/users/${body.cartoonist}`);
       const bodyUser = await responseUser.json();
 
       setIdUser(body.cartoonist);
 
-      setfriendsUser(bodyUser.nickname);
+      if (bodyUser.error == "Not Found") {
+        setNicknameCartoonist("USUARIO ELIMINADO");
+      } else {
+        setNicknameCartoonist(bodyUser.nickname);
+      }
+
       setImage(body.image.path);
 
       // ///////////////////////VALIDAR ESTILOS
@@ -337,7 +358,7 @@ export function ProfileCharacter() {
   };
 
   const characterAttacked = () => {
-    if (friends.title !== friends.character) {
+    if (bodyCharacter.title !== bodyCharacter.character) {
       return (
         <tr>
           <td
@@ -348,7 +369,11 @@ export function ProfileCharacter() {
           </td>
           <td style={{ backgroundColor: "white" }}>
             <strong>
-              <a href={"/ProfileCharacter?idCharacter=" + friends.character}>
+              <a
+                href={
+                  "/ProfileCharacter?idCharacter=" + bodyCharacter.character
+                }
+              >
                 {characterName}
               </a>
             </strong>
@@ -359,7 +384,7 @@ export function ProfileCharacter() {
   };
 
   const validarUser = () => {
-    if (friends.title === friends.character) {
+    if (bodyCharacter.title === bodyCharacter.character) {
       if (
         idOwner !== idUserCookies &&
         idUserCookies !== "" &&
@@ -368,7 +393,7 @@ export function ProfileCharacter() {
         return (
           <>
             <a
-              href={"/SubirAtaque?idCharacter=" + friends._id}
+              href={"/SubirAtaque?idCharacter=" + bodyCharacter._id}
               class="btn btn-lg"
               style={{ background: "rgba(0,0,0,0.80)" }}
             >
@@ -383,7 +408,7 @@ export function ProfileCharacter() {
                 "/MisDefensasCharacter?idCharacter=" +
                 idCharacter +
                 "&idUser=" +
-                friends.owner
+                bodyCharacter.owner
               }
               class="btn"
             >
@@ -406,7 +431,7 @@ export function ProfileCharacter() {
                 "/MisDefensasCharacter?idCharacter=" +
                 idCharacter +
                 "&idUser=" +
-                friends.owner
+                bodyCharacter.owner
               }
               class="btn"
             >
@@ -459,9 +484,9 @@ export function ProfileCharacter() {
             >
               {" "}
               <div className="col-md-12 ">
-                <br></br> <small class="fas fa-lock">{friends._id}</small>
+                <br></br> <small class="fas fa-lock">{bodyCharacter._id}</small>
                 <hr style={{ width: "1000px" }}></hr>
-                <h1 className={styleTeam}>{friends.title} </h1>
+                <h1 className={styleTeam}>{bodyCharacter.title} </h1>
                 <hr style={{ width: "1000px" }}></hr>
                 <div>
                   {" "}
@@ -482,7 +507,7 @@ export function ProfileCharacter() {
                     <div className="form-group mb-3">
                       <p className={styleTeam}>Nombre</p>
                       <input
-                        value={friends.title}
+                        value={bodyCharacter.title}
                         className="form-control"
                         disabled
                         name="firstname"
@@ -492,7 +517,7 @@ export function ProfileCharacter() {
                   <div className="col-sm-12 col-md-6">
                     <p className={styleTeam}>Fecha de creacion</p>
                     <input
-                      value={friends.creationDate}
+                      value={bodyCharacter.creationDate}
                       className="form-control"
                       disabled
                       name="firstname"
@@ -504,7 +529,7 @@ export function ProfileCharacter() {
                     <div className="form-group mb-3">
                       <p className={styleTeam}>Descripcion</p>
                       <textarea
-                        value={friends.descripcion}
+                        value={bodyCharacter.descripcion}
                         class="form-group"
                         rows="5"
                         className="form-control"
@@ -530,7 +555,7 @@ export function ProfileCharacter() {
                             <td style={{ backgroundColor: "white" }}>
                               <strong>
                                 <a href={"/Profile?idUser=" + idOwner}>
-                                  {friendsUser2}{" "}
+                                  {nicknameOwner}{" "}
                                 </a>
                               </strong>
                             </td>
@@ -545,7 +570,7 @@ export function ProfileCharacter() {
                             <td style={{ backgroundColor: "white" }}>
                               <strong>
                                 <a href={"/Profile?idUser=" + idUser}>
-                                  {friendsUser}{" "}
+                                  {nicknameCartonist}{" "}
                                 </a>
                               </strong>
                             </td>

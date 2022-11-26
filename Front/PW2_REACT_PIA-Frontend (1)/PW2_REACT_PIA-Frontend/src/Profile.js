@@ -86,6 +86,38 @@ export function Profile(props) {
     setedit(false);
   };
 
+  async function DeleteUser(id) {
+    /*     const element = "#" + id;
+        $(element).hide(); */
+
+    swal({
+      title: "AVISO",
+      text: "¿Esta seguro que desea ese usuario? Esta acción no se puede revertir tus dibujos seguirán disponibles si no lo eliminas ¿desea eliminar la cuenta?",
+      icon: "error",
+      buttons: ["Cancelar", "OK"],
+    }).then((respuesta) => {
+      if (respuesta) {
+        DeleteUserContent(id);
+      }
+    });
+  }
+
+  async function DeleteUserContent(id) {
+    const response2 = await fetch(`/draw/comments/all/user/${id}`, {
+      method: "DELETE",
+    });
+    const respJson2 = await response2.json();
+    console.log(respJson2);
+
+    const response3 = await fetch(`/users/${id}`, {
+      method: "DELETE",
+    });
+    const respJson3 = await response3.json();
+    console.log(respJson3);
+    cookiesNew.set("idUser", "", { path: "/" });
+    window.location.assign("/loginRegister");
+  }
+
   const UpdateProfile = async (e) => {
     e.preventDefault();
 
@@ -621,7 +653,7 @@ export function Profile(props) {
                   </div>
                 </div>
               </div>
-              <div className="row" style={{display:display}}>
+              <div className="row" style={{ display: display }}>
                 <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
                     <label className={styleTeam}>Puntos Totales</label>
@@ -656,6 +688,11 @@ export function Profile(props) {
                   {Errora}{" "}
                 </p>
                 <input
+                  style={{
+                    color: "rgba(255,255,255,0.90)",
+                    background: "rgba(0,0,0,0.40)",
+                    marginLeft: "10px",
+                  }}
                   className="btn btn-danger"
                   id="editButton"
                   name="editButton "
@@ -664,12 +701,26 @@ export function Profile(props) {
                   onClick={staticMode}
                 />
                 <button
+                  style={{
+                    color: "rgba(255,255,255,0.90)",
+                    background: "rgba(0,0,0,0.40)",
+                    marginLeft: "10px",
+                  }}
                   className="btn btn-success"
                   id="logInButton"
                   type="submit"
                 >
                   Actualizar Información
                 </button>
+
+                <input
+                  className="btn btn-danger"
+                  id="editButton"
+                  name="editButton "
+                  type="button"
+                  value="Eliminar Usuario"
+                  onClick={async () => DeleteUser(idUserCookies)}
+                />
               </div>
             </div>
           </div>
@@ -803,7 +854,7 @@ export function Profile(props) {
                   </div>
                 </div>
               </div>
-              <div className="row" style={{display: display}}>
+              <div className="row" style={{ display: display }}>
                 <div className="col-sm-12 col-md-6">
                   <div className="form-group mb-3">
                     <label className={styleTeam}>Puntos Totales</label>
@@ -875,7 +926,7 @@ export function Profile(props) {
           {NavBarMultimedia()}
         </nav>
       );
-    } else if(typeUser === "1") {
+    } else if (typeUser === "1") {
       return <DrawNavBar Errores={Errores}></DrawNavBar>;
     }
   };

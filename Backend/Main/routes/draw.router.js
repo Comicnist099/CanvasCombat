@@ -24,6 +24,7 @@ const {
   getCommentsId,
 } = require("../dtos/comment.dto");
 const draw = require("../models/draw");
+const { getUserId } = require("../dtos/users.dto");
 
 router.get("/", async (req, res) => {
   let draws = await drawsModel.find();
@@ -163,7 +164,7 @@ router.get(
     }
   }
 );
-
+//////////Da De alta comentarios///////////
 router.post(
   "/comments",
   validatorHandler(createCommentsDto, "body"),
@@ -225,7 +226,7 @@ router.patch(
     }
   }
 );
-
+//////////ELIMINA COMENTARIOS CON EL ID DEL Comentario///////////
 router.delete(
   "/comments/:id",
   validatorHandler(getCommentsId, "params"),
@@ -248,6 +249,42 @@ router.delete(
   }
 );
 
+//////////ELIMINA COMENTARIOS CON EL ID DEL PROPIETARIO///////////
+
+router.delete(
+  "/comments/all/user/:id",
+  validatorHandler(getCommentsId, "params"),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      // const deleteComments = await commentService.delete(id);
+      console.log(id);
+      await commentsModel.deleteMany({ name: id });
+
+      res.json({ message: "delete con el id del usuario" });
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  }
+);
+/////////ELIMINAR TODOS LOS DRAW POR USUARIO///////////////
+router.delete(
+  "/all/user/:id",
+  validatorHandler(getDrawId, "params"),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      await drawsModel.deleteMany({ owner: id });
+
+      res.json({ message: "delete Draw User" });
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  }
+);
+
+//////////ELIMINA COMENTARIOS CON EL ID DEL DIBUJO///////////
 router.delete(
   "/comments/all/:id",
   validatorHandler(getCommentsId, "params"),
@@ -258,17 +295,7 @@ router.delete(
       console.log(id);
       await commentsModel.deleteMany({ idDraw: id });
 
-      /* ,
-        { owner:  },
-        (err, result) => {
-          if (err) {
-            res.send({ error: "An error has occured" });
-          } else {
-            res.send(result.ops[0]);
-          }
-        } */
-
-      res.json({ message: "delete" });
+      res.json({ message: "delete Commit id del dibujo" });
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
