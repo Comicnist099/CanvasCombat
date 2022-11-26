@@ -11,6 +11,33 @@ export function MisDefensas() {
   const idCharacter = searchParams.get("idCharacter");
   let idUser = searchParams.get("idUser");
 
+  async function ReportValidate(id) {
+    /*     const element = "#" + id;
+        $(element).hide(); */
+
+    swal({
+      title: "AVISO",
+      text: "Esta seguro que desea eliminar este comentario",
+      icon: "error",
+      buttons: ["Cancelar", "OK"],
+    }).then((respuesta) => {
+      if (respuesta) {
+        ReportValidateMake(id);
+      }
+    });
+  }
+
+  async function ReportValidateMake(id) {
+    const response = await fetch(`http://localhost:5000/draw/comments/${id}`, {
+      method: "DELETE",
+    });
+    const respJson = await response.json();
+    console.log(respJson);
+    if (respJson.error == "Bad Request") {
+      return console.log("NO JALO");
+    }
+  }
+
   const getResponse = async () => {
     const response = await fetch(`/draw/Defensas/${idUser}`);
     const body = await response.json();
@@ -153,7 +180,6 @@ export function MisDefensas() {
                   </a>
                 </div>
               </div>
-
               <input
                 className="form-control"
                 type="hidden"
@@ -161,7 +187,6 @@ export function MisDefensas() {
                 id="idCharacter"
                 value={character._id}
               ></input>
-
               <div className="col-md-8 center">
                 <hr></hr>
 
@@ -201,9 +226,17 @@ export function MisDefensas() {
                   value={character._id}
                 ></input>
                 <hr></hr>
-              </div>
+              </div>{" "}
             </div>
-
+            <button
+              style={{ float: "right" }}
+              className="fas fa-exclamation-triangle"
+              name="idCharacter"
+              id="idCharacter"
+              onClick={async () => ReportValidate(character._id)}
+            >
+              Reportar
+            </button>
             <div className="row" style={{ margin: "10px" }}></div>
           </div>
         );
