@@ -9,8 +9,8 @@ export function AtaquesRevision() {
   const [friends, setFriends] = useState([]);
   let [typeUser, setTypeUser] = useState();
   let [boolError, setBoolError] = useState(false);
-  const idCharacter = searchParams.get("idCharacter");
   let idUser = searchParams.get("idUser");
+  let [teams, setTeams] = useState();
 
   const cookiesNew = new Cookies();
   const idUserCookies = cookiesNew.get("idUser");
@@ -18,16 +18,15 @@ export function AtaquesRevision() {
   const getResponse = async () => {
     const response = await fetch(`/users/${idUser}`);
     const body = await response.json();
-    const response2 = await fetch(`/draw/${idCharacter}`);
+    const response2 = await fetch(`/draw/Attack`);
     const body2 = await response2.json();
 
-    setFriends(body);
+    setFriends(body2);
     setTypeUser(body.typeUser);
 
     if (response.status !== 200) throw Error(body.message);
 
     if (response2.status !== 200) throw Error(body2.message);
-
   };
   const ErrorNotFound = (source) => {
     if (!source) {
@@ -58,6 +57,90 @@ export function AtaquesRevision() {
       );
     }
   };
+
+  async function deleteDrawContent(id, team, points, cartoonist) {
+    const response = await fetch(`http://localhost:5000/draw/${id}`, {
+      method: "DELETE",
+    });
+    const respJson = await response.json();
+    console.log(respJson);
+    if (respJson.error == "Bad Request") {
+      return console.log("NO JALO");
+    }
+
+    let body2;
+    if (team == "0") {
+      const response2 = await fetch(`/teams/6375936aad8bffc948b4d770`);
+      body2 = await response2.json();
+    } else {
+      const response2 = await fetch(`/teams/63759398ad8bffc948b4d778`);
+      body2 = await response2.json();
+    }
+
+    let puntosteam = parseInt(body2.points);
+    let TotalPoints = puntosteam - points;
+    let stringpoints = TotalPoints.toString();
+
+    const bodyTeam = {
+      points: stringpoints,
+    };
+
+    const response3 = await fetch(`/teams/${body2._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyTeam),
+    });
+    const respJson2 = await response3.json();
+    console.log(respJson2);
+    if (respJson2.error == "Bad Request") {
+      return console.log("NO JALO");
+    }
+
+    ////////////////////////////USER
+
+    const response2 = await fetch(`/users/${cartoonist}`);
+    body2 = await response2.json();
+
+    let puntosUsers = parseInt(body2.points);
+    let userPoints = puntosUsers - points;
+    stringpoints = userPoints.toString();
+
+    const bodyUser = {
+      points: stringpoints,
+    };
+
+    const response4 = await fetch(`/users/${cartoonist}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyUser),
+      });
+      const respJso3 = await response4.json();
+      console.log(respJso3);
+      if (respJso3.error == "Bad Request") {
+        return console.log("NO JALO");
+      }
+
+    window.location.assign("/AtaquesRevision?idUser=" + idUser);
+  }
+
+
+
+  async function DeleteCharacter(id, team, points, cartoonist) {
+    swal({
+      title: "AVISO",
+      text: "Esta seguro que desea eliminar este dibujo",
+      icon: "error",
+      buttons: ["Cancelar", "OK"],
+    }).then((respuesta) => {
+      if (respuesta) {
+        deleteDrawContent(id, team, points, cartoonist);
+      }
+    });
+  }
 
   useEffect(() => {
     getResponse();
@@ -116,42 +199,37 @@ export function AtaquesRevision() {
                   }}
                 >
                   <div className="row center">
-                    <a
-                      href={
-                        "/ProfileCharacter?idCharacter=" +
-                        character._id +
-                        "&idUser=" +
-                        idUser
-                      }
-                    >
-                      <h1 style={{ color: estiloLetras }}>
-                        {character.title}{" "}
-                      </h1>
-                    </a>
+                    <h1 style={{ color: estiloLetras }}>{character.title} </h1>
                     <div className="col-md-4">
                       <div className="p-10">
-                        <a
-                          href={
-                            "/ProfileCharacter?idCharacter=" +
-                            character._id +
-                            "&idUser=" +
-                            idUser
-                          }
-                        >
-                          <img
-                            style={{
-                              width: "3090px",
-                              maxHeight: "4400",
-                              border: "5px solid",
-                              color: "rgba(255,255,255,0.50)",
-                              marginBottom: "30px",
-                              marginTop: "20px",
-                            }}
-                            className="img-fluid"
-                            alt=" "
-                            src={character.imageProfile.path}
-                          ></img>
-                        </a>
+                        <p style={{ color: estiloLetras }}>Miniatura </p>
+                        <img
+                          style={{
+                            width: "3090px",
+                            maxHeight: "4400",
+                            border: "5px solid",
+                            color: "rgba(255,255,255,0.50)",
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                          }}
+                          className="img-fluid"
+                          alt=" "
+                          src={character.imageProfile.path}
+                        ></img>
+                        <p style={{ color: estiloLetras }}>Ataque </p>
+                        <img
+                          style={{
+                            width: "3090px",
+                            maxHeight: "4400",
+                            border: "5px solid",
+                            color: "rgba(255,255,255,0.50)",
+                            marginBottom: "30px",
+                            marginTop: "20px",
+                          }}
+                          className="img-fluid"
+                          alt=" "
+                          src={character.image.path}
+                        ></img>
                       </div>
                     </div>
                     <div className="col-md-8 center">
@@ -165,28 +243,11 @@ export function AtaquesRevision() {
                               className="form-control"
                               type="text"
                               name="firstname"
-                              id={character._id + "1"}
-                              defaultValue={character.title}
-                            ></input>
-
-                            <input
-                              className="form-control"
-                              type="text"
-                              name="firstname"
                               disabled
                               value={character.title}
                             ></input>
-                          </div>
 
-                          <div>
                             <p style={{ color: estiloLetras }}>Descripcion:</p>
-                            <input
-                              className="form-control"
-                              type="text"
-                              name="firstname"
-                              defaultValue={character.descripcion}
-                            ></input>
-
                             <input
                               className="form-control"
                               type="text"
@@ -195,33 +256,111 @@ export function AtaquesRevision() {
                               value={character.descripcion}
                             ></input>
                           </div>
-                          <button
-                            class="btn"
-                            name="okButton"
-                            style={{
-                              border: "2px solid",
-                              marginTop: "18px",
-                              width: "90px",
-                              height: "60px",
-                              color: "rgba(255,255,255,0.50)",
-                              background: "rgba(0,0,0,0.20)",
-                            }}
-                            value="OK"
-                          >
-                            <span
-                              style={{
-                                color: "white",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              Todo Ok
-                            </span>
-                          </button>
+                        </div>
+                        <div className="col-sm-12">
+                          <br></br>
+                          <table style={{ float: "left" }}>
+                            <tr>
+                              <td>
+                                <p style={{ color: estiloLetras }}>Body: </p>
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="firstname"
+                                  style={{ textAlign: "center" }}
+                                  disabled
+                                  value={character.body}
+                                ></input>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <p style={{ color: estiloLetras }}>Lineart: </p>
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="firstname"
+                                  disabled
+                                  style={{ textAlign: "center" }}
+                                  value={character.lineart}
+                                ></input>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <p style={{ color: estiloLetras }}>Detail: </p>
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="firstname"
+                                  style={{ textAlign: "center" }}
+                                  disabled
+                                  value={character.detail}
+                                ></input>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <p style={{ color: estiloLetras }}>
+                                  Background:{" "}
+                                </p>
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="firstname"
+                                  style={{ textAlign: "center" }}
+                                  disabled
+                                  value={character.background}
+                                ></input>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <p style={{ color: estiloLetras }}>
+                                  Puntos Recibidos:
+                                </p>
+                              </td>
+                              <td>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="firstname"
+                                  style={{ textAlign: "center" }}
+                                  disabled
+                                  value={character.points}
+                                ></input>
+                              </td>
+                            </tr>
+                          </table>
                         </div>
                       </div>
 
                       <hr></hr>
+                      <button
+                        class="btn"
+                        name="okButton"
+                        style={{
+                          border: "2px solid",
+                          marginRight: "20px",
+                          color: "rgba(255,255,255,0.50)",
+                          background: "rgba(0,0,0,0.20)",
+                        }}
+                        value="OK"
+                      >
+                        <p style={{ color: "white" }}>Todo Ok</p>
+                      </button>
 
                       <button
                         type="button"
@@ -233,6 +372,15 @@ export function AtaquesRevision() {
                           color: "rgba(255,255,255,0.50)",
                           background: "rgba(0,0,0,0.70)",
                         }}
+                        onClick={async () =>
+                          DeleteCharacter(
+                            character._id,
+                            character.team,
+                            character.points,
+                            character.cartoonist
+                          )
+                        }
+                        value="Delete"
                       >
                         <p style={{ color: "white" }}>ELIMINAR</p>
                       </button>
@@ -276,11 +424,7 @@ export function AtaquesRevision() {
     }
   };
 
-  return (
-    <>
-    {AttackRevision()}
-    </>
-  );
+  return <>{AttackRevision()}</>;
 }
 
 export default AtaquesRevision;
