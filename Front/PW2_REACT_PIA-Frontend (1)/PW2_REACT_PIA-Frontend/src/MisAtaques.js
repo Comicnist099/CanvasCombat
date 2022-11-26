@@ -155,7 +155,8 @@ export function MisAtaques() {
         console.log(character.cartoonist);
         if (
           character.title !== character.character &&
-          character.cartoonist === idUser
+          character.cartoonist === idUser &&
+          character.isActive === true
         ) {
           if (!boolError) {
             setBoolError(true);
