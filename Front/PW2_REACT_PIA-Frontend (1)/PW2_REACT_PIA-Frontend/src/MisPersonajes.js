@@ -45,6 +45,12 @@ export function MisPersonajes() {
   };
 
   async function deleteDrawContent(id) {
+    const response2 = await fetch(`/draw/comments/all/${id}`, {
+      method: "DELETE",
+    });
+    const respJson2 = await response2.json();
+    console.log(respJson2);
+
     const response = await fetch(`http://localhost:5000/draw/${id}`, {
       method: "DELETE",
     });
@@ -53,6 +59,7 @@ export function MisPersonajes() {
     if (respJson.error == "Bad Request") {
       return console.log("NO JALO");
     }
+
     getResponse();
   }
 

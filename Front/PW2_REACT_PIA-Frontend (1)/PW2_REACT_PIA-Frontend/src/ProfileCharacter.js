@@ -43,6 +43,76 @@ export function ProfileCharacter() {
     if (response.status !== 200) throw Error(body.message);
   };
 
+  const ataquePuntos = () => {
+    if (friends.title !== friends.character) {
+      return (
+        <div className="form-group mb-3">
+          <p className={styleTeam}>Character points:</p>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td
+                  class="w-25 text-right"
+                  style={{ background: "rgba(255,255,255,0.50)" }}
+                >
+                  <b className={styleTeam}>Body</b>
+                </td>
+                <td style={{ backgroundColor: "white" }}>
+                  <strong>{friends.body}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="w-25 text-right"
+                  style={{ background: "rgba(255,255,255,0.50)" }}
+                >
+                  <b className={styleTeam}>Lineart</b>
+                </td>
+                <td style={{ backgroundColor: "white" }}>
+                  <strong>{friends.lineart}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="w-25 text-right"
+                  style={{ background: "rgba(255,255,255,0.50)" }}
+                >
+                  <b className={styleTeam}>Detail</b>
+                </td>
+                <td style={{ backgroundColor: "white" }}>
+                  <strong>{friends.detail}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="w-25 text-right"
+                  style={{ background: "rgba(255,255,255,0.50)" }}
+                >
+                  <b className={styleTeam}>Background</b>
+                </td>
+                <td style={{ backgroundColor: "white" }}>
+                  <strong>{friends.background}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="w-25 text-right"
+                  style={{ background: "rgba(255,255,255,0.50)" }}
+                >
+                  <b className={styleTeam}>Puntos Totales</b>
+                </td>
+                <td style={{ backgroundColor: "white" }}>
+                  <strong>{friends.points}</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br></br>
+        </div>
+      );
+    }
+  };
+
   async function deleteCommitContent(id) {
     const response = await fetch(`http://localhost:5000/draw/comments/${id}`, {
       method: "DELETE",
@@ -429,6 +499,7 @@ export function ProfileCharacter() {
                     ></input>
                     <br></br>
                   </div>
+                  {/*HOLAAAAAAAAAAAAAA*/}
                   <div className="col-sm-12 col-md-6">
                     <div className="form-group mb-3">
                       <p className={styleTeam}>Descripcion</p>
@@ -442,9 +513,6 @@ export function ProfileCharacter() {
                         name="lastname"
                       ></textarea>
                     </div>
-                  </div>
-                  <br></br>
-                  <div className="col-sm-12 col-md-6">
                     <div
                       style={{ marginBottom: "500px" }}
                       className="form-group mb-3"
@@ -488,6 +556,8 @@ export function ProfileCharacter() {
                       <br></br>
                     </div>
                   </div>
+                  <br></br>
+                  <div className="col-sm-12 col-md-6">{ataquePuntos()}</div>
                   {validarUser()}{" "}
                 </div>
               </div>
@@ -507,75 +577,273 @@ export function ProfileCharacter() {
               {commentarios.map((Commit) => {
                 console.log(Commit);
 
-                if (Commit.name == idUserCookies) {
-                  return (
-                    <div class="panel-body">
-                      <ul class="list-group">
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-xs-2 col-md-1">
-                              <img
-                                width={80}
-                                lenght={80}
-                                src={Commit.image.path}
-                                class="img-circle img-responsive"
-                                alt=""
-                              />
-                            </div>
-                            <div class="col-xs-10 col-md-11">
-                              <div>
-                                <div class="mic-info">
-                                  <a href={"/profile?idUser=" + Commit.name}>
-                                    {Commit.nicknameCom}
-                                  </a>
-                                  <p id={Commit._id} style={{ color: "grey" }}>
-                                    {Commit.creationDate}
-                                  </p>
+                if (typeUser == 2) {
+                  if (Commit.name == idUserCookies) {
+                    return (
+                      <div class="panel-body">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="row">
+                              <div class="col-xs-2 col-md-1">
+                                <img
+                                  width={80}
+                                  lenght={80}
+                                  src={Commit.image.path}
+                                  class="img-circle img-responsive"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="col-xs-10 col-md-11">
+                                <div>
+                                  <div class="mic-info">
+                                    <a href={"/profile?idUser=" + Commit.name}>
+                                      {Commit.nicknameCom}
+                                    </a>
+
+                                    <p
+                                      id={Commit._id}
+                                      style={{ color: "grey" }}
+                                    >
+                                      {Commit.creationDate}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div id={Commit._id + "5"} class="comment-text">
+                                  {Commit.descripcion}{" "}
+                                </div>
+
+                                <input
+                                  type="type"
+                                  style={{ display: "none" }}
+                                  defaultValue={Commit.descripcion}
+                                  id={Commit._id + "1"}
+                                ></input>
+                                <button
+                                  id={Commit._id + "2"}
+                                  class="btn btn-success btn-xs "
+                                  style={{ display: "none" }}
+                                  onClick={async () =>
+                                    PatchCommit(Commit._id, Commit._id + "1")
+                                  }
+                                >
+                                  <span class="fas fa-arrow-alt-circle-right"></span>
+                                </button>
+
+                                <div class="action">
+                                  <form>
+                                    <button
+                                      type="button"
+                                      id={Commit._id + "3"}
+                                      style={{ display: "none" }}
+                                      class="btn btn-success btn-xs"
+                                      title="Approved"
+                                      onClick={async () =>
+                                        ModeEdit(
+                                          false,
+                                          Commit._id + "1",
+                                          Commit._id + "2",
+                                          Commit._id + "3",
+                                          Commit._id + "4",
+                                          Commit._id + "5"
+                                        )
+                                      }
+                                    >
+                                      <span class="fas fa-pencil-alt"></span>
+                                    </button>
+                                    {/*
+                                                              Commit1      =    Textbox  editar    
+                                                              Commit2      =    button editar
+                                                              Commit3      =    button regresarModo normal
+                                                              Commit4      =    Modificarmodo         
+                                                              Commit5      =    Textbox Final
+                                                              
+                                                              
+                                                              */}
+                                    <button
+                                      id={Commit._id + "4"}
+                                      type="button"
+                                      class="btn btn-success btn-xs"
+                                      title="Approved"
+                                      onClick={async () =>
+                                        ModeEdit(
+                                          true,
+                                          Commit._id + "1",
+                                          Commit._id + "2",
+                                          Commit._id + "3",
+                                          Commit._id + "4",
+                                          Commit._id + "5"
+                                        )
+                                      }
+                                    >
+                                      <span class="fas fa-pencil-alt"></span>
+                                    </button>
+
+                                    <button
+                                      type="button"
+                                      class=" btn btn-danger btn-xs"
+                                      title="Edit"
+                                      onClick={async () =>
+                                        deleteCommit(Commit._id)
+                                      }
+                                    >
+                                      <span class="far fa-trash-alt"></span>
+                                    </button>
+                                  </form>
                                 </div>
                               </div>
-                              <div id={Commit._id + "5"} class="comment-text">
-                                {Commit.descripcion}{" "}
+                            </div>
+                          </li>
+                        </ul>
+                        <br></br>
+                        <br></br>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div class="panel-body">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="row">
+                              <div class="col-xs-2 col-md-1">
+                                <img
+                                  width={80}
+                                  lenght={80}
+                                  src={Commit.image.path}
+                                  class="img-circle img-responsive"
+                                  alt=""
+                                />
                               </div>
+                              <div class="col-xs-10 col-md-11">
+                                <div>
+                                  <div class="mic-info">
+                                    <a href={"/profile?idUser=" + Commit.name}>
+                                      {Commit.nicknameCom}
+                                    </a>
+                                    <p
+                                      id={Commit._id}
+                                      style={{ color: "grey" }}
+                                    >
+                                      {Commit.creationDate}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div id={Commit._id + "5"} class="comment-text">
+                                  {Commit.descripcion}{" "}
+                                </div>
 
-                              <input
-                                type="type"
-                                style={{ display: "none" }}
-                                defaultValue={Commit.descripcion}
-                                id={Commit._id + "1"}
-                              ></input>
-                              <button
-                                id={Commit._id + "2"}
-                                class="btn btn-success btn-xs "
-                                style={{ display: "none" }}
-                                onClick={async () =>
-                                  PatchCommit(Commit._id, Commit._id + "1")
-                                }
-                              >
-                                <span class="fas fa-arrow-alt-circle-right"></span>
-                              </button>
+                                <input
+                                  type="type"
+                                  style={{ display: "none" }}
+                                  defaultValue={Commit.descripcion}
+                                  id={Commit._id + "1"}
+                                ></input>
+                                <button
+                                  id={Commit._id + "2"}
+                                  class="btn btn-success btn-xs "
+                                  style={{ display: "none" }}
+                                  onClick={async () =>
+                                    PatchCommit(Commit._id, Commit._id + "1")
+                                  }
+                                >
+                                  <span class="fas fa-arrow-alt-circle-right"></span>
+                                </button>
 
-                              <div class="action">
-                                <form>
-                                  <button
-                                    type="button"
-                                    id={Commit._id + "3"}
-                                    style={{ display: "none" }}
-                                    class="btn btn-success btn-xs"
-                                    title="Approved"
-                                    onClick={async () =>
-                                      ModeEdit(
-                                        false,
-                                        Commit._id + "1",
-                                        Commit._id + "2",
-                                        Commit._id + "3",
-                                        Commit._id + "4",
-                                        Commit._id + "5"
-                                      )
-                                    }
-                                  >
-                                    <span class="fas fa-pencil-alt"></span>
-                                  </button>
-                                  {/*
+                                <div class="action">
+                                  <form>
+                                    <button
+                                      type="button"
+                                      class=" btn btn-danger btn-xs"
+                                      title="Edit"
+                                      onClick={async () =>
+                                        deleteCommit(Commit._id)
+                                      }
+                                    >
+                                      <span class="far fa-trash-alt"></span>
+                                    </button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                        <br></br>
+                        <br></br>
+                      </div>
+                    );
+                  }
+                } else {
+                  if (Commit.name == idUserCookies) {
+                    return (
+                      <div class="panel-body">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="row">
+                              <div class="col-xs-2 col-md-1">
+                                <img
+                                  width={80}
+                                  lenght={80}
+                                  src={Commit.image.path}
+                                  class="img-circle img-responsive"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="col-xs-10 col-md-11">
+                                <div>
+                                  <div class="mic-info">
+                                    <a href={"/profile?idUser=" + Commit.name}>
+                                      {Commit.nicknameCom}
+                                    </a>
+                                    <p
+                                      id={Commit._id}
+                                      style={{ color: "grey" }}
+                                    >
+                                      {Commit.creationDate}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div id={Commit._id + "5"} class="comment-text">
+                                  {Commit.descripcion}{" "}
+                                </div>
+
+                                <input
+                                  type="type"
+                                  style={{ display: "none" }}
+                                  defaultValue={Commit.descripcion}
+                                  id={Commit._id + "1"}
+                                ></input>
+                                <button
+                                  id={Commit._id + "2"}
+                                  class="btn btn-success btn-xs "
+                                  style={{ display: "none" }}
+                                  onClick={async () =>
+                                    PatchCommit(Commit._id, Commit._id + "1")
+                                  }
+                                >
+                                  <span class="fas fa-arrow-alt-circle-right"></span>
+                                </button>
+
+                                <div class="action">
+                                  <form>
+                                    <button
+                                      type="button"
+                                      id={Commit._id + "3"}
+                                      style={{ display: "none" }}
+                                      class="btn btn-success btn-xs"
+                                      title="Approved"
+                                      onClick={async () =>
+                                        ModeEdit(
+                                          false,
+                                          Commit._id + "1",
+                                          Commit._id + "2",
+                                          Commit._id + "3",
+                                          Commit._id + "4",
+                                          Commit._id + "5"
+                                        )
+                                      }
+                                    >
+                                      <span class="fas fa-pencil-alt"></span>
+                                    </button>
+                                    {/*
                                                                 Commit1      =    Textbox  editar    
                                                                 Commit2      =    button editar
                                                                 Commit3      =    button regresarModo normal
@@ -584,86 +852,87 @@ export function ProfileCharacter() {
                                                                 
                                                                 
                                                                 */}
-                                  <button
-                                    id={Commit._id + "4"}
-                                    type="button"
-                                    class="btn btn-success btn-xs"
-                                    title="Approved"
-                                    onClick={async () =>
-                                      ModeEdit(
-                                        true,
-                                        Commit._id + "1",
-                                        Commit._id + "2",
-                                        Commit._id + "3",
-                                        Commit._id + "4",
-                                        Commit._id + "5"
-                                      )
-                                    }
-                                  >
-                                    <span class="fas fa-pencil-alt"></span>
-                                  </button>
+                                    <button
+                                      id={Commit._id + "4"}
+                                      type="button"
+                                      class="btn btn-success btn-xs"
+                                      title="Approved"
+                                      onClick={async () =>
+                                        ModeEdit(
+                                          true,
+                                          Commit._id + "1",
+                                          Commit._id + "2",
+                                          Commit._id + "3",
+                                          Commit._id + "4",
+                                          Commit._id + "5"
+                                        )
+                                      }
+                                    >
+                                      <span class="fas fa-pencil-alt"></span>
+                                    </button>
 
-                                  <button
-                                    type="button"
-                                    class=" btn btn-danger btn-xs"
-                                    title="Edit"
-                                    onClick={async () =>
-                                      deleteCommit(Commit._id)
-                                    }
-                                  >
-                                    <span class="far fa-trash-alt"></span>
-                                  </button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                      <br></br>
-                      <br></br>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div class="panel-body">
-                      <ul class="list-group">
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-xs-2 col-md-1">
-                              <img
-                                width={80}
-                                lenght={80}
-                                src={Commit.image.path}
-                                class="img-circle img-responsive"
-                                alt=""
-                              />
-                            </div>
-                            <div class="col-xs-10 col-md-11">
-                              <div>
-                                <div class="mic-info">
-                                  <a href={"/profile?idUser=" + Commit.name}>
-                                    {Commit.nicknameCom}
-                                  </a>
-                                  <p style={{ color: "grey" }}>
-                                    {Commit.creationDate}
-                                  </p>
+                                    <button
+                                      type="button"
+                                      class=" btn btn-danger btn-xs"
+                                      title="Edit"
+                                      onClick={async () =>
+                                        deleteCommit(Commit._id)
+                                      }
+                                    >
+                                      <span class="far fa-trash-alt"></span>
+                                    </button>
+                                  </form>
                                 </div>
                               </div>
-                              <div class="comment-text">
-                                {Commit.descripcion}{" "}
-                              </div>
-
-                              <div class="action">´</div>
                             </div>
-                          </div>
-                        </li>
-                      </ul>
-                      <br></br>
-                      <br></br>
-                    </div>
-                  );
+                          </li>
+                        </ul>
+                        <br></br>
+                        <br></br>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div class="panel-body">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="row">
+                              <div class="col-xs-2 col-md-1">
+                                <img
+                                  width={80}
+                                  lenght={80}
+                                  src={Commit.image.path}
+                                  class="img-circle img-responsive"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="col-xs-10 col-md-11">
+                                <div>
+                                  <div class="mic-info">
+                                    <a href={"/profile?idUser=" + Commit.name}>
+                                      {Commit.nicknameCom}
+                                    </a>
+                                    <p style={{ color: "grey" }}>
+                                      {Commit.creationDate}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="comment-text">
+                                  {Commit.descripcion}{" "}
+                                </div>
+
+                                <div class="action">´</div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                        <br></br>
+                        <br></br>
+                      </div>
+                    );
+                  }
                 }
-              })}{" "}
+              })}
             </div>
           </div>
           {answers()}{" "}

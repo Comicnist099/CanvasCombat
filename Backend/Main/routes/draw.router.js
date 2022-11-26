@@ -248,6 +248,33 @@ router.delete(
   }
 );
 
+router.delete(
+  "/comments/all/:id",
+  validatorHandler(getCommentsId, "params"),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      // const deleteComments = await commentService.delete(id);
+      console.log(id);
+      await commentsModel.deleteMany({ idDraw: id });
+
+      /* ,
+        { owner:  },
+        (err, result) => {
+          if (err) {
+            res.send({ error: "An error has occured" });
+          } else {
+            res.send(result.ops[0]);
+          }
+        } */
+
+      res.json({ message: "delete" });
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  }
+);
+
 // //////////////////////////////
 // //////////Draw////////////////
 
