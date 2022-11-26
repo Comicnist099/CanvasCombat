@@ -3,7 +3,7 @@ export function AboutUs()
 return ( 
 <>
 <div data-aos="fade-up" data-aos-duration="350" data-aos-delay="200" class="highlight-clean" style={{boxShadow: "1px 1px 5px 2px", marginTop: "1px"}}>
-        <div style={{height: "500px", background: "url(assets/img/goals.jpg) center / cover no-repeat"}}>
+        <div style={{height: "500px", background: "url(https://media.discordapp.net/attachments/921926176484773909/1045959761344086106/abria_2.png?width=1073&height=676) center / cover no-repeat"}}>
             <div class="d-flex justify-content-center align-items-center" style={{height: "inherit", minHeight: "initial", width: "100%", position: "absolute", left: "0", backgroundColor: "rgba(30,41,99,0.53)"}}>
                 <div class="d-flex align-items-center order-5" style={{height:"200px"}}>
                     <div class="container">

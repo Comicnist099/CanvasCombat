@@ -113,9 +113,10 @@ export function SplashPage() {
             <div className="col-lg-6 order-lg-2">
               <div className="p-5">
                 <img
+                  style={{ width: "300px", height: "370px" }}
                   alt=" "
                   className="img-thumbnail img-fluid"
-                  src="assets/img/pexels-eduardo-dutra-2115217.jpg"
+                  src="https://media.discordapp.net/attachments/921926176484773909/1045960700125782026/michiru.png?width=538&height=677"
                 ></img>
               </div>
             </div>
@@ -150,8 +151,10 @@ export function SplashPage() {
             <div className="col-lg-6 order-lg-1">
               <div className="p-5">
                 <img
+                  style={{ width: "330px", height: "370px" }}
                   className="img-thumbnail img-fluid"
-                  src="assets/img/luigi-lucarelli-opposites-01.jpg"
+                  src="https://media.discordapp.net/attachments/921926176484773909/1045960450464038982/slytherin.png?width=604&height=676"
+                  alt=" "
                 ></img>
               </div>
             </div>
@@ -177,7 +180,8 @@ export function SplashPage() {
               <div className="p-5">
                 <img
                   className="img-thumbnail img-fluid"
-                  src="assets/img/pexels-kindel-media-6868185.jpg"
+                  src="https://media.discordapp.net/attachments/921926176484773909/1045960220326772747/unknown.png?width=796&height=676"
+                  alt=" "
                 ></img>
               </div>
             </div>
@@ -315,32 +319,40 @@ export function SplashPage() {
             <div className="col-sm-6 col-md-3">
               <a>
                 <img
+                  style={{ width: "180px", height: "150px" }}
+                  alt=" "
                   className="img-fluid d-block mx-auto"
-                  src="assets/img/clients/creative-market.jpg"
+                  src="https://www.pngkey.com/png/full/445-4452219_el-pollo-loco-logo-png-transparent-el-pollo.png"
                 ></img>
               </a>
             </div>
             <div className="col-sm-6 col-md-3">
               <a>
                 <img
+                  style={{ width: "200px", height: "50px" }}
+                  alt=" "
                   className="img-fluid d-block mx-auto"
-                  src="assets/img/clients/designmodo.jpg"
+                  src="https://pinturasdoal.com/wp-content/uploads/png-blanco.png"
                 ></img>
               </a>
             </div>
             <div className="col-sm-6 col-md-3">
               <a>
                 <img
+                  style={{ width: "200px", height: "100px" }}
+                  alt=" "
                   className="img-fluid d-block mx-auto"
-                  src="assets/img/clients/envato.jpg"
+                  src="https://www.fcfm.uanl.mx/front/assets/images/resources/fcfm.png"
                 ></img>
               </a>
             </div>
-            <div className="col-sm-6 col-md-3">
+            <div className="col-sm-3 col-md-3">
               <a>
                 <img
+                  style={{ width: "100px", height: "80px" }}
+                  alt=" "
                   className="img-fluid d-block mx-auto"
-                  src="assets/img/clients/themeforest.jpg"
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/04/Pinturas_Berel.png"
                 ></img>
               </a>
             </div>

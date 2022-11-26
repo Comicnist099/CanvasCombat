@@ -1,24 +1,4 @@
-/*import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../node_modules/bootstrap/dist/js/bootstrap.bundle' 
 
-import '../node_modules/aos/dist/aos.css'
-import '../node_modules/aos/dist/aos.js'
-import '../node_modules/animate.css/animate.min.css'
-/
-/*
-import './App.css';
-import './fonts/fontawesome-all.min.css';
-import './fonts/font-awesome.min.css';
-import './fonts/fontawesome5-overrides.min.css';
-import './css/-Filterable-Gallery-with-Lightbox-BS4-.css';
-import './css/-Login-form-Page-BS4-.css';
-import './css/best-carousel-slide.css';
-import './css/Pretty-Footer.css';
-import './css/Profile-Edit-Form.css';
-import './css/Standard-Picture-Header.css';
-import './css/styles.css';
-import './css/Timeline.css';
-*/
 import AOS from "aos";
 import Cookies from "universal-cookie";
 import React, { useEffect, useState } from "react";
@@ -173,29 +153,18 @@ export function Navbar() {
                   <i className="fa fa-pencil"></i>&nbsp;Ataques
                 </a>
               </li>
-              <li className="nav-item dropdown">
-
-                <div className="dropdown-menu">
-                  <a
-                    className="dropdown-item"
-                    href="products.php"
-                    style={{ background: "#c2f2cc" }}
-                  >
-                    VER TODO
-                  </a>
-                  <a className="dropdown-item" href="artistas.php">
-                    ARTISTAS
-                  </a>
-                  <a className="dropdown-item" href="arte.php">
-                    ARTE
-                  </a>
-                  <a className="dropdown-item" href="lights.php">
-                    COMPETENCIAS
-                  </a>
-                  <a className="dropdown-item" href="decour.php">
-                    EXTRAS
-                  </a>
-                </div>
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  data-bss-hover-animate="pulse"
+                  href="Help"
+                  style={{
+                    color: "white",
+                    marginRight: "0px",
+                  }}
+                >
+                  <i className="fas fa-search"></i>&nbsp;AYUDA
+                </a>
               </li>
               <li className="nav-item">
                 <a

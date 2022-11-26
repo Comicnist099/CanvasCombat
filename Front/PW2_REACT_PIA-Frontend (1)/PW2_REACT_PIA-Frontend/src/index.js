@@ -23,6 +23,7 @@ import { MisDefensas } from "./MisDefensas";
 import { MisDefensasCharacter } from "./MisDefensasCharacter";
 import { AtaquesRevision } from "./AtaquesRevision";
 import { PageNotFound } from "./PageNotFound";
+import { Help } from "./Help";
 
 import "./App.css";
 import "./fonts/fontawesome-all.min.css";
@@ -69,6 +70,7 @@ root.render(
       <Route path="MisDefensas" element={<MisDefensas />} />
       <Route path="MisDefensasCharacter" element={<MisDefensasCharacter />} />
       <Route path="AtaquesRevision" element={<AtaquesRevision />} />
+      <Route path="Help" element={<Help />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
     <Footer />
